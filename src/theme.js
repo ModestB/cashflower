@@ -20,6 +20,7 @@ const theme = createMuiTheme({
       },
       scrollbarWidth: "thin",
       scrollbarColor: `${grey[400]} ${grey[300]}`,
+      scrollBehavior: "smooth",
     },
   },
   overrides: {

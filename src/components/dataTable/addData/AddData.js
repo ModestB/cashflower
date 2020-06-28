@@ -18,7 +18,7 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    boxShadow: theme.shadows[2],
+    boxShadow: theme.shadows[1],
     backgroundColor: theme.palette.background.paper,
   },
   formControl: {
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddData(props) {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [amount, setAmount] = useState("");
   const [incomeType, setIncomeType] = useState("");
   const [comment, setComment] = useState("");
 
@@ -46,6 +47,21 @@ export default function AddData(props) {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
+  };
+
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
+
+  const addDataHandler = () => {
+    const fomatedDate = selectedDate.toISOString().split("T")[0];
+
+    props.addTableData({
+      date: fomatedDate,
+      amount: amount,
+      type: incomeType,
+      comment: comment,
+    });
   };
 
   return (
@@ -71,6 +87,8 @@ export default function AddData(props) {
               id="standard-number"
               label="Number"
               type="number"
+              value={amount}
+              onChange={handleAmountChange}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -113,7 +131,12 @@ export default function AddData(props) {
           xs={12}
           justify="flex-end"
         >
-          <Button className={classes.button} color="secondary" size="small">
+          <Button
+            className={classes.button}
+            color="secondary"
+            size="small"
+            onClick={() => props.showAddData(false)}
+          >
             Cancel
           </Button>
           <Button
@@ -121,6 +144,7 @@ export default function AddData(props) {
             color="primary"
             size="small"
             variant="contained"
+            onClick={() => addDataHandler()}
           >
             Add Income
           </Button>
