@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -12,42 +12,7 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
 import AddData from "./addData/AddData";
-import TableRowMenu from "./tableRowMenu/TableRowMenu";
-
-const columns = [
-  { id: "date", label: "Date", minWidth: 170 },
-  { id: "amount", label: "Amount", minWidth: 100 },
-  {
-    id: "type",
-    label: "Income type",
-    minWidth: 170,
-  },
-  {
-    id: "comment",
-    label: "Comment",
-    minWidth: 170,
-  },
-  {
-    id: "edit",
-    label: "",
-    minWidth: 50,
-  },
-];
-
-function createData(id, date, amount, type, comment) {
-  return { id, date, amount, type, comment };
-}
-
-const rows = [
-  createData("1", "2019-05-12", 900, "Salary", ""),
-  createData("2", "2019-04-12", 900, "Salary", ""),
-  createData("3", "2019-03-12", 900, "Salary", ""),
-  createData("4", "2019-02-12", 900, "Salary", ""),
-  createData("5", "2019-01-12", 900, "Salary", ""),
-  createData("6", "2018-12-12", 500, "Salary", ""),
-  createData("7", "2018-11-12", 500, "Salary", ""),
-  createData("8", "2018-10-12", 500, "Salary", ""),
-];
+import DataTableRow from "./dataTableRow/DataTableRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,14 +46,18 @@ const scrollToTableTop = (ref) => {
   ref.current.scrollTop = 0;
 };
 
-export default function DataTable() {
+export default function DataTable(props) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [tableData, setTableData] = useState(rows);
+  const [tableData, setTableData] = useState([]);
   const [showAddData, setShowAddData] = useState(false);
 
   const tableRef = useRef(null);
+
+  useEffect(() => {
+    setTableData(props.tableData);
+  }, [props.tableData]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -117,9 +86,36 @@ export default function DataTable() {
     setShowAddData(false);
   };
 
+  const tableDataEditHandler = (data, id, calback) => {
+    const dataRowIndex = tableData.findIndex((data) => data.id !== id);
+    const newTableData = tableData.slice(dataRowIndex);
+
+    const sortedTableData = [...newTableData, data].sort((a, b) => {
+      if (a.date < b.date) {
+        return 1;
+      }
+      if (a.date > b.date) {
+        return -1;
+      }
+
+      return 0;
+    });
+    console.log("edit");
+    console.log(sortedTableData);
+
+    // Add Data
+    setTableData(sortedTableData);
+    // Hide Add Data
+    calback();
+  };
+
   const showAddDataHandler = () => {
     scrollToTableTop(tableRef);
     setShowAddData(true);
+  };
+
+  const hideAddDataHandler = () => {
+    setShowAddData(false);
   };
 
   const deleteDataRowHandler = (dataId) => {
@@ -131,8 +127,10 @@ export default function DataTable() {
     <TableRow>
       <TableCell colSpan={4} padding="none">
         <AddData
-          showAddData={setShowAddData}
-          addTableData={tableDataAddHandler}
+          cancelHandler={hideAddDataHandler}
+          submitHandler={tableDataAddHandler}
+          submitButtonLabel="Add Income"
+          columns={props.columns}
         />
       </TableCell>
     </TableRow>
@@ -157,7 +155,7 @@ export default function DataTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead className={classes.tableHead}>
             <TableRow>
-              {columns.map((column) => (
+              {props.columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -176,44 +174,19 @@ export default function DataTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.code}
-                  >
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      let tableCellData =
-                        column.format && typeof value === "number"
-                          ? column.format(value)
-                          : value;
-
-                      if (column.id === "edit") {
-                        tableCellData = (
-                          <div className={classes.tableCellActions}>
-                            <TableRowMenu
-                              id={row.id}
-                              deleteHandler={deleteDataRowHandler}
-                            />
-                          </div>
-                        );
-                      }
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {tableCellData}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  <DataTableRow
+                    row={row}
+                    columns={props.columns}
+                    deleteHandler={deleteDataRowHandler}
+                    submitHandler={tableDataEditHandler}
+                  />
                 );
               })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[10, 25, 50]}
         component="div"
         count={tableData.length}
         rowsPerPage={rowsPerPage}

@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateFnsUtils from "@date-io/date-fns";
 import "date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import TextField from "@material-ui/core/TextField";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import DateInput from "./dateInput/DateInput";
+import NumberInput from "./numberInput/NumberInput";
+import SelectInput from "./selectInput/SelectInput";
+import TextAreaInput from "./textAreaInput/TextAreaInput";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +38,13 @@ export default function AddData(props) {
   const [incomeType, setIncomeType] = useState("");
   const [comment, setComment] = useState("");
 
+  useEffect(() => {
+    if (props.date) setSelectedDate(new Date(props.date));
+    if (props.amount) setAmount(props.amount);
+    if (props.incomeType) setIncomeType(props.incomeType.toLowerCase());
+    if (props.comment) setComment(props.comment);
+  }, [props.date, props.amount, props.incomeType, props.comment]);
+
   const handleIncomeTypeChange = (event) => {
     setIncomeType(event.target.value);
   };
@@ -56,74 +60,66 @@ export default function AddData(props) {
   const addDataHandler = () => {
     const fomatedDate = selectedDate.toISOString().split("T")[0];
 
-    props.addTableData({
-      date: fomatedDate,
-      amount: amount,
-      type: incomeType,
-      comment: comment,
-    });
+    props.submitHandler(
+      {
+        date: fomatedDate,
+        amount: amount,
+        type: incomeType,
+        comment: comment,
+      },
+      props.id
+    );
   };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container className={classes.root}>
         <Grid container xs={12} wrap="nowrap">
-          <FormControl className={classes.formControl}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              id="date-picker-inline"
-              label="Date picker inline"
-              value={selectedDate}
-              onChange={setSelectedDate}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <TextField
-              id="standard-number"
-              label="Number"
-              type="number"
-              value={amount}
-              onChange={handleAmountChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel shrink id="demo-simple-select-label">
-              Income Type
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={incomeType}
-              displayEmpty
-              onChange={handleIncomeTypeChange}
-            >
-              <MenuItem value="">None</MenuItem>
-              <MenuItem value={"salary"}>Salary</MenuItem>
-              <MenuItem value={"gift"}>Gift</MenuItem>
-              <MenuItem value={"interest"}>Interest</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <TextField
-              id="standard-multiline-flexible"
-              label="Multiline"
-              multiline
-              rowsMax={4}
-              value={comment}
-              onChange={handleCommentChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </FormControl>
+          {props.columns.map((column) => {
+            if (!column.editable) return;
+
+            switch (column.inputType) {
+              case "date":
+                return (
+                  <FormControl className={classes.formControl}>
+                    <DateInput
+                      selectedDate={selectedDate}
+                      onChangeHandler={setSelectedDate}
+                    />
+                  </FormControl>
+                );
+              case "number":
+                return (
+                  <FormControl className={classes.formControl}>
+                    <NumberInput
+                      value={amount}
+                      onChangeHandler={handleAmountChange}
+                    />
+                  </FormControl>
+                );
+              case "select":
+                return (
+                  <FormControl className={classes.formControl}>
+                    <SelectInput
+                      value={incomeType}
+                      onChangeHandler={handleIncomeTypeChange}
+                    />
+                  </FormControl>
+                );
+              case "textArea":
+                return (
+                  <FormControl className={classes.formControl}>
+                    <TextAreaInput
+                      value={comment}
+                      onChangeHandler={handleCommentChange}
+                    />
+                  </FormControl>
+                );
+
+              default:
+                break;
+            }
+          })}
         </Grid>
         <Grid
           className={classes.actionsContainer}
@@ -135,7 +131,7 @@ export default function AddData(props) {
             className={classes.button}
             color="secondary"
             size="small"
-            onClick={() => props.showAddData(false)}
+            onClick={() => props.cancelHandler()}
           >
             Cancel
           </Button>
@@ -146,7 +142,7 @@ export default function AddData(props) {
             variant="contained"
             onClick={() => addDataHandler()}
           >
-            Add Income
+            {props.submitButtonLabel}
           </Button>
         </Grid>
       </Grid>
