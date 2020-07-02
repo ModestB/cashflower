@@ -65,7 +65,7 @@ export default function DataTableRow(props) {
 
   if (showEdit) {
     rowContent = (
-      <TableCell colSpan={5} padding="none">
+      <TableCell colSpan={props.columns.length} padding="none">
         <AddData
           cancelHandler={hideEditHandler}
           submitHandler={submitDataHandler}

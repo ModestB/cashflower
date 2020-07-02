@@ -103,6 +103,7 @@ export default function AddData(props) {
                     <SelectInput
                       value={incomeType}
                       onChangeHandler={handleIncomeTypeChange}
+                      options={column.inputOptions}
                     />
                   </FormControl>
                 );

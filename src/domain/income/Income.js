@@ -37,6 +37,7 @@ const columns = [
     label: "Income type",
     editable: true,
     inputType: "select",
+    inputOptions: ["none", "winnings", "salary", "gift", "interest"],
     minWidth: 170,
   },
   {
@@ -67,12 +68,16 @@ function Income() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <Grid item xs={6}>
-          <Table columns={columns} tableData={tableData} />
+        <Grid item xs={12}>
+          <Table
+            columns={columns}
+            tableData={tableData}
+            submitBtnLabel="Add Income"
+          />
         </Grid>
-        <Grid item xs={6}>
+        {/* <Grid item xs={6}>
           <Paper className={classes.paper}>Graph</Paper>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

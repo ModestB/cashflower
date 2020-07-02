@@ -16,10 +16,12 @@ export default function SelectInput(props) {
         displayEmpty
         onChange={props.onChangeHandler}
       >
-        <MenuItem value="">None</MenuItem>
-        <MenuItem value={"salary"}>Salary</MenuItem>
-        <MenuItem value={"gift"}>Gift</MenuItem>
-        <MenuItem value={"interest"}>Interest</MenuItem>
+        {props.options.map((option) => {
+          let value = option === "none" ? "" : option;
+          let label = option.charAt(0).toUpperCase() + option.slice(1);
+
+          return <MenuItem value={value}>{label}</MenuItem>;
+        })}
       </Select>
     </React.Fragment>
   );

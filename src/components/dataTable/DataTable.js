@@ -125,11 +125,11 @@ export default function DataTable(props) {
 
   const addData = (
     <TableRow>
-      <TableCell colSpan={4} padding="none">
+      <TableCell colSpan={props.columns.length} padding="none">
         <AddData
           cancelHandler={hideAddDataHandler}
           submitHandler={tableDataAddHandler}
-          submitButtonLabel="Add Income"
+          submitButtonLabel={props.submitBtnLabel}
           columns={props.columns}
         />
       </TableCell>
@@ -144,7 +144,7 @@ export default function DataTable(props) {
           color="primary"
           onClick={() => showAddDataHandler()}
         >
-          Add Income
+          {props.submitBtnLabel}
         </Button>
       </Box>
 
