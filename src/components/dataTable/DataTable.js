@@ -100,8 +100,6 @@ export default function DataTable(props) {
 
       return 0;
     });
-    console.log("edit");
-    console.log(sortedTableData);
 
     // Add Data
     setTableData(sortedTableData);

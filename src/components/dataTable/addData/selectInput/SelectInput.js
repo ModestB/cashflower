@@ -17,10 +17,7 @@ export default function SelectInput(props) {
         onChange={props.onChangeHandler}
       >
         {props.options.map((option) => {
-          let value = option === "none" ? "" : option;
-          let label = option.charAt(0).toUpperCase() + option.slice(1);
-
-          return <MenuItem value={value}>{label}</MenuItem>;
+          return <MenuItem value={option.value}>{option.label}</MenuItem>;
         })}
       </Select>
     </React.Fragment>
