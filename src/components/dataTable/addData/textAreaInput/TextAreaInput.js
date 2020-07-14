@@ -5,7 +5,7 @@ export default function TextAreaInput(props) {
   return (
     <TextField
       id="standard-multiline-flexible"
-      label="Multiline"
+      label={props.label}
       multiline
       rowsMax={4}
       value={props.value}

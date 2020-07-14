@@ -30,7 +30,7 @@ export default function TableRowMenu(props) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -58,6 +58,6 @@ export default function TableRowMenu(props) {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </React.Fragment>
   );
 }

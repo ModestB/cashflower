@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 440,
     overflowX: "hidden",
   },
+  table: {
+    tableLayout: "fixed",
+    width: "100%",
+  },
   tableHead: {
     padding: theme.spacing(2),
   },
@@ -150,18 +154,23 @@ export default function DataTable(props) {
         ref={tableRef}
         className={[classes.container, classes.customScroll].join(" ")}
       >
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label="sticky table" className={classes.table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
-              {props.columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
+              {props.columns
+                .filter((column) => column.id !== "edit")
+                .map((column) => {
+                  return (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                      colspan={column.colspan ? column.colspan : 1}
+                    >
+                      {column.label}
+                    </TableCell>
+                  );
+                })}
             </TableRow>
           </TableHead>
 

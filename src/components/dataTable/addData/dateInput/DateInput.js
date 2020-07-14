@@ -9,7 +9,7 @@ export default function DateInput(props) {
       variant="inline"
       format="MM/dd/yyyy"
       id="date-picker-inline"
-      label="Date picker inline"
+      label={props.label}
       value={props.selectedDate}
       onChange={props.onChangeHandler}
       KeyboardButtonProps={{

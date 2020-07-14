@@ -9,6 +9,8 @@ import TableRowMenu from "../tableRowMenu/TableRowMenu";
 const useStyles = makeStyles((theme) => ({
   tableCellActions: {
     visibility: "hidden",
+    display: "flex",
+    justifyContent: "flex-end",
   },
   tableRow: {
     "&:hover": {
@@ -57,7 +59,11 @@ export default function DataTableRow(props) {
     }
 
     return (
-      <TableCell key={column.id} align={column.align}>
+      <TableCell
+        key={column.id}
+        align={column.align}
+        style={{ minWidth: column.minWidth }}
+      >
         {tableCellData}
       </TableCell>
     );

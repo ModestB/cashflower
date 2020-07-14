@@ -37,6 +37,7 @@ const columns = [
     editable: true,
     inputType: "textArea",
     minWidth: 170,
+    colspan: 2,
   },
   {
     id: "edit",

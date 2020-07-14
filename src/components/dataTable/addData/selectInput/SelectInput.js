@@ -7,7 +7,7 @@ export default function SelectInput(props) {
   return (
     <React.Fragment>
       <InputLabel shrink id="demo-simple-select-label">
-        Income Type
+        {props.label}
       </InputLabel>
       <Select
         labelId="demo-simple-select-label"
