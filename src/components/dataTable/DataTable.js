@@ -165,7 +165,7 @@ export default function DataTable(props) {
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
-                      colspan={column.colspan ? column.colspan : 1}
+                      colSpan={column.colspan ? column.colspan : 1}
                     >
                       {column.label}
                     </TableCell>
@@ -179,9 +179,10 @@ export default function DataTable(props) {
 
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
                   <DataTableRow
+                    key={index}
                     row={row}
                     columns={props.columns}
                     deleteHandler={deleteDataRowHandler}

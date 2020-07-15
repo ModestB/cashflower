@@ -138,7 +138,8 @@ export default function AddData(props) {
 
                 return (
                   <TableCell
-                    colspan={column.colspan ? column.colspan : 1}
+                    key={column.id}
+                    colSpan={column.colspan ? column.colspan : 1}
                     style={{ minWidth: column.minWidth }}
                     className={classes.tableCell}
                   >
@@ -155,6 +156,7 @@ export default function AddData(props) {
         <Grid
           className={classes.actionsContainer}
           container
+          item
           xs={12}
           justify="flex-end"
         >

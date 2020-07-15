@@ -17,7 +17,11 @@ export default function SelectInput(props) {
         onChange={props.onChangeHandler}
       >
         {props.options.map((option) => {
-          return <MenuItem value={option.value}>{option.label}</MenuItem>;
+          return (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          );
         })}
       </Select>
     </React.Fragment>
