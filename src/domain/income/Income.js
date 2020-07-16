@@ -20,6 +20,7 @@ const columns = [
   {
     id: "type",
     label: "Income type",
+    selectType: "income",
     editable: true,
     inputType: "select",
     inputOptions: [

@@ -20,6 +20,7 @@ const columns = [
   {
     id: "type",
     label: "Type of Investment",
+    selectType: "investment",
     editable: true,
     inputType: "select",
     inputOptions: [

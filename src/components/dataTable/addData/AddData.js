@@ -117,6 +117,7 @@ export default function AddData(props) {
                       <SelectInput
                         label={column.label}
                         value={incomeType}
+                        selectType={column.selectType}
                         onChangeHandler={handleIncomeTypeChange}
                         options={column.inputOptions}
                       />
