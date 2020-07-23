@@ -7,6 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Sidebar from "./components/sidebar/Sidebar";
 import Income from "./domain/income/Income";
 import Monthly from "./domain/monthly/Monthly";
+import TotalInvestments from "./domain/totalInvestments/TotalInvestments";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -38,6 +39,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Income} />
             <Route path="/monthly" component={Monthly} />
+            <Route path="/total" component={TotalInvestments} />
           </Switch>
         </main>
       </div>

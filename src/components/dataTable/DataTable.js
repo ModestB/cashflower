@@ -127,12 +127,12 @@ export default function DataTable(props) {
 
   const addData = (
     <TableRow>
-      <TableCell colSpan={props.columns.length} padding="none">
+      <TableCell colSpan={props.tableColumns.columns.length} padding="none">
         <AddData
           cancelHandler={hideAddDataHandler}
           submitHandler={tableDataAddHandler}
           submitButtonLabel={props.submitBtnLabel}
-          columns={props.columns}
+          columns={props.tableColumns.columns}
         />
       </TableCell>
     </TableRow>
@@ -140,15 +140,17 @@ export default function DataTable(props) {
 
   return (
     <Paper elevation={3} className={classes.root}>
-      <Box display="flex" justifyContent="flex-end" p={2}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => showAddDataHandler()}
-        >
-          {props.submitBtnLabel}
-        </Button>
-      </Box>
+      {props.submitBtnLabel && (
+        <Box display="flex" justifyContent="flex-end" p={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => showAddDataHandler()}
+          >
+            {props.submitBtnLabel}
+          </Button>
+        </Box>
+      )}
 
       <TableContainer
         ref={tableRef}
@@ -157,7 +159,7 @@ export default function DataTable(props) {
         <Table stickyHeader aria-label="sticky table" className={classes.table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
-              {props.columns
+              {props.tableColumns.columns
                 .filter((column) => column.id !== "edit")
                 .map((column) => {
                   return (
@@ -184,7 +186,7 @@ export default function DataTable(props) {
                   <DataTableRow
                     key={index}
                     row={row}
-                    columns={props.columns}
+                    columns={props.tableColumns.columns}
                     deleteHandler={deleteDataRowHandler}
                     submitHandler={tableDataEditHandler}
                   />
@@ -193,15 +195,33 @@ export default function DataTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
-        component="div"
-        count={tableData.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+
+      {props.tableColumns.tableOptions &&
+        props.tableColumns.tableOptions.totalSummary && (
+          <TableContainer>
+            <Table aria-label="table" className={classes.table}>
+              <TableBody>
+                <DataTableRow
+                  tableData={tableData}
+                  columns={props.tableColumns.columns}
+                  tableOptions={props.tableColumns.tableOptions}
+                />
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
+      {tableData.length > 10 && (
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50]}
+          component="div"
+          count={tableData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      )}
     </Paper>
   );
 }

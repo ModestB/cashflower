@@ -25,7 +25,7 @@ export default function MainContainer(props) {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <DataTable
-            columns={props.columns}
+            tableColumns={props.tableColumns}
             tableData={props.tableData}
             submitBtnLabel={props.submitBtnLabel}
           />
