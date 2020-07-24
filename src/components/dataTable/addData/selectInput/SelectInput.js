@@ -23,7 +23,8 @@ export default function SelectInput(props) {
 
   useEffect(() => {
     setOptions(props.options);
-  }, [props.options]);
+    setValue(props.value);
+  }, [props.options, props.value]);
 
   const openHandler = () => setOpen(true);
 

@@ -9,6 +9,7 @@ const tableColumns = {
       label: "Date",
       editable: true,
       inputType: "date",
+      dateFormat: "YYYY-MM-DD",
       minWidth: 170,
     },
     {

@@ -8,7 +8,7 @@ const tableColumns = {
       label: "Year",
       editable: false,
       inputType: "date",
-      dateFormat: "",
+      dateFormat: "YYYY",
       minWidth: 170,
     },
     {

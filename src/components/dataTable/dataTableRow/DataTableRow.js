@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  tableCell: {
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    height: "50px",
+  },
   tableTotalCell: {
     fontWeight: 700,
   },
@@ -71,7 +75,7 @@ export default function DataTableRow(props) {
       }
 
       if (column.inputType === "date") {
-        tableCellData = moment(value).format("YYYY");
+        tableCellData = moment(value).format(column.dateFormat);
       }
 
       if (column.countableTotal) {
@@ -89,6 +93,7 @@ export default function DataTableRow(props) {
           key={column.id}
           align={column.align}
           style={{ minWidth: column.minWidth }}
+          className={classes.tableCell}
         >
           {tableCellData}
         </TableCell>
@@ -134,9 +139,10 @@ export default function DataTableRow(props) {
           key={column.id}
           align={column.align}
           style={{ minWidth: column.minWidth }}
-          className={
-            props.tableOptions.totalSummary ? classes.tableTotalCell : ""
-          }
+          className={[
+            props.tableOptions.totalSummary ? classes.tableTotalCell : "",
+            classes.tableCell,
+          ].join(" ")}
         >
           {tableCellData}
         </TableCell>
@@ -146,7 +152,11 @@ export default function DataTableRow(props) {
 
   if (showEdit) {
     rowContent = (
-      <TableCell colSpan={props.columns.length} padding="none">
+      <TableCell
+        colSpan={props.columns.length}
+        padding="none"
+        className={classes.tableCell}
+      >
         <AddData
           cancelHandler={hideEditHandler}
           submitHandler={submitDataHandler}

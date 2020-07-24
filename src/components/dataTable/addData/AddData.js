@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddData(props) {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(null);
   const [incomeType, setIncomeType] = useState("");
   const [comment, setComment] = useState("");
 
