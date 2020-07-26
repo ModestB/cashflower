@@ -1,6 +1,19 @@
 import React from "react";
 
-import MainContainer from "../../components/mainContainer/MainContainer";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import MonthlyTable from "./monthlyTable/MonyhlyTable";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const tableColumns = {
   columns: [
@@ -57,14 +70,26 @@ const tableData = [
   { id: "5", date: "2020-05-12", amount: 600, type: "P2P", comment: "" },
 ];
 
-const Monthly = () => {
+const MonthlyInvestments = () => {
+  const classes = useStyles();
+
   return (
-    <MainContainer
-      tableColumns={tableColumns}
-      tableData={tableData}
-      submitBtnLabel="Add Investment"
-    />
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <MonthlyTable
+            tableColumns={tableColumns}
+            tableData={tableData}
+            submitBtnLabel="Add Investment"
+            editBtnLabel="Save Investment"
+          />
+        </Grid>
+        {/* <Grid item xs={6}>
+          <Paper className={classes.paper}>Graph</Paper>
+        </Grid> */}
+      </Grid>
+    </div>
   );
 };
 
-export default Monthly;
+export default MonthlyInvestments;

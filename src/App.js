@@ -8,7 +8,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Income from "./domain/income/Income";
 import Monthly from "./domain/monthly/Monthly";
 import Plans from "./domain/plans/Plans";
-import TotalInvestments from "./domain/totalInvestments/TotalInvestments";
+import Total from "./domain/total/Total";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -41,7 +41,7 @@ function App() {
             <Route exact path="/" component={Income} />
             <Route path="/monthly" component={Monthly} />
             <Route path="/plans" component={Plans} />
-            <Route path="/total" component={TotalInvestments} />
+            <Route path="/total" component={Total} />
           </Switch>
         </main>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateFnsUtils from "@date-io/date-fns";
@@ -45,43 +45,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddData(props) {
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [amount, setAmount] = useState(null);
-  const [incomeType, setIncomeType] = useState("");
-  const [comment, setComment] = useState("");
-
-  useEffect(() => {
-    if (props.date) setSelectedDate(new Date(props.date));
-    if (props.amount) setAmount(props.amount);
-    if (props.incomeType) setIncomeType(props.incomeType.toLowerCase());
-    if (props.comment) setComment(props.comment);
-  }, [props.date, props.amount, props.incomeType, props.comment]);
-
-  const handleIncomeTypeChange = (event) => {
-    setIncomeType(event.target.value);
-  };
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
-
-  const addDataHandler = () => {
-    const fomatedDate = selectedDate.toISOString().split("T")[0];
-
-    props.submitHandler(
-      {
-        date: fomatedDate,
-        amount: amount,
-        type: incomeType,
-        comment: comment,
-      },
-      props.id
-    );
-  };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -98,8 +61,8 @@ export default function AddData(props) {
                     input = (
                       <DateInput
                         label={column.label}
-                        selectedDate={selectedDate}
-                        onChangeHandler={setSelectedDate}
+                        selectedDate={props.dataValues[column.id]}
+                        onChangeHandler={props.dataChangeHandlers[column.id]}
                       />
                     );
                     break;
@@ -107,18 +70,20 @@ export default function AddData(props) {
                     input = (
                       <NumberInput
                         label={column.label}
-                        value={amount}
-                        onChangeHandler={handleAmountChange}
+                        value={props.dataValues[column.id]}
+                        onChangeHandler={props.dataChangeHandlers[column.id]}
                       />
                     );
                     break;
                   case "select":
+                    console.log(props.dataValues)
+                    console.log(column.id)
                     input = (
                       <SelectInput
                         label={column.label}
-                        value={incomeType}
+                        value={props.dataValues[column.id]}
                         selectType={column.selectType}
-                        onChangeHandler={handleIncomeTypeChange}
+                        onChangeHandler={props.dataChangeHandlers[column.id]}
                         options={column.inputOptions}
                       />
                     );
@@ -127,8 +92,8 @@ export default function AddData(props) {
                     input = (
                       <TextAreaInput
                         label={column.label}
-                        value={comment}
-                        onChangeHandler={handleCommentChange}
+                        value={props.dataValues[column.id]}
+                        onChangeHandler={props.dataChangeHandlers[column.id]}
                       />
                     );
                     break;
@@ -150,6 +115,13 @@ export default function AddData(props) {
                   </TableCell>
                 );
               })}
+              {
+                props.emptyCellSpan &&
+                <TableCell
+                  colSpan={props.emptyCellSpan}
+                  className={classes.tableCell}
+                />
+              }
             </TableRow>
           </TableBody>
         </Table>
@@ -174,7 +146,7 @@ export default function AddData(props) {
             color="primary"
             size="small"
             variant="contained"
-            onClick={() => addDataHandler()}
+            onClick={() => props.addDataHandler()}
           >
             {props.submitButtonLabel}
           </Button>

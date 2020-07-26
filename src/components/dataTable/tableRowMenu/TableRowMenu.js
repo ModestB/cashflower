@@ -11,7 +11,12 @@ export default function TableRowMenu(props) {
   const open = Boolean(anchorEl);
 
   const options = [
-    { label: "Edit", handler: () => props.showEditHandler() },
+    { label: "Edit",
+      handler: () => {
+        props.showEditHandler();
+        handleClose();
+      }
+    },
     {
       label: "Delete",
       handler: () => {

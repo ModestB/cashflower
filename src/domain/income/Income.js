@@ -1,6 +1,20 @@
 import React from "react";
 
-import MainContainer from "../../components/mainContainer/MainContainer";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import DataTable from "../../components/dataTable/DataTable";
+import IncomeTable from "./incomeTable/IncomeTable";
+ 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const tableColumns = {
   columns: [
@@ -51,7 +65,7 @@ const tableColumns = {
 };
 
 const tableData = [
-  { id: "1", date: "2019-05-12", amount: 900, type: "Salary", comment: "" },
+  { id: "1", date: "2019-05-12", amount: 900, type: "Salary", comment: "test" },
   { id: "2", date: "2011-05-12", amount: 900, type: "Salary", comment: "" },
   { id: "3", date: "2015-05-12", amount: 900, type: "Salary", comment: "" },
   { id: "4", date: "2018-05-12", amount: 900, type: "Salary", comment: "" },
@@ -59,12 +73,28 @@ const tableData = [
 ];
 
 function Income() {
+  const classes = useStyles();
   return (
-    <MainContainer
-      tableColumns={tableColumns}
-      tableData={tableData}
-      submitBtnLabel="Add Income"
-    />
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <IncomeTable
+            tableColumns={tableColumns}
+            tableData={tableData}
+            submitBtnLabel="Add Income"
+            editBtnLabel="Save Income"
+          />
+          {/* <DataTable
+            tableColumns={tableColumns}
+            tableData={tableData}
+            submitBtnLabel="Add Income"
+          /> */}
+        </Grid>
+        {/* <Grid item xs={6}>
+          <Paper className={classes.paper}>Graph</Paper>
+        </Grid> */}
+      </Grid>
+    </div>
   );
 }
 
