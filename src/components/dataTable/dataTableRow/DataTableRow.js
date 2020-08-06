@@ -68,7 +68,7 @@ export default function DataTableRow(props) {
           <div className={classes.tableCellActions}>
             <TableRowMenu
               id={props.row.id}
-              deleteHandler={props.deleteHandler}
+              deleteHandler={() => props.deleteHandler(props.row.id)}
               showEditHandler={showEditDataHandler}
             />
           </div>

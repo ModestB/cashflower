@@ -6,9 +6,11 @@ export default function AddIcome(props) {
   const [amount, setAmount] = useState(null);
   const [type, setType] = useState(null);
   const [comment, setComment] = useState('');
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     if (props.row) {
+      if (props.row['id']) setId(props.row['id'])
       if (props.row['date']) setSelectedDate(new Date(props.row['date']));
       if (props.row['amount']) setAmount(props.row['amount']);
       if (props.row['type']) {
@@ -17,7 +19,7 @@ export default function AddIcome(props) {
       if (props.row['comment']) setComment(props.row['comment']);
     }
 
-  }, [props.row, props.date, props.amount, props.type, props.comment]);
+  }, [props.id, props.row, props.date, props.amount, props.type, props.comment]);
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
@@ -33,10 +35,11 @@ export default function AddIcome(props) {
 
   const addDataHandler = () => {
     const formatedData =  {
+      id,
       date: selectedDate.toISOString().split("T")[0],
       amount: amount,
       type: type,
-      comment: comment
+      comment: comment,
     }
 
     if (props.row) {
@@ -66,7 +69,6 @@ export default function AddIcome(props) {
   return (
     <AddData 
       cancelHandler={props.cancelHandler}
-      submitHandler={props.row ? props.editDataHandler: props.submitHandler}
       submitButtonLabel={props.submitButtonLabel}
       columns={props.columns}
       dataChangeHandlers={dataChangeHandlers}

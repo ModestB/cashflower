@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, {  useEffect, useCalback } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import * as actions from "../../store/actions/actions";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import DataTable from "../../components/dataTable/DataTable";
@@ -64,23 +65,34 @@ const tableColumns = {
   ],
 };
 
-const tableData = [
-  { id: "1", date: "2019-05-12", amount: 900, type: "Salary", comment: "test" },
-  { id: "2", date: "2011-05-12", amount: 900, type: "Salary", comment: "" },
-  { id: "3", date: "2015-05-12", amount: 900, type: "Salary", comment: "" },
-  { id: "4", date: "2018-05-12", amount: 900, type: "Salary", comment: "" },
-  { id: "5", date: "2020-05-12", amount: 900, type: "Salary", comment: "" },
-];
+function Income(props) {
+  const dispatch = useDispatch();
+  const incomeData = useSelector(state => state.income)
 
-function Income() {
   const classes = useStyles();
+
+  // const initIncomeData = useCalback(
+  //   () => props.getAllIncomeData(),
+  //   []
+  // )
+  useEffect(() => {
+    // props.getAllIncomeData()
+    dispatch(actions.getAllIncomeData())
+    console.log('s')
+    // console.log('s')
+  }, [])
+
+  useEffect(() => {
+    console.log(incomeData)
+  }, [incomeData])
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <IncomeTable
             tableColumns={tableColumns}
-            tableData={tableData}
+            tableData={incomeData}
             submitBtnLabel="Add Income"
             editBtnLabel="Save Income"
           />
@@ -98,4 +110,5 @@ function Income() {
   );
 }
 
+// export default connect(undefined, mapDispatchToProps)(Income);
 export default Income;

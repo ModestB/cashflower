@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../../store/actions/actions";
+
+
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -13,6 +17,7 @@ import Box from "@material-ui/core/Box";
 
 import AddIncome from "./addIncome/AddIcome";
 import DataTableRow from "../../../components/dataTable/dataTableRow/DataTableRow";
+import LoadingTableRow from "../../../components/dataTable/loadingTableRow/LoadingTableRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,15 +62,17 @@ function tableDataSortFunction(a, b) {
 }
 
 export default function IcomeTable(props) {
+  const dispatch = useDispatch();
+  const incomeDataLoading = useSelector(state => state.incomeDataLoading);
+  const incomeAddLoading = useSelector(state => state.incomeAddLoading);
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [tableData, setTableData] = useState([]);
   const [showAddData, setShowAddData] = useState(false);
   const [rowToEdit, setRowToEdit] = useState(null);
-  
-
   const tableRef = useRef(null);
+  let tableBody = null;
 
   useEffect(() => {
     setTableData(props.tableData);
@@ -81,24 +88,14 @@ export default function IcomeTable(props) {
   };
 
   const tableDataAddHandler = (data) => {
-    const sortedTableData = [...tableData, {id: "55", ...data}].sort(tableDataSortFunction);
-
     // Add Data
-    setTableData(sortedTableData);
+    dispatch(actions.incomeAddRequest(data))
     // Hide Add Data
     setShowAddData(false);
   };
 
   const tableDataEditHandler = (data, id, calback) => {
-    const dataRowIndex = tableData.findIndex((data) => data.id === id);
-    const newTableData = [...tableData];
-    newTableData.splice(dataRowIndex, 1)
-
-    const sortedTableData = [...newTableData, {id, ...data}].sort(tableDataSortFunction);
-
-    // Add Data
-    setTableData(sortedTableData);
-    // Hide Add Data
+    dispatch(actions.incomeEditRequest(id, data))
     setShowAddData(false);
   };
 
@@ -109,10 +106,11 @@ export default function IcomeTable(props) {
   };
 
   const editDataHandler = (id) => {
-    setRowToEdit(
-      tableData
-        .find((row) => row.id === id)
-    )
+    const rowToEditId = Object.keys(tableData)
+      .map (key => tableData[key])
+      .find(row => row.id === id)
+
+    setRowToEdit(rowToEditId)
   };
 
   const hideAddDataHandler = () => {
@@ -120,8 +118,7 @@ export default function IcomeTable(props) {
   };
 
   const deleteDataRowHandler = (dataId) => {
-    const newTableData = tableData.filter((row) => row.id !== dataId);
-    setTableData(newTableData);
+    dispatch(actions.deleteIncomeRequest(dataId))
   };
 
 
@@ -139,6 +136,49 @@ export default function IcomeTable(props) {
       </TableCell>
     </TableRow>
   );
+
+  if (!incomeDataLoading) {
+    tableBody = (
+      <TableBody>
+        {showAddData && addData}
+        {incomeAddLoading && 
+          <LoadingTableRow columns={props.tableColumns.columns} />
+        }
+  
+        {tableData && Object.keys(tableData)  
+          .map(key => {
+            return tableData[key]
+          })
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .sort(tableDataSortFunction)
+          .map((row, index) => {
+            return (
+              <DataTableRow
+                key={index}
+                row={row}
+                columns={props.tableColumns.columns}
+                deleteHandler={deleteDataRowHandler}
+                editDataHandler={editDataHandler}
+                addDataEmptyCellSpan={2}
+              >
+                <AddIncome
+                  submitHandler={tableDataAddHandler}
+                  editHandler={tableDataEditHandler}
+                  submitButtonLabel={props.editBtnLabel}
+                  columns={props.tableColumns.columns}
+                  row={row}
+                />
+              </DataTableRow>
+            );
+          })}
+      </TableBody>
+    )
+  } else {
+    tableBody = 
+      <TableBody>
+        <LoadingTableRow columns={props.tableColumns.columns} />
+      </TableBody>
+  }
 
   return (
     <Paper elevation={3} className={classes.root}>
@@ -178,42 +218,18 @@ export default function IcomeTable(props) {
             </TableRow>
           </TableHead>
 
-          <TableBody>
-            {showAddData ? addData : null}
+          {tableBody}
 
-            {tableData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .sort(tableDataSortFunction)
-              .map((row, index) => {
-                return (
-                  <DataTableRow
-                    key={index}
-                    row={row}
-                    columns={props.tableColumns.columns}
-                    deleteHandler={deleteDataRowHandler}
-                    submitHandler={tableDataEditHandler}
-                    editDataHandler={editDataHandler}
-                    addDataEmptyCellSpan={2}
-                  >
-                    <AddIncome
-                      submitHandler={tableDataAddHandler}
-                      editHandler={tableDataEditHandler}
-                      submitButtonLabel={props.editBtnLabel}
-                      columns={props.tableColumns.columns}
-                      row={row}
-                    />
-                  </DataTableRow>
-                );
-              })}
-          </TableBody>
         </Table>
       </TableContainer>
 
-      {tableData.length > 10 && (
+      {/* {tableData.length > 10 && ( */}
+
+      {tableData && (
         <TablePagination
           rowsPerPageOptions={[10, 25, 50]}
           component="div"
-          count={tableData.length}
+          count={Object.keys(tableData).length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
