@@ -51,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function tableDataSortFunction(a, b) {
-    if (a.date < b.date) {
-      return 1;
-    }
-    if (a.date > b.date) {
-      return -1;
-    }
-    return 0;
+  if (a.date < b.date) {
+    return 1;
+  }
+  if (a.date > b.date) {
+    return -1;
+  }
+  return 0;
 }
 
 export default function IcomeTable(props) {
@@ -87,9 +87,7 @@ export default function IcomeTable(props) {
   };
 
   const tableDataAddHandler = (data) => {
-    // Add Data
     dispatch(actions.incomeAddRequest(data))
-    // Hide Add Data
     setShowAddData(false);
   };
 
@@ -101,7 +99,6 @@ export default function IcomeTable(props) {
   const showAddDataHandler = () => {
     setShowAddData(true);
     setRowToEdit(null)
-
   };
 
   const editDataHandler = (id) => {
@@ -120,16 +117,18 @@ export default function IcomeTable(props) {
     dispatch(actions.deleteIncomeRequest(dataId))
   };
 
-
   const addData = (
     <TableRow>
-      <TableCell colSpan={props.tableColumns.columns.length} padding="none">
+      <TableCell 
+        colSpan={props.columnsSettings.columns.length} 
+        padding="none"
+      >
         <AddIncome
           cancelHandler={hideAddDataHandler}
           submitHandler={tableDataAddHandler}
           editHandler={tableDataEditHandler}
           submitButtonLabel={props.submitBtnLabel}
-          columns={props.tableColumns.columns}
+          columnsSettings={props.columnsSettings}
           row={rowToEdit}
         />
       </TableCell>
@@ -141,7 +140,7 @@ export default function IcomeTable(props) {
       <TableBody>
         {showAddData && addData}
         {incomeAddLoading && 
-          <LoadingTableRow columns={props.tableColumns.columns} type='success' />
+          <LoadingTableRow columns={props.columnsSettings.columns} type='success' />
         }
   
         {tableData && Object.keys(tableData)  
@@ -155,7 +154,7 @@ export default function IcomeTable(props) {
               <DataTableRow
                 key={index}
                 row={row}
-                columns={props.tableColumns.columns}
+                columnsSettings={props.columnsSettings}
                 deleteHandler={deleteDataRowHandler}
                 editDataHandler={editDataHandler}
                 addDataEmptyCellSpan={2}
@@ -164,7 +163,7 @@ export default function IcomeTable(props) {
                   submitHandler={tableDataAddHandler}
                   editHandler={tableDataEditHandler}
                   submitButtonLabel={props.editBtnLabel}
-                  columns={props.tableColumns.columns}
+                  columnsSettings={props.columnsSettings}
                   row={row}
                 />
               </DataTableRow>
@@ -175,7 +174,7 @@ export default function IcomeTable(props) {
   } else {
     tableBody = 
       <TableBody>
-        <LoadingTableRow columns={props.tableColumns.columns} />
+        <LoadingTableRow columns={props.columnsSettings.columns} />
       </TableBody>
   }
 
@@ -200,7 +199,7 @@ export default function IcomeTable(props) {
         <Table stickyHeader aria-label="sticky table" className={classes.table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
-              {props.tableColumns.columns
+              {props.columnsSettings.columns
                 .filter((column) => column.id !== "edit")
                 .map((column) => {
                   return (

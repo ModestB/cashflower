@@ -57,7 +57,7 @@ export default function DataTableRow(props) {
   }
 
   if (!showEdit) {
-    rowContent = props.columns.map((column) => {
+    rowContent = props.columnsSettings.columns.map((column) => {
       const value = props.row[column.id];
       let tableCellData =
         column.format && typeof value === "number"
@@ -87,7 +87,7 @@ export default function DataTableRow(props) {
       }
   
       if (column.countableTotal) {
-        tableCellData = props.columns
+        tableCellData = props.columnsSettings.columns
           .filter((column) => {
             return column.countable;
           })
@@ -111,7 +111,7 @@ export default function DataTableRow(props) {
     rowContent = 
       <TableCell
         className={classes.tableCellEdit}
-        colSpan={props.columns.length}
+        colSpan={props.columnsSettings.columns.length}
       >
         {React.cloneElement(
           props.children, 
@@ -138,7 +138,7 @@ export default function DataTableRow(props) {
     </TableRow>
 
   if (isDeleting) {
-    row = <LoadingTableRow columns={props.columns} type='danger' />
+    row = <LoadingTableRow columns={props.columnsSettings.columns} type='danger' />
   };
 
   return row;

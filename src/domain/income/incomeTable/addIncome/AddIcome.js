@@ -70,7 +70,7 @@ export default function AddIcome(props) {
     <AddData 
       cancelHandler={props.cancelHandler}
       submitButtonLabel={props.submitButtonLabel}
-      columns={props.columns}
+      columns={props.columnsSettings.columns}
       dataChangeHandlers={dataChangeHandlers}
       dataValues={dataValues}
       addDataHandler={addDataHandler}

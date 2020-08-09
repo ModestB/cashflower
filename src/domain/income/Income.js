@@ -1,9 +1,8 @@
-import React, {  useEffect, useCalback } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import React, {  useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/actions";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import DataTable from "../../components/dataTable/DataTable";
 import IncomeTable from "./incomeTable/IncomeTable";
  
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tableColumns = {
+const columnsSettings = {
   columns: [
     {
       id: "date",
@@ -68,23 +67,18 @@ const tableColumns = {
 function Income(props) {
   const dispatch = useDispatch();
   const incomeData = useSelector(state => state.income)
-
   const classes = useStyles();
 
   useEffect(() => {
     dispatch(actions.getAllIncomeData())
   }, [])
 
-  useEffect(() => {
-    console.log(incomeData)
-  }, [incomeData])
-
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <IncomeTable
-            tableColumns={tableColumns}
+            columnsSettings={columnsSettings}
             tableData={incomeData}
             submitBtnLabel="Add Income"
             editBtnLabel="Save Income"
