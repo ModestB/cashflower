@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../store/actions/actions";
 
-
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -142,7 +141,7 @@ export default function IcomeTable(props) {
       <TableBody>
         {showAddData && addData}
         {incomeAddLoading && 
-          <LoadingTableRow columns={props.tableColumns.columns} />
+          <LoadingTableRow columns={props.tableColumns.columns} type='success' />
         }
   
         {tableData && Object.keys(tableData)  
@@ -222,8 +221,6 @@ export default function IcomeTable(props) {
 
         </Table>
       </TableContainer>
-
-      {/* {tableData.length > 10 && ( */}
 
       {tableData && (
         <TablePagination

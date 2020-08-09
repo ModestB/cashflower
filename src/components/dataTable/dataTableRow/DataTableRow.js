@@ -5,6 +5,7 @@ import moment from "moment";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableRowMenu from "../tableRowMenu/TableRowMenu";
+import LoadingTableRow from "../../../components/dataTable/loadingTableRow/LoadingTableRow";
 
 const useStyles = makeStyles((theme) => ({
   tableCellActions: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DataTableRow(props) {
   const [showEdit, setShowEdit] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const classes = useStyles();
   let rowContent = null;
 
@@ -47,6 +49,11 @@ export default function DataTableRow(props) {
 
   const cancelHandler = () => {
     setShowEdit(false);
+  }
+
+  const deleteHandler = () => {
+    setIsDeleting(true);
+    props.deleteHandler(props.row.id);
   }
 
   if (!showEdit) {
@@ -68,7 +75,7 @@ export default function DataTableRow(props) {
           <div className={classes.tableCellActions}>
             <TableRowMenu
               id={props.row.id}
-              deleteHandler={() => props.deleteHandler(props.row.id)}
+              deleteHandler={deleteHandler}
               showEditHandler={showEditDataHandler}
             />
           </div>
@@ -113,7 +120,8 @@ export default function DataTableRow(props) {
       </TableCell>
   }
 
-  return (
+
+  let row = 
     <TableRow
       className={[
         classes.tableRow,
@@ -128,5 +136,10 @@ export default function DataTableRow(props) {
     >
       {rowContent}
     </TableRow>
-  );
+
+  if (isDeleting) {
+    row = <LoadingTableRow columns={props.columns} type='danger' />
+  };
+
+  return row;
 }

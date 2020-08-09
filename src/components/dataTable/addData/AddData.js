@@ -76,8 +76,6 @@ export default function AddData(props) {
                     );
                     break;
                   case "select":
-                    console.log(props.dataValues)
-                    console.log(column.id)
                     input = (
                       <SelectInput
                         label={column.label}

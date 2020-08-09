@@ -71,15 +71,8 @@ function Income(props) {
 
   const classes = useStyles();
 
-  // const initIncomeData = useCalback(
-  //   () => props.getAllIncomeData(),
-  //   []
-  // )
   useEffect(() => {
-    // props.getAllIncomeData()
     dispatch(actions.getAllIncomeData())
-    console.log('s')
-    // console.log('s')
   }, [])
 
   useEffect(() => {
@@ -96,11 +89,6 @@ function Income(props) {
             submitBtnLabel="Add Income"
             editBtnLabel="Save Income"
           />
-          {/* <DataTable
-            tableColumns={tableColumns}
-            tableData={tableData}
-            submitBtnLabel="Add Income"
-          /> */}
         </Grid>
         {/* <Grid item xs={6}>
           <Paper className={classes.paper}>Graph</Paper>
@@ -110,5 +98,4 @@ function Income(props) {
   );
 }
 
-// export default connect(undefined, mapDispatchToProps)(Income);
 export default Income;
