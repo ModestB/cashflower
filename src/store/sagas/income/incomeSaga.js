@@ -3,14 +3,14 @@ import axios from "../../../axios";
 import * as actions from "../../actions/actions";
 
 export function* setAllIncomeDataSaga (action) {
-  const res = yield axios.get("/income.json" );
+  const res = yield axios.get(`/data/${action.payload.userId}/income.json`);
 
   yield put(actions.setAllIncomeData(res.data));
 }
 
 export function* addIncomeDataSaga (action) {
   const promise = new Promise((resolve, reject) => {
-    axios.post("/income.json", action.payload.income)
+    axios.post(`/data/${action.payload.userId}/income.json`, action.payload.income)
       .then(response => {
         resolve(response)
       })
@@ -22,7 +22,7 @@ export function* addIncomeDataSaga (action) {
 
 export function* editIncomeDataSaga(action) {
   const promise = new Promise((resolve, reject) => {
-    axios.patch(`/income/${action.payload.key}.json`,  action.payload.income)
+    axios.patch(`/data/${action.payload.userId}/income/${action.payload.key}.json`,  action.payload.income)
       .then(response => {
         resolve(response.data)
       })
@@ -35,7 +35,7 @@ export function* editIncomeDataSaga(action) {
 
 export function* deleteIncomeDataSaga (action) {
   const promise = new Promise((resolve, reject) => {
-    axios.delete(`/income/${action.payload.key}.json`)
+    axios.delete(`/data/${action.payload.userId}/income/${action.payload.key}.json`)
       .then(response => {
         resolve(response)
       })

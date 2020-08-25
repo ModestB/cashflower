@@ -62,8 +62,9 @@ function tableDataSortFunction(a, b) {
 
 export default function IcomeTable(props) {
   const dispatch = useDispatch();
-  const incomeDataLoading = useSelector(state => state.incomeDataLoading);
-  const incomeAddLoading = useSelector(state => state.incomeAddLoading);
+  const userId = useSelector(state => state.auth.userId);
+  const incomeDataLoading = useSelector(state => state.income.incomeDataLoading);
+  const incomeAddLoading = useSelector(state => state.income.incomeAddLoading);
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -86,19 +87,19 @@ export default function IcomeTable(props) {
     setPage(0);
   };
 
-  const tableDataAddHandler = (data) => {
-    dispatch(actions.incomeAddRequest(data))
+  const tableDataAddHandler = (data, userId) => {
+    dispatch(actions.incomeAddRequest(data, userId));
     setShowAddData(false);
   };
 
-  const tableDataEditHandler = (data, id, calback) => {
-    dispatch(actions.incomeEditRequest(id, data))
+  const tableDataEditHandler = (data, id) => {
+    dispatch(actions.incomeEditRequest(id, data, userId));
     setShowAddData(false);
   };
 
   const showAddDataHandler = () => {
     setShowAddData(true);
-    setRowToEdit(null)
+    setRowToEdit(null);
   };
 
   const editDataHandler = (id) => {
@@ -106,7 +107,7 @@ export default function IcomeTable(props) {
       .map (key => tableData[key])
       .find(row => row.id === id)
 
-    setRowToEdit(rowToEditId)
+    setRowToEdit(rowToEditId);
   };
 
   const hideAddDataHandler = () => {
@@ -114,7 +115,7 @@ export default function IcomeTable(props) {
   };
 
   const deleteDataRowHandler = (dataId) => {
-    dispatch(actions.deleteIncomeRequest(dataId))
+    dispatch(actions.deleteIncomeRequest(dataId, userId));
   };
 
   const addData = (

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import DateFnsUtils from "@date-io/date-fns";
 import "date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -11,6 +10,7 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import DateInput from "./dateInput/DateInput";
 import NumberInput from "./numberInput/NumberInput";
 import SelectInput from "./selectInput/SelectInput";
@@ -41,10 +41,19 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     textTransform: "none",
   },
+  progress: {
+    marginLeft: theme.spacing(2),
+  },
 }));
 
 export default function AddData(props) {
+  const [loading, setLoading] = useState(false)
   const classes = useStyles();
+
+  const addDataHandler = () => {
+    setLoading(true);
+    props.addDataHandler();
+  };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -144,9 +153,16 @@ export default function AddData(props) {
             color="primary"
             size="small"
             variant="contained"
-            onClick={() => props.addDataHandler()}
-          >
-            {props.submitButtonLabel}
+            onClick={addDataHandler}
+          > 
+            {
+              !loading ?
+              props.submitButtonLabel
+              :
+              <React.Fragment>
+                Saving <CircularProgress className={classes.progress} color='secondary' size={20}/>
+              </React.Fragment>       
+            }
           </Button>
         </Grid>
       </Grid>

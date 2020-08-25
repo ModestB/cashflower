@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -18,8 +19,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-import { Link, useLocation } from "react-router-dom";
-// import Links from "./links/Links";
+import SidebarAuth from "./sidebarAuth/SidebarAuth";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const drawerWidth = 250;
@@ -139,6 +140,7 @@ function Sidebar(props) {
           <Typography variant="h6" noWrap>
             {sectionTitle}
           </Typography>
+          <SidebarAuth />
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

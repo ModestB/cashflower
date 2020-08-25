@@ -10,9 +10,12 @@ import {
 } from '../../actionTypes/actionTypes';
 
 
-export const getAllIncomeData = () => {
+export const getAllIncomeData = (userId) => {
   return {
-    type: INCOME_GET_ALL_REQUESTED
+    type: INCOME_GET_ALL_REQUESTED,
+    payload: {
+      userId
+    }
   }
 };
 
@@ -25,11 +28,12 @@ export const setAllIncomeData = (income) => {
   }
 };
 
-export const incomeAddRequest= (income) => {
+export const incomeAddRequest= (income, userId) => {
   return {
     type: INCOME_ADD_REQUESTED,
     payload: {
-      income
+      income,
+      userId
     }
   }
 };
@@ -43,11 +47,12 @@ export const incomeAddSucceess= (income) => {
   }
 };
 
-export const deleteIncomeRequest = (key) => {
+export const deleteIncomeRequest = (key, userId) => {
   return {
     type: INCOME_DELETE_REQUESTED,
     payload: {
-      key
+      key,
+      userId
     }
   }
 }
@@ -61,12 +66,13 @@ export const  deleteIncomeSucceess = (key) => {
   }
 }
 
-export const incomeEditRequest= (key, income) => {
+export const incomeEditRequest= (key, income, userId) => {
   return {
     type: INCOME_EDIT_REQUESTED,
     payload: {
       key,
-      income
+      income,
+      userId,
     }
   }
 }

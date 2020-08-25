@@ -40,21 +40,22 @@ export default function DataTableRow(props) {
 
   useEffect(() => {
     setShowEdit(false);
-  }, [props.row])
+    setIsDeleting(false);
+  }, [props.row]);
 
   const showEditDataHandler = () => {
     setShowEdit(true);
     props.editDataHandler(props.row.id)
-  }
+  };
 
   const cancelHandler = () => {
     setShowEdit(false);
-  }
+  };
 
   const deleteHandler = () => {
     setIsDeleting(true);
     props.deleteHandler(props.row.id);
-  }
+  };
 
   if (!showEdit) {
     rowContent = props.columnsSettings.columns.map((column) => {

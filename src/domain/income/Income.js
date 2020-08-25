@@ -66,12 +66,13 @@ const columnsSettings = {
 
 function Income(props) {
   const dispatch = useDispatch();
-  const incomeData = useSelector(state => state.income)
+  const userId = useSelector(state => state.auth.userId)
+  const incomeData = useSelector(state => state.income.data)
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(actions.getAllIncomeData())
-  }, [])
+    dispatch(actions.getAllIncomeData(userId))
+  }, []);
 
   return (
     <div className={classes.root}>

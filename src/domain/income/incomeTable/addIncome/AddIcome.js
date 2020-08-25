@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import AddData from "../../../../components/dataTable/addData/AddData";
 
 export default function AddIcome(props) {
@@ -7,6 +8,7 @@ export default function AddIcome(props) {
   const [type, setType] = useState(null);
   const [comment, setComment] = useState('');
   const [id, setId] = useState(null);
+  const userId = useSelector(state => state.auth.userId)
 
   useEffect(() => {
     if (props.row) {
@@ -40,7 +42,7 @@ export default function AddIcome(props) {
       amount: amount,
       type: type,
       comment: comment,
-    }
+    };
 
     if (props.row) {
       props.editHandler(
@@ -48,7 +50,7 @@ export default function AddIcome(props) {
         props.row.id
       );
     } else {
-      props.submitHandler(formatedData);
+      props.submitHandler(formatedData, userId);
     }
   };
 
@@ -57,14 +59,14 @@ export default function AddIcome(props) {
     'amount': handleAmountChange,
     'type': handleTypeChange,
     'comment': handleCommentChange
-  }
+  };
 
   const dataValues = {
     'date':  selectedDate,
     'amount': amount,
     'type': type,
     'comment': comment
-  }
+  };
 
   return (
     <AddData 
