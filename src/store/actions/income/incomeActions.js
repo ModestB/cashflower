@@ -7,6 +7,10 @@ import {
   INCOME_EDIT_SUCCEEDED,
   INCOME_DELETE_REQUESTED,
   INCOME_DELETE_SUCCEEDED,
+  INCOME_TYPE_ADD_REQUESTED,
+  INCOME_TYPE_ADD_SUCCEEDED,
+  INCOME_TYPE_DELETE_REQUESTED,
+  INCOME_TYPE_DELETE_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
 
 
@@ -19,11 +23,12 @@ export const getAllIncomeData = (userId) => {
   }
 };
 
-export const setAllIncomeData = (income) => {
+export const setAllIncomeData = (income, types) => {
   return {
     type: INCOME_GET_ALL_SUCCEEDED,
     payload: {
-      income
+      income,
+      types
     }
   }
 };
@@ -83,6 +88,45 @@ export const incomeEditSucceess= (key,  income) => {
     payload: {
       key,
       income
+    }
+  }
+}
+
+export const incomeTypeAddRequest = (type, userId) => {
+  return {
+    type: INCOME_TYPE_ADD_REQUESTED,
+    payload: {
+      type,
+      userId
+    }
+  }
+} 
+
+export const incomeTypeAddSuccess = (type, key) => {
+  return {
+    type: INCOME_TYPE_ADD_SUCCEEDED,
+    payload: {
+      type,
+      key
+    }
+  }
+} 
+
+export const incomeTypeDeleteRequest = (key, userId) => {
+  return {
+    type: INCOME_TYPE_DELETE_REQUESTED,
+    payload: {
+      key,
+      userId
+    }
+  }
+}
+
+export const  incomeTypeDeleteSucceess = (key) => {
+  return {
+    type: INCOME_TYPE_DELETE_SUCCEEDED,
+    payload: {
+      key
     }
   }
 }

@@ -5,12 +5,12 @@ import * as actions from "../../actions/actions";
 export function* setAllIncomeDataSaga (action) {
   const res = yield axios.get(`/data/${action.payload.userId}/income.json`);
 
-  yield put(actions.setAllIncomeData(res.data));
+  yield put(actions.setAllIncomeData(res.data.incomes, res.data.types));
 }
 
 export function* addIncomeDataSaga (action) {
   const promise = new Promise((resolve, reject) => {
-    axios.post(`/data/${action.payload.userId}/income.json`, action.payload.income)
+    axios.post(`/data/${action.payload.userId}/income/incomes.json`, action.payload.income)
       .then(response => {
         resolve(response)
       })
@@ -22,7 +22,7 @@ export function* addIncomeDataSaga (action) {
 
 export function* editIncomeDataSaga(action) {
   const promise = new Promise((resolve, reject) => {
-    axios.patch(`/data/${action.payload.userId}/income/${action.payload.key}.json`,  action.payload.income)
+    axios.patch(`/data/${action.payload.userId}/income/incomes/${action.payload.key}.json`,  action.payload.income)
       .then(response => {
         resolve(response.data)
       })
@@ -35,7 +35,7 @@ export function* editIncomeDataSaga(action) {
 
 export function* deleteIncomeDataSaga (action) {
   const promise = new Promise((resolve, reject) => {
-    axios.delete(`/data/${action.payload.userId}/income/${action.payload.key}.json`)
+    axios.delete(`/data/${action.payload.userId}/income/incomes/${action.payload.key}.json`)
       .then(response => {
         resolve(response)
       })
@@ -44,4 +44,34 @@ export function* deleteIncomeDataSaga (action) {
   const result = yield promise;
 
   yield put(actions.deleteIncomeSucceess(action.payload.key, result))
+}
+
+export function* addIncomeTypeSaga (action) {
+  const promise = new Promise((resolve, reject) => {
+    axios.post(`/data/${action.payload.userId}/income/types.json`, action.payload.type)
+      .then(response => {
+        resolve(response)
+      })
+  })
+  const results = yield promise;
+
+  yield put(
+    actions.incomeTypeAddSuccess(
+      action.payload.type, 
+      results.data.name,
+  ))
+}
+
+export function* deleteIncomeTypeSaga (action) {
+  yield console.log(action)
+  const promise = new Promise((resolve, reject) => {
+    axios.delete(`/data/${action.payload.userId}/income/types/${action.payload.key}.json`)
+      .then(response => {
+        resolve(response)
+      })
+  })
+
+  const result = yield promise;
+
+  yield put(actions.incomeTypeDeleteSucceess(action.payload.key))
 }

@@ -33,15 +33,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DataTableRow(props) {
+  const [columns, setColumns] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const classes = useStyles();
   let rowContent = null;
+  const colSpan = Object.keys(props.columnsSettings).length;
 
   useEffect(() => {
     setShowEdit(false);
     setIsDeleting(false);
   }, [props.row]);
+
+  useEffect(() => {
+    const columns = Object.keys(props.columnsSettings)
+      .map (key => props.columnsSettings[key])
+    setColumns(columns)
+  }, [props.columnsSettings]);
 
   const showEditDataHandler = () => {
     setShowEdit(true);
@@ -58,61 +66,63 @@ export default function DataTableRow(props) {
   };
 
   if (!showEdit) {
-    rowContent = props.columnsSettings.columns.map((column) => {
-      const value = props.row[column.id];
-      let tableCellData =
-        column.format && typeof value === "number"
-          ? column.format(value)
-          : value;
-  
-      if (column.id === "type") {
-        tableCellData = value ? 
-          value.charAt(0).toUpperCase() + value.slice(1) :
-          "";
-      }
-  
-      if (column.id === "edit") {
-        tableCellData = (
-          <div className={classes.tableCellActions}>
-            <TableRowMenu
-              id={props.row.id}
-              deleteHandler={deleteHandler}
-              showEditHandler={showEditDataHandler}
-            />
-          </div>
+    rowContent = 
+      columns.map((column) => {
+        const value = props.row[column.id];
+        let tableCellData =
+          column.format && typeof value === "number"
+            ? column.format(value)
+            : value;
+    
+        if (column.id === "type") {
+          tableCellData = value ? 
+            value.charAt(0).toUpperCase() + value.slice(1) :
+            "";
+        }
+    
+        if (column.id === "edit") {
+          tableCellData = (
+            <div className={classes.tableCellActions}>
+              <TableRowMenu
+                id={props.row.id}
+                deleteHandler={deleteHandler}
+                showEditHandler={showEditDataHandler}
+              />
+            </div>
+          );
+        }
+    
+        if (column.inputType === "date") {
+          tableCellData = moment(value).format(column.dateFormat);
+        }
+    
+        if (column.countableTotal) {
+          tableCellData = 
+            columns
+              .filter((column) => {
+                return column.countable;
+              })
+              .reduce((acc, cur) => {
+                return acc + props.row[cur.id];
+              }, 0);
+        }
+    
+        return (
+          <TableCell
+            key={column.id}
+            align={column.align}
+            style={{ minWidth: column.minWidth }}
+            className={classes.tableCell}
+          >
+            {tableCellData}
+          </TableCell>
         );
-      }
-  
-      if (column.inputType === "date") {
-        tableCellData = moment(value).format(column.dateFormat);
-      }
-  
-      if (column.countableTotal) {
-        tableCellData = props.columnsSettings.columns
-          .filter((column) => {
-            return column.countable;
-          })
-          .reduce((acc, cur) => {
-            return acc + props.row[cur.id];
-          }, 0);
-      }
-  
-      return (
-        <TableCell
-          key={column.id}
-          align={column.align}
-          style={{ minWidth: column.minWidth }}
-          className={classes.tableCell}
-        >
-          {tableCellData}
-        </TableCell>
-      );
-    });  
+      });  
   } else {
     rowContent = 
       <TableCell
         className={classes.tableCellEdit}
-        colSpan={props.columnsSettings.columns.length}
+        colSpan={colSpan}
       >
         {React.cloneElement(
           props.children, 
@@ -139,7 +149,7 @@ export default function DataTableRow(props) {
     </TableRow>
 
   if (isDeleting) {
-    row = <LoadingTableRow columns={props.columnsSettings.columns} type='danger' />
+    row = <LoadingTableRow colSpan={colSpan} type='danger' />
   };
 
   return row;

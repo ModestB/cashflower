@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { incomeTypeAddRequest, incomeTypeDeleteRequest } from "../../../../store/actions/actions";
 import AddData from "../../../../components/dataTable/addData/AddData";
 
 export default function AddIcome(props) {
+  const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState(null);
   const [type, setType] = useState(null);
@@ -54,6 +56,14 @@ export default function AddIcome(props) {
     }
   };
 
+  const addTypeHandler = (userId, type) => {
+    dispatch(incomeTypeAddRequest(userId, type));
+  };
+
+  const deleteTypeHandler = (key, userId) => {
+    dispatch(incomeTypeDeleteRequest(key, userId));
+  }
+
   const dataChangeHandlers = {
     'date':  setSelectedDate,
     'amount': handleAmountChange,
@@ -72,10 +82,12 @@ export default function AddIcome(props) {
     <AddData 
       cancelHandler={props.cancelHandler}
       submitButtonLabel={props.submitButtonLabel}
-      columns={props.columnsSettings.columns}
+      columnsSettings={props.columnsSettings}
       dataChangeHandlers={dataChangeHandlers}
       dataValues={dataValues}
       addDataHandler={addDataHandler}
+      addTypeHandler={addTypeHandler}
+      deleteTypeHandler={deleteTypeHandler}
     />
   );
 }

@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -12,9 +14,19 @@ const useStyles = makeStyles((theme) => ({
   editInput: {
     marginTop: theme.spacing(1),
   },
+  iconRemove: {
+    marginLeft: 'auto',
+    '&:hover svg': {
+      fill: theme.palette.error.main
+    }
+  },
+  iconAdd: {
+    marginLeft: 'auto'
+  }
 }));
 
 export default function SelectInput(props) {
+  const userId = useSelector(state => state.auth.userId);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [options, setOptions] = useState(props.options);
@@ -53,9 +65,16 @@ export default function SelectInput(props) {
       newOption.substring(0, 1).toUpperCase() +
       newOption.substring(1).toLowerCase();
     const optionValue = newOption.toLowerCase();
+    const option = { value: optionValue, label: optionLabel };
 
-    setOptions([...options, { value: optionValue, label: optionLabel }]);
+    props.addHandler(option, userId);
     setNewOption("");
+  };
+
+  const deleteOptionHandler = (e, key) => {
+    e.preventDefault();
+    e.stopPropagation();
+    props.deleteHandler(key, userId)
   };
 
   return (
@@ -77,6 +96,16 @@ export default function SelectInput(props) {
           return (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
+              {
+                open &&
+                <IconButton 
+                  className={classes.iconRemove} 
+                  aria-label="delete"
+                  onClick={(e) => deleteOptionHandler(e, option.key)}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+              }
             </MenuItem>
           );
         })}
@@ -92,7 +121,7 @@ export default function SelectInput(props) {
             onChange={(e) => setNewOption(e.target.value)}
             onKeyPress={addOptionKeypressHandler}
           />
-          <IconButton aria-label="add" onClick={addOptionHandler}>
+          <IconButton className={classes.iconAdd} aria-label="add" onClick={addOptionHandler}>
             <AddCircleOutlineIcon />
           </IconButton>
         </MenuItem>

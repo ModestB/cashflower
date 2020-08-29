@@ -4,8 +4,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { getTotalColSpan } from "../../../shared/utility";
-
 const useStyles = makeStyles((theme) => ({
   colorPrimary: {
     backgroundColor: 'rgba(63, 81, 181, 0.4)',
@@ -49,7 +47,7 @@ export default function LoadingTableRow (props) {
 
   return (
     <TableRow> 
-      <TableCell colSpan={getTotalColSpan(props.columns)}>
+      <TableCell colSpan={props.colSpan}>
         <LinearProgress classes={{colorPrimary: color, barColorPrimary: bgColor}}/>
       </TableCell>
     </TableRow>

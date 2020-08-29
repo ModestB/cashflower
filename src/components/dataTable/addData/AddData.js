@@ -61,67 +61,71 @@ export default function AddData(props) {
         <Table className={classes.table}>
           <TableBody>
             <TableRow>
-              {props.columns.map((column) => {
-                if (!column.editable) return;
-                let input = null;
+              {Object.keys(props.columnsSettings)
+                .map(key => props.columnsSettings[key]) 
+                .map((column) => {
+                  if (!column.editable) return;
+                  let input = null;
 
-                switch (column.inputType) {
-                  case "date":
-                    input = (
-                      <DateInput
-                        label={column.label}
-                        selectedDate={props.dataValues[column.id]}
-                        onChangeHandler={props.dataChangeHandlers[column.id]}
-                      />
-                    );
-                    break;
-                  case "number":
-                    input = (
-                      <NumberInput
-                        label={column.label}
-                        value={props.dataValues[column.id]}
-                        onChangeHandler={props.dataChangeHandlers[column.id]}
-                      />
-                    );
-                    break;
-                  case "select":
-                    input = (
-                      <SelectInput
-                        label={column.label}
-                        value={props.dataValues[column.id]}
-                        selectType={column.selectType}
-                        onChangeHandler={props.dataChangeHandlers[column.id]}
-                        options={column.inputOptions}
-                      />
-                    );
-                    break;
-                  case "textArea":
-                    input = (
-                      <TextAreaInput
-                        label={column.label}
-                        value={props.dataValues[column.id]}
-                        onChangeHandler={props.dataChangeHandlers[column.id]}
-                      />
-                    );
-                    break;
+                  switch (column.inputType) {
+                    case "date":
+                      input = (
+                        <DateInput
+                          label={column.label}
+                          selectedDate={props.dataValues[column.id]}
+                          onChangeHandler={props.dataChangeHandlers[column.id]}
+                        />
+                      );
+                      break;
+                    case "number":
+                      input = (
+                        <NumberInput
+                          label={column.label}
+                          value={props.dataValues[column.id]}
+                          onChangeHandler={props.dataChangeHandlers[column.id]}
+                        />
+                      );
+                      break;
+                    case "select":
+                      input = (
+                        <SelectInput
+                          label={column.label}
+                          value={props.dataValues[column.id]}
+                          selectType={column.selectType}
+                          onChangeHandler={props.dataChangeHandlers[column.id]}
+                          options={column.inputOptions}
+                          addHandler={props.addTypeHandler}
+                          deleteHandler={props.deleteTypeHandler}
+                        />
+                      );
+                      break;
+                    case "textArea":
+                      input = (
+                        <TextAreaInput
+                          label={column.label}
+                          value={props.dataValues[column.id]}
+                          onChangeHandler={props.dataChangeHandlers[column.id]}
+                        />
+                      );
+                      break;
 
-                  default:
-                    break;
-                }
+                    default:
+                      break;
+                  }
 
-                return (
-                  <TableCell
-                    key={column.id}
-                    colSpan={column.colspan ? column.colspan : 1}
-                    style={{ minWidth: column.minWidth }}
-                    className={classes.tableCell}
-                  >
-                    <FormControl className={classes.formControl}>
-                      {input}
-                    </FormControl>
-                  </TableCell>
-                );
-              })}
+                  return (
+                    <TableCell
+                      key={column.id}
+                      colSpan={column.colspan ? column.colspan : 1}
+                      style={{ minWidth: column.minWidth }}
+                      className={classes.tableCell}
+                    >
+                      <FormControl className={classes.formControl}>
+                        {input}
+                      </FormControl>
+                    </TableCell>
+                  );
+                })}
               {
                 props.emptyCellSpan &&
                 <TableCell

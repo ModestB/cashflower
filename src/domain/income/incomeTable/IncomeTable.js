@@ -73,6 +73,7 @@ export default function IcomeTable(props) {
   const [rowToEdit, setRowToEdit] = useState(null);
   const tableRef = useRef(null);
   let tableBody = null;
+  const colSpan = Object.keys(props.columnsSettings).length;
 
   useEffect(() => {
     setTableData(props.tableData);
@@ -121,7 +122,7 @@ export default function IcomeTable(props) {
   const addData = (
     <TableRow>
       <TableCell 
-        colSpan={props.columnsSettings.columns.length} 
+        colSpan={colSpan} 
         padding="none"
       >
         <AddIncome
@@ -141,7 +142,7 @@ export default function IcomeTable(props) {
       <TableBody>
         {showAddData && addData}
         {incomeAddLoading && 
-          <LoadingTableRow columns={props.columnsSettings.columns} type='success' />
+          <LoadingTableRow colSpan={colSpan} type='success' />
         }
   
         {tableData && Object.keys(tableData)  
@@ -175,7 +176,7 @@ export default function IcomeTable(props) {
   } else {
     tableBody = 
       <TableBody>
-        <LoadingTableRow columns={props.columnsSettings.columns} />
+        <LoadingTableRow colSpan={colSpan} />
       </TableBody>
   }
 
@@ -200,7 +201,8 @@ export default function IcomeTable(props) {
         <Table stickyHeader aria-label="sticky table" className={classes.table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
-              {props.columnsSettings.columns
+              {Object.keys(props.columnsSettings)
+                .map(key => props.columnsSettings[key])
                 .filter((column) => column.id !== "edit")
                 .map((column) => {
                   return (
