@@ -12,6 +12,8 @@ export default function AddIcome(props) {
   const [id, setId] = useState(null);
   const userId = useSelector(state => state.auth.userId);
   const incomeTypes = useSelector(state => state.income.types);
+  const incomeTypeAddLoading = useSelector(state => state.income.incomeTypeAddLoading)
+  const incomeTypeDeleteLoading = useSelector(state => state.income.incomeTypeDeleteLoading)
 
   useEffect(() => {
     if (props.row) {
@@ -94,6 +96,8 @@ export default function AddIcome(props) {
       addTypeHandler={addTypeHandler}
       deleteTypeHandler={deleteTypeHandler}
       selectOptions={selectOptions}
+      selectAddLoading={incomeTypeAddLoading}
+      selectDeleteLoading={incomeTypeDeleteLoading}
     />
   );
 }

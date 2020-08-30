@@ -63,7 +63,6 @@ export function* addIncomeTypeSaga (action) {
 }
 
 export function* deleteIncomeTypeSaga (action) {
-  yield console.log(action)
   const promise = new Promise((resolve, reject) => {
     axios.delete(`/data/${action.payload.userId}/income/types/${action.payload.key}.json`)
       .then(response => {

@@ -5,6 +5,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
@@ -60,7 +61,7 @@ export default function SelectInput(props) {
   };
 
   const addOptionHandler = () => {
-    if (!newOption) return;
+    if (!newOption || props.selectAddLoading) return;
     const optionLabel =
       newOption.substring(0, 1).toUpperCase() +
       newOption.substring(1).toLowerCase();
@@ -74,6 +75,7 @@ export default function SelectInput(props) {
   const deleteOptionHandler = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
+    if (props.selectDeleteLoading) return;
     props.deleteHandler(key, userId)
   };
 
@@ -104,6 +106,7 @@ export default function SelectInput(props) {
                       className={classes.iconRemove} 
                       aria-label="delete"
                       onClick={(e) => deleteOptionHandler(e, options[key].key)}
+                      disabled={props.selectDeleteLoading}
                     >
                       <RemoveCircleOutlineIcon />
                     </IconButton>
@@ -126,7 +129,13 @@ export default function SelectInput(props) {
             onKeyPress={addOptionKeypressHandler}
           />
           <IconButton className={classes.iconAdd} aria-label="add" onClick={addOptionHandler}>
-            <AddCircleOutlineIcon />
+            {
+              !props.selectAddLoading ?
+              <AddCircleOutlineIcon />
+              :
+              <CircularProgress size={24} />
+            }
+            
           </IconButton>
         </MenuItem>
       </Select>

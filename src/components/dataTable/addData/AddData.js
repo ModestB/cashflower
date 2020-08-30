@@ -96,6 +96,8 @@ export default function AddData(props) {
                           options={props.selectOptions[column.id]}
                           addHandler={props.addTypeHandler}
                           deleteHandler={props.deleteTypeHandler}
+                          selectAddLoading={props.selectAddLoading}
+                          selectDeleteLoading={props.selectDeleteLoading}
                         />
                       );
                       break;

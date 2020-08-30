@@ -19,6 +19,8 @@ const initialState = {
   types: {},
   incomeDataLoading: false,
   incomeAddLoading: false,
+  incomeTypeAddLoading: false,
+  incomeTypeDeleteLoading: false
 }
 
 const requestAddIncomeHandler = (state) => {
@@ -73,16 +75,32 @@ const editIncomeDataHandler = (state, payload) => {
   return nextState
 }
 
-const addIncomeTypeHandler = (state, payload) => {
-  const nextState = produce(state, draftState  => {
-    draftState.types[payload.key] = {...payload.type, key: payload.key};
+const addIncomeTypeRequestHandler = (state) => {
+  const nextState = produce(state, draftState => {
+    draftState.incomeTypeAddLoading = true;
   })
   return nextState;
 }
 
-const deleteIncomeTypeHandler = (state, payload) => {
+const addIncomeTypeSuccessHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.types[payload.key] = {...payload.type, key: payload.key};
+    draftState.incomeTypeAddLoading = false;
+  })
+  return nextState;
+}
+
+const deleteIncomeTypeRequestHandler = (state) => {
+  const nextState = produce(state, draftState => {
+    draftState.incomeTypeDeleteLoading = true;
+  })
+  return nextState;
+}
+
+const deleteIncomeTypeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     delete draftState.types[payload.key];
+    draftState.incomeTypeDeleteLoading = false;
   })
   return nextState;
 }
@@ -122,19 +140,19 @@ export default (state = initialState, action) => {
     }
 
     case INCOME_TYPE_ADD_REQUESTED: {
-      return state;
+      return addIncomeTypeRequestHandler(state);
     }
 
     case  INCOME_TYPE_ADD_SUCCEEDED: {
-      return addIncomeTypeHandler(state, action.payload);
+      return addIncomeTypeSuccessHandler(state, action.payload);
     }
 
     case INCOME_TYPE_DELETE_REQUESTED: {
-      return state;
+      return deleteIncomeTypeRequestHandler(state);
     }
 
     case INCOME_TYPE_DELETE_SUCCEEDED: {
-      return deleteIncomeTypeHandler(state, action.payload);
+      return deleteIncomeTypeSuccessHandler(state, action.payload);
     }
 
     default:
