@@ -93,7 +93,7 @@ export default function AddData(props) {
                           value={props.dataValues[column.id]}
                           selectType={column.selectType}
                           onChangeHandler={props.dataChangeHandlers[column.id]}
-                          options={column.inputOptions}
+                          options={props.selectOptions[column.id]}
                           addHandler={props.addTypeHandler}
                           deleteHandler={props.deleteTypeHandler}
                         />

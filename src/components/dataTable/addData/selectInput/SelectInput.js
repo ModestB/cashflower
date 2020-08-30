@@ -92,23 +92,27 @@ export default function SelectInput(props) {
         onOpen={openHandler}
         onClose={closeHandler}
       >
-        {options.map((option) => {
-          return (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-              {
-                open &&
-                <IconButton 
-                  className={classes.iconRemove} 
-                  aria-label="delete"
-                  onClick={(e) => deleteOptionHandler(e, option.key)}
-                >
-                  <RemoveCircleOutlineIcon />
-                </IconButton>
-              }
-            </MenuItem>
-          );
-        })}
+        {
+          Object.keys(options)
+            .map((key) => {
+              return (
+                <MenuItem key={options[key].value} value={options[key].value}>
+                  {options[key].label}
+                  {
+                    open &&
+                    <IconButton 
+                      className={classes.iconRemove} 
+                      aria-label="delete"
+                      onClick={(e) => deleteOptionHandler(e, options[key].key)}
+                    >
+                      <RemoveCircleOutlineIcon />
+                    </IconButton>
+                  }
+                </MenuItem>
+              );
+            }
+          )
+        }
         <MenuItem
           value="addOption"
           onClick={openHandler}

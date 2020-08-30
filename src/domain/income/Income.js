@@ -17,71 +17,53 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columnsSettings = {
-  // columns: {
-    date: {
-      id: "date",
-      label: "Date",
-      editable: true,
-      inputType: "date",
-      dateFormat: "YYYY-MM-DD",
-      minWidth: 170,
-    },
-    amount: {
-      id: "amount",
-      label: "Amount",
-      editable: true,
-      inputType: "number",
-      minWidth: 100,
-    },
-    type: {
-      id: "type",
-      label: "Income type",
-      selectType: "income",
-      editable: true,
-      inputType: "select",
-      inputOptions: [],
-      // inputOptions: [
-      //   { value: "", label: "None" },
-      //   { value: "winnings", label: "Winnings" },
-      //   { value: "salary", label: "Salary" },
-      //   { value: "gift", label: "Gift" },
-      //   { value: "interest", label: "Interest" },
-      // ],
-      minWidth: 170,
-    },
-    comment: {
-      id: "comment",
-      label: "Comment",
-      editable: true,
-      inputType: "textArea",
-      minWidth: 170,
-      colspan: 2,
-    },
-    edit: {
-      id: "edit",
-      label: "",
-      minWidth: 50,
-    },
-  // }
+  date: {
+    id: "date",
+    label: "Date",
+    editable: true,
+    inputType: "date",
+    dateFormat: "YYYY-MM-DD",
+    minWidth: 170,
+  },
+  amount: {
+    id: "amount",
+    label: "Amount",
+    editable: true,
+    inputType: "number",
+    minWidth: 100,
+  },
+  type: {
+    id: "type",
+    label: "Income type",
+    selectType: "income",
+    editable: true,
+    inputType: "select",
+    minWidth: 170,
+  },
+  comment: {
+    id: "comment",
+    label: "Comment",
+    editable: true,
+    inputType: "textArea",
+    minWidth: 170,
+    colspan: 2,
+  },
+  edit: {
+    id: "edit",
+    label: "",
+    minWidth: 50,
+  },
 };
 
 function Income(props) {
   const dispatch = useDispatch();
   const userId = useSelector(state => state.auth.userId);
   const incomeData = useSelector(state => state.income.data);
-  const incomeTypes = useSelector(state => state.income.types);
   const classes = useStyles();
 
   useEffect(() => {
     dispatch(actions.getAllIncomeData(userId))
   }, []);
-
-  useEffect(() => {
-    const typesArray = Object.keys(incomeTypes)
-      .map(key => incomeTypes[key])
-    columnsSettings.type.inputOptions = [...typesArray];
-
-  }, [incomeTypes])
 
   return (
     <div className={classes.root}>

@@ -5,12 +5,13 @@ import AddData from "../../../../components/dataTable/addData/AddData";
 
 export default function AddIcome(props) {
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
   const [amount, setAmount] = useState(null);
   const [type, setType] = useState(null);
   const [comment, setComment] = useState('');
   const [id, setId] = useState(null);
-  const userId = useSelector(state => state.auth.userId)
+  const userId = useSelector(state => state.auth.userId);
+  const incomeTypes = useSelector(state => state.income.types);
 
   useEffect(() => {
     if (props.row) {
@@ -78,6 +79,10 @@ export default function AddIcome(props) {
     'comment': comment
   };
 
+  const selectOptions = {
+    'type': incomeTypes
+  };
+
   return (
     <AddData 
       cancelHandler={props.cancelHandler}
@@ -88,6 +93,7 @@ export default function AddIcome(props) {
       addDataHandler={addDataHandler}
       addTypeHandler={addTypeHandler}
       deleteTypeHandler={deleteTypeHandler}
+      selectOptions={selectOptions}
     />
   );
 }
