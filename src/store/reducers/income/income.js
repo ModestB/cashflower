@@ -33,7 +33,7 @@ const requestAddIncomeHandler = (state) => {
 
 const addIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    draftState.data[payload.income.id] = payload.income;
+    draftState.data[payload.key] = payload.income;
     draftState.incomeAddLoading = false;
   })
 
@@ -60,10 +60,6 @@ const getAllIcomeDataSuccesHandler = (state, payload) => {
     draftState.incomeDataLoading = false;
     draftState.data = {...payload.income};
     draftState.types = {...payload.types}
-    Object.keys(draftState.data)
-      .forEach(key => draftState.data[key]['id'] = key)
-    Object.keys(draftState.types)
-      .forEach(key => draftState.types[key]['key'] = key)
   })
   return nextState
 }
@@ -84,7 +80,7 @@ const addIncomeTypeRequestHandler = (state) => {
 
 const addIncomeTypeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    draftState.types[payload.key] = {...payload.type, key: payload.key};
+    draftState.types[payload.key] = {...payload.type};
     draftState.incomeTypeAddLoading = false;
   })
   return nextState;

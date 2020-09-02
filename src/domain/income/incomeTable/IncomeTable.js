@@ -147,7 +147,8 @@ export default function IcomeTable(props) {
   
         {tableData && Object.keys(tableData)  
           .map(key => {
-            return tableData[key]
+            const newTableData = {...tableData[key], key: key};
+            return newTableData;
           })
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .sort(tableDataSortFunction)

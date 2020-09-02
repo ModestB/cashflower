@@ -43,11 +43,12 @@ export const incomeAddRequest= (income, userId) => {
   }
 };
 
-export const incomeAddSucceess= (income) => {
+export const incomeAddSucceess= (income, key) => {
   return {
     type: INCOME_ADD_SUCCEEDED,
     payload: {
-      income
+      income,
+      key
     }
   }
 };

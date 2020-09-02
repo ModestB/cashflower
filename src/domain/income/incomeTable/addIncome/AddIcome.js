@@ -42,7 +42,6 @@ export default function AddIcome(props) {
 
   const addDataHandler = () => {
     const formatedData =  {
-      id,
       date: selectedDate.toISOString().split("T")[0],
       amount: amount,
       type: type,

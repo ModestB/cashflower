@@ -98,14 +98,14 @@ export default function SelectInput(props) {
           Object.keys(options)
             .map((key) => {
               return (
-                <MenuItem key={options[key].value} value={options[key].value}>
+                <MenuItem key={key} value={options[key].value}>
                   {options[key].label}
                   {
                     open &&
                     <IconButton 
                       className={classes.iconRemove} 
                       aria-label="delete"
-                      onClick={(e) => deleteOptionHandler(e, options[key].key)}
+                      onClick={(e) => deleteOptionHandler(e, key)}
                       disabled={props.selectDeleteLoading}
                     >
                       <RemoveCircleOutlineIcon />

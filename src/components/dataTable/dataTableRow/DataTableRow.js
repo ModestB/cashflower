@@ -53,7 +53,7 @@ export default function DataTableRow(props) {
 
   const showEditDataHandler = () => {
     setShowEdit(true);
-    props.editDataHandler(props.row.id)
+    props.editDataHandler(props.row.key)
   };
 
   const cancelHandler = () => {
@@ -62,7 +62,7 @@ export default function DataTableRow(props) {
 
   const deleteHandler = () => {
     setIsDeleting(true);
-    props.deleteHandler(props.row.id);
+    props.deleteHandler(props.row.key);
   };
 
   if (!showEdit) {

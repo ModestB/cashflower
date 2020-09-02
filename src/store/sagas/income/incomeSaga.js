@@ -17,7 +17,7 @@ export function* addIncomeDataSaga (action) {
   })
   const results = yield promise;
 
-  yield put(actions.incomeAddSucceess({...action.payload.income, id: results.data.name}))
+  yield put(actions.incomeAddSucceess(action.payload.income, results.data.name))
 }
 
 export function* editIncomeDataSaga(action) {
