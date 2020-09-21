@@ -1,4 +1,5 @@
 import produce  from 'immer';
+import moment from "moment";
 import {
   INCOME_GET_ALL_REQUESTED,
   INCOME_GET_ALL_SUCCEEDED,
@@ -12,11 +13,15 @@ import {
   INCOME_TYPE_ADD_SUCCEEDED,
   INCOME_TYPE_DELETE_REQUESTED,
   INCOME_TYPE_DELETE_SUCCEEDED,
+  CURRENT_INCOME_YEAR_CHANGE,
 } from '../../actionTypes/actionTypes';
 
 const initialState = {
   data: {},
+  dataByYear: {},
   types: {},
+  dataYears: {},
+  currentDataYear: moment().format('YYYY'),
   incomeDataLoading: false,
   incomeAddLoading: false,
   incomeTypeAddLoading: false,
@@ -35,6 +40,11 @@ const addIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     draftState.data[payload.key] = payload.income;
     draftState.incomeAddLoading = false;
+
+    const year = moment(payload.income.date).format('YYYY');
+    if (!state.dataYears.includes(year)) {
+      draftState.dataYears = [...state.dataYears, year];
+    }
   })
 
   return nextState
@@ -60,6 +70,21 @@ const getAllIcomeDataSuccesHandler = (state, payload) => {
     draftState.incomeDataLoading = false;
     draftState.data = {...payload.income};
     draftState.types = {...payload.types}
+    draftState.dataByYear = {};
+
+    const years = [];
+    Object.keys(payload.income)
+      .forEach(key => {
+        const date = moment(payload.income[key].date).format('YYYY')
+        if (!years.includes(date)) {
+          years.push(date);
+        }
+        if (date === state.currentDataYear) {
+          draftState.dataByYear[key] = payload.income[key];
+        }
+      })
+
+    draftState.dataYears = [...years];
   })
   return nextState
 }
@@ -97,6 +122,22 @@ const deleteIncomeTypeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     delete draftState.types[payload.key];
     draftState.incomeTypeDeleteLoading = false;
+  })
+  return nextState;
+}
+
+const currentDataYearChangeHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.currentDataYear = payload.year;
+    draftState.dataByYear = {};
+
+    Object.keys(state.data)
+      .forEach(key => {
+        const date = moment(state.data[key].date).format('YYYY')
+        if (date === payload.year) {
+          draftState.dataByYear[key] = state.data[key];
+        }
+      })
   })
   return nextState;
 }
@@ -149,6 +190,10 @@ export default (state = initialState, action) => {
 
     case INCOME_TYPE_DELETE_SUCCEEDED: {
       return deleteIncomeTypeSuccessHandler(state, action.payload);
+    }
+
+    case CURRENT_INCOME_YEAR_CHANGE: {
+      return currentDataYearChangeHandler(state, action.payload);
     }
 
     default:

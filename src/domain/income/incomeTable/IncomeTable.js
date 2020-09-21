@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../store/actions/actions";
+import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -13,6 +14,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import AddIncome from "./addIncome/AddIcome";
 import DataTableRow from "../../../components/dataTable/dataTableRow/DataTableRow";
@@ -36,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     minWidth: 170,
+  },
+  yearsFormControl: {
+    minWidth: 90,
   },
   customScroll: theme.mixins.customScrollBar,
   tableCellActions: {
@@ -62,15 +70,18 @@ function tableDataSortFunction(a, b) {
 
 export default function IcomeTable(props) {
   const dispatch = useDispatch();
+  const incomeDataYears = useSelector(state => state.income.dataYears);
   const userId = useSelector(state => state.auth.userId);
   const incomeDataLoading = useSelector(state => state.income.incomeDataLoading);
   const incomeAddLoading = useSelector(state => state.income.incomeAddLoading);
+  const currentDataYear = useSelector(state => state.income.currentDataYear);
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [tableData, setTableData] = useState([]);
   const [showAddData, setShowAddData] = useState(false);
   const [rowToEdit, setRowToEdit] = useState(null);
+  const [dataYears, setDataYears] = useState([]);
   const tableRef = useRef(null);
   let tableBody = null;
   const colSpan = Object.keys(props.columnsSettings).length;
@@ -78,6 +89,12 @@ export default function IcomeTable(props) {
   useEffect(() => {
     setTableData(props.tableData);
   }, [props.tableData]);
+
+  useEffect(() => {
+    if (incomeDataYears.length) {
+      setDataYears(incomeDataYears);
+    }  
+  }, [incomeDataYears]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -118,6 +135,10 @@ export default function IcomeTable(props) {
   const deleteDataRowHandler = (dataId) => {
     dispatch(actions.deleteIncomeRequest(dataId, userId));
   };
+
+  const handleCurrentDataYearChange = (event) => {
+    dispatch(actions.currentDataYearChange(event.target.value));
+  }
 
   const addData = (
     <TableRow>
@@ -180,20 +201,39 @@ export default function IcomeTable(props) {
         <LoadingTableRow colSpan={colSpan} />
       </TableBody>
   }
-
   return (
     <Paper elevation={3} className={classes.root}>
-      {props.submitBtnLabel && (
-        <Box display="flex" justifyContent="flex-end" p={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => showAddDataHandler()}
+      <Box display="flex" justifyContent="space-between" p={2}>
+        <FormControl variant="outlined" className={classes.yearsFormControl}>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={currentDataYear}
+            onChange={handleCurrentDataYearChange}
+            label="Year"
           >
-            {props.submitBtnLabel}
-          </Button>
-        </Box>
-      )}
+            {
+              dataYears.map(year => {
+                return (
+                  <MenuItem value={year}>{year}</MenuItem>
+                )
+              })
+            }
+          </Select>
+        </FormControl>
+        {props.submitBtnLabel && (
+          <Box display="flex" justifyContent="flex-end" p={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => showAddDataHandler()}
+            >
+              {props.submitBtnLabel}
+            </Button>
+          </Box>
+        )}
+      </Box>
 
       <TableContainer
         ref={tableRef}
@@ -211,7 +251,7 @@ export default function IcomeTable(props) {
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
-                      colSpan={column.colspan ? column.colspan : 1}
+                      colSpan={column.headerColSpan ? column.headerColSpan : 1}
                     >
                       {column.label}
                     </TableCell>

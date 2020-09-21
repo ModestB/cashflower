@@ -4,6 +4,7 @@ import * as actions from "../../store/actions/actions";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import IncomeTable from "./incomeTable/IncomeTable";
+import IncomeGraph from "./incomeGraph/IncomeGraph"
  
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +24,7 @@ const columnsSettings = {
     editable: true,
     inputType: "date",
     dateFormat: "YYYY-MM-DD",
-    minWidth: 170,
+    minWidth: 200,
   },
   amount: {
     id: "amount",
@@ -46,7 +47,8 @@ const columnsSettings = {
     editable: true,
     inputType: "textArea",
     minWidth: 170,
-    colspan: 2,
+    // colspan: 1,
+    headerColSpan: 2,
   },
   edit: {
     id: "edit",
@@ -56,19 +58,13 @@ const columnsSettings = {
 };
 
 function Income(props) {
-  const dispatch = useDispatch();
-  const userId = useSelector(state => state.auth.userId);
-  const incomeData = useSelector(state => state.income.data);
+  const incomeData = useSelector(state => state.income.dataByYear);
   const classes = useStyles();
-
-  useEffect(() => {
-    dispatch(actions.getAllIncomeData(userId))
-  }, []);
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <IncomeTable
             columnsSettings={columnsSettings}
             tableData={incomeData}
@@ -76,9 +72,9 @@ function Income(props) {
             editBtnLabel="Save Income"
           />
         </Grid>
-        {/* <Grid item xs={6}>
-          <Paper className={classes.paper}>Graph</Paper>
-        </Grid> */}
+        <Grid item xs={6}>
+          <IncomeGraph />
+        </Grid>
       </Grid>
     </div>
   );

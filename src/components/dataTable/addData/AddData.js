@@ -118,7 +118,7 @@ export default function AddData(props) {
                   return (
                     <TableCell
                       key={column.id}
-                      colSpan={column.colspan ? column.colspan : 1}
+                      colSpan={column.headerColSpan ? column.headerColSpan : 1}
                       style={{ minWidth: column.minWidth }}
                       className={classes.tableCell}
                     >

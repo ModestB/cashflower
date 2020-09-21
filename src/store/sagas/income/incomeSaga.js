@@ -21,6 +21,7 @@ export function* addIncomeDataSaga (action) {
 }
 
 export function* editIncomeDataSaga(action) {
+  yield console.log(action)
   const promise = new Promise((resolve, reject) => {
     axios.patch(`/data/${action.payload.userId}/income/incomes/${action.payload.key}.json`,  action.payload.income)
       .then(response => {

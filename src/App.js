@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
-  const token = useSelector(state => state.auth.token)
+  const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
   const classes = useStyles();
 

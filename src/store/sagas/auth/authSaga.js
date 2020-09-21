@@ -33,6 +33,7 @@ export function* authUserSaga (action) {
     yield put(
       actions.authSuccess(response.data.email, response.data.localId, response.data.idToken)
     );
+    yield put(actions.getAllIncomeData(response.data.localId))
     yield put(actions.authAutoLogout(response.data.expiresIn * 1000))
     
   } catch (error) { 
@@ -52,6 +53,7 @@ export function* authCheckSaga (action) {
       yield put(actions.authLogout());
     } else {
       yield put (actions.authSuccess(localStorageData.email, localStorageData.userId, localStorageData.token));
+      yield put(actions.getAllIncomeData(localStorageData.userId))
       const expiresIn = yield (expirationDate.getTime() - new Date().getTime());
       yield put (actions.authAutoLogout(expiresIn))
     }    

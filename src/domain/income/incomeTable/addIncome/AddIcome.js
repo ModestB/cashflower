@@ -51,7 +51,7 @@ export default function AddIcome(props) {
     if (props.row) {
       props.editHandler(
         formatedData,
-        props.row.id
+        props.row.key
       );
     } else {
       props.submitHandler(formatedData, userId);

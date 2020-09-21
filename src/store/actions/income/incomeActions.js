@@ -11,6 +11,7 @@ import {
   INCOME_TYPE_ADD_SUCCEEDED,
   INCOME_TYPE_DELETE_REQUESTED,
   INCOME_TYPE_DELETE_SUCCEEDED,
+  CURRENT_INCOME_YEAR_CHANGE,
 } from '../../actionTypes/actionTypes';
 
 
@@ -123,11 +124,20 @@ export const incomeTypeDeleteRequest = (key, userId) => {
   }
 }
 
-export const  incomeTypeDeleteSucceess = (key) => {
+export const incomeTypeDeleteSucceess = (key) => {
   return {
     type: INCOME_TYPE_DELETE_SUCCEEDED,
     payload: {
       key
+    }
+  }
+}
+
+export const currentDataYearChange = (year) => {
+  return {
+    type: CURRENT_INCOME_YEAR_CHANGE,
+    payload: {
+      year
     }
   }
 }
