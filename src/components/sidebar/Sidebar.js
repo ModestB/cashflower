@@ -70,30 +70,30 @@ function Sidebar(props) {
       icon: <AccountBalanceIcon />,
       location: { pathname: "/", state: { sectionTitle: "Income" } },
     },
-    {
-      text: "Monthly Investments",
-      icon: <DateRangeIcon />,
-      location: {
-        pathname: "/monthly",
-        state: { sectionTitle: "Monthly Investments" },
-      },
-    },
-    {
-      text: "Total Investments",
-      icon: <AssessmentIcon />,
-      location: {
-        pathname: "/total",
-        state: { sectionTitle: "Total Investments" },
-      },
-    },
-    {
-      text: "Investments Plans",
-      icon: <AssignmentIcon />,
-      location: {
-        pathname: "/plans",
-        state: { sectionTitle: "Investments Plans" },
-      },
-    },
+    // {
+    //   text: "Monthly Investments",
+    //   icon: <DateRangeIcon />,
+    //   location: {
+    //     pathname: "/monthly",
+    //     state: { sectionTitle: "Monthly Investments" },
+    //   },
+    // },
+    // {
+    //   text: "Total Investments",
+    //   icon: <AssessmentIcon />,
+    //   location: {
+    //     pathname: "/total",
+    //     state: { sectionTitle: "Total Investments" },
+    //   },
+    // },
+    // {
+    //   text: "Investments Plans",
+    //   icon: <AssignmentIcon />,
+    //   location: {
+    //     pathname: "/plans",
+    //     state: { sectionTitle: "Investments Plans" },
+    //   },
+    // },
   ];
 
   const drawer = (

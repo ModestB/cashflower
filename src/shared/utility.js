@@ -4,3 +4,5 @@ export const updateObject = (oldObject, updatedProperties) => {
       ...updatedProperties
   };
 };
+
+export const ucFirst = (word) => word.charAt(0).toUpperCase() + word.substring(1);

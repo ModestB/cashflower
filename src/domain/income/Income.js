@@ -15,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
+  containerTable: {
+    height: 'calc(100vh - 88px)'
+  },
+  containerGraph: {
+    height: 'calc(100vh - 104px)'
+  }
 }));
 
 const columnsSettings = {
@@ -64,7 +70,7 @@ function Income(props) {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <Grid item xs={6}>
+        <Grid item xs={8} className={classes.containerTable}>
           <IncomeTable
             columnsSettings={columnsSettings}
             tableData={incomeData}
@@ -72,7 +78,7 @@ function Income(props) {
             editBtnLabel="Save Income"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4} className={classes.containerGraph}>
           <IncomeGraph />
         </Grid>
       </Grid>

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[50],
   },
   container: {
-    maxHeight: 440,
+    maxHeight: 'calc(100% - 152px)',
     overflowX: "hidden",
   },
   table: {

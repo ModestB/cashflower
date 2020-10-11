@@ -22,14 +22,18 @@ import Select from '@material-ui/core/Select';
 import AddIncome from "./addIncome/AddIcome";
 import DataTableRow from "../../../components/dataTable/dataTableRow/DataTableRow";
 import LoadingTableRow from "../../../components/dataTable/loadingTableRow/LoadingTableRow";
+import { Autorenew } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: theme.palette.grey[50],
   },
   container: {
-    maxHeight: 440,
+    maxHeight: 'calc(100% - 152px)',
     overflowX: "hidden",
   },
   table: {
@@ -38,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHead: {
     padding: theme.spacing(2),
+  },
+  tablePagination: {
+    marginTop: 'auto'
   },
   formControl: {
     minWidth: 170,
@@ -77,7 +84,7 @@ export default function IcomeTable(props) {
   const currentDataYear = useSelector(state => state.income.currentDataYear);
   const classes = useStyles();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const [tableData, setTableData] = useState([]);
   const [showAddData, setShowAddData] = useState(false);
   const [rowToEdit, setRowToEdit] = useState(null);
@@ -267,13 +274,14 @@ export default function IcomeTable(props) {
 
       {tableData && (
         <TablePagination
-          rowsPerPageOptions={[10, 25, 50]}
+          rowsPerPageOptions={[15, 30, 50]}
           component="div"
           count={Object.keys(tableData).length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
+          className={classes.tablePagination}
         />
       )}
     </Paper>

@@ -38,10 +38,14 @@ const requestAddIncomeHandler = (state) => {
 
 const addIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
+    const year = moment(payload.income.date).format('YYYY');
     draftState.data[payload.key] = payload.income;
     draftState.incomeAddLoading = false;
 
-    const year = moment(payload.income.date).format('YYYY');
+    if (state.currentDataYear === year) {
+      draftState.dataByYear[payload.key] = payload.income;
+    }
+ 
     if (!state.dataYears.includes(year)) {
       draftState.dataYears = [...state.dataYears, year];
     }
@@ -53,6 +57,7 @@ const addIncomeSuccessHandler = (state, payload) => {
 const deleteIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     delete draftState.data[payload.key];
+    delete draftState.dataByYear[payload.key];
   })
   return nextState;
 }
@@ -92,6 +97,7 @@ const getAllIcomeDataSuccesHandler = (state, payload) => {
 const editIncomeDataHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     draftState.data[payload.key] =  {...state.data[payload.key], ...payload.income}
+    draftState.dataByYear[payload.key] =  {...state.dataByYear[payload.key], ...payload.income}
   })
   return nextState
 }
