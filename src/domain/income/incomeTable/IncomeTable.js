@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../store/actions/actions";
-import moment from "moment";
-
 import { makeStyles } from "@material-ui/core/styles";
+import { arraySortByDate } from '../../../shared/utilities';
+
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -22,7 +22,7 @@ import Select from '@material-ui/core/Select';
 import AddIncome from "./addIncome/AddIcome";
 import DataTableRow from "../../../components/dataTable/dataTableRow/DataTableRow";
 import LoadingTableRow from "../../../components/dataTable/loadingTableRow/LoadingTableRow";
-import { Autorenew } from "@material-ui/icons";
+import CustomSelect from '../../../components/dataTable/customSelect/CustomSelect';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,16 +64,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-function tableDataSortFunction(a, b) {
-  if (a.date < b.date) {
-    return 1;
-  }
-  if (a.date > b.date) {
-    return -1;
-  }
-  return 0;
-}
 
 export default function IcomeTable(props) {
   const dispatch = useDispatch();
@@ -179,7 +169,7 @@ export default function IcomeTable(props) {
             return newTableData;
           })
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .sort(tableDataSortFunction)
+          .sort(arraySortByDate)
           .map((row, index) => {
             return (
               <DataTableRow
@@ -210,25 +200,13 @@ export default function IcomeTable(props) {
   }
   return (
     <Paper elevation={3} className={classes.root}>
-      <Box display="flex" justifyContent="space-between" p={2}>
-        <FormControl variant="outlined" className={classes.yearsFormControl}>
-          <InputLabel id="demo-simple-select-label">Year</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={currentDataYear}
-            onChange={handleCurrentDataYearChange}
-            label="Year"
-          >
-            {
-              dataYears.map(year => {
-                return (
-                  <MenuItem value={year}>{year}</MenuItem>
-                )
-              })
-            }
-          </Select>
-        </FormControl>
+      <Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
+        <CustomSelect 
+          value={currentDataYear}
+          label='Year'
+          onChangeHandler={handleCurrentDataYearChange}
+          items={dataYears}
+        />
         {props.submitBtnLabel && (
           <Box display="flex" justifyContent="flex-end" p={2}>
             <Button
