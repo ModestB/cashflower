@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    minWidth: 90,
+    minWidth: 110,
   },
   select: {
     padding: "10px 14px"

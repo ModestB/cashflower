@@ -208,7 +208,7 @@ export default function IcomeTable(props) {
           items={dataYears}
         />
         {props.submitBtnLabel && (
-          <Box display="flex" justifyContent="flex-end" p={2}>
+          <Box display="flex" justifyContent="flex-end" p={1}>
             <Button
               variant="contained"
               color="primary"
