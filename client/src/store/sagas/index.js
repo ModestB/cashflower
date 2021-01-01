@@ -1,6 +1,6 @@
-import { takeLatest, takeEvery } from "redux-saga/effects";
+import { takeLatest } from 'redux-saga/effects';
 
-import * as actionTypes from "../actionTypes/actionTypes";
+import * as actionTypes from '../actionTypes/actionTypes';
 import {
   setAllIncomeDataSaga,
   addIncomeDataSaga,
@@ -8,15 +8,14 @@ import {
   editIncomeDataSaga,
   addIncomeTypeSaga,
   deleteIncomeTypeSaga,
-} from "./income/incomeSaga";
+} from './income/incomeSaga';
 
 import {
   authUserSaga,
   authCheckSaga,
   authAutoLogoutSaga,
   authLogoutSaga,
-} from "./auth/authSaga";
-
+} from './auth/authSaga';
 
 export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_GET_ALL_REQUESTED, setAllIncomeDataSaga);

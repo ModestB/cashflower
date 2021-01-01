@@ -27,7 +27,8 @@ const incomeTypeSchema = mongoose.Schema({
 
 // Define custom toJSON method
 // To hide/delete properties which you don't want to return in the response
-incomeTypeSchema.methods.toJSON = () => {
+
+function incomeTypeSchemaToJSONHandler() {
   const incomeType = this;
   const incomeTypeObject = incomeType.toObject();
 
@@ -37,7 +38,9 @@ incomeTypeSchema.methods.toJSON = () => {
   delete incomeTypeObject.owner;
 
   return incomeTypeObject;
-};
+}
+
+incomeTypeSchema.methods.toJSON = incomeTypeSchemaToJSONHandler;
 
 const IncomeType = mongoose.model('IncomeType', incomeTypeSchema, 'incomeTypes');
 

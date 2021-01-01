@@ -19,30 +19,30 @@ const authSuccessHandler = (state, email, userId, token) => {
   newState.userId = userId;
   newState.token = token;
   newState.error = '';
-  newState.loading =  false;
+  newState.loading = false;
 
   return newState;
-}
+};
 
 const authFailedHandler = (state, error) => {
   const newState = { ...state };
   newState.error = error;
-  newState.loading =  false;
+  newState.loading = false;
 
   return newState;
 };
 
 const authRequestHandler = (state) => {
-  const newState = {...state};
-  newState.loading =  true;
+  const newState = { ...state };
+  newState.loading = true;
 
   return newState;
-}
+};
 
 const authLogoutHandler = () => {
   localStorage.removeItem('cashflower');
   return initialState;
-}
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -51,7 +51,12 @@ export default (state = initialState, action) => {
     }
 
     case AUTH_SUCCEEDED: {
-      return authSuccessHandler(state, action.payload.email, action.payload.userId, action.payload.token);
+      return authSuccessHandler(
+        state,
+        action.payload.email,
+        action.payload.userId,
+        action.payload.token,
+      );
     }
 
     case AUTH_FAILED: {

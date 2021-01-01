@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import income from '../reducers/income/income';
-import auth from  '../reducers/auth/auth';
+import income from './income/income';
+import auth from './auth/auth';
 
 export default combineReducers({
   income,
-  auth
+  auth,
 });

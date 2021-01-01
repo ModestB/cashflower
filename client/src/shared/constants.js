@@ -1,1 +1,0 @@
-export const WEB_API_KEY = `${process.env.REACT_APP_WEB_API_KEY}`;

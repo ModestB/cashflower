@@ -1,5 +1,5 @@
-import produce  from 'immer';
-import moment from "moment";
+import produce from 'immer';
+import moment from 'moment';
 import {
   INCOME_GET_ALL_REQUESTED,
   INCOME_GET_ALL_SUCCEEDED,
@@ -25,16 +25,16 @@ const initialState = {
   incomeDataLoading: false,
   incomeAddLoading: false,
   incomeTypeAddLoading: false,
-  incomeTypeDeleteLoading: false
-}
+  incomeTypeDeleteLoading: false,
+};
 
 const requestAddIncomeHandler = (state) => {
-  const nextState = produce(state,  draftState => {
+  const nextState = produce(state, draftState => {
     draftState.incomeAddLoading = true;
-  })
+  });
 
   return nextState;
-}
+};
 
 const addIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
@@ -45,30 +45,30 @@ const addIncomeSuccessHandler = (state, payload) => {
     if (state.currentDataYear === year) {
       draftState.dataByYear[payload.key] = payload.income;
     }
- 
+
     if (!state.dataYears.includes(year)) {
       draftState.dataYears = [...state.dataYears, year];
     }
-  })
+  });
 
-  return nextState
-}
+  return nextState;
+};
 
 const deleteIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     delete draftState.data[payload.key];
     delete draftState.dataByYear[payload.key];
-  })
+  });
   return nextState;
-}
+};
 
 const requestAllIncomeData = (state) => {
-  let nextState = produce(state, draftState =>  {
+  const nextState = produce(state, draftState => {
     draftState.incomeDataLoading = true;
-  })
+  });
 
   return nextState;
-}
+};
 
 const getAllIcomeDataSuccesHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
@@ -88,54 +88,54 @@ const getAllIcomeDataSuccesHandler = (state, payload) => {
         if (date === state.currentDataYear) {
           draftState.dataByYear[payload.income[key].id] = payload.income[key];
         }
-      })
+      });
 
     Object.keys(payload.types).forEach(key => {
       draftState.types[payload.types[key].id] = payload.types[key];
-    })
+    });
 
     draftState.dataYears = [...years];
-  })
-  return nextState
-}
+  });
+  return nextState;
+};
 
 const editIncomeDataHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    draftState.data[payload.key] =  {...state.data[payload.key], ...payload.income}
-    draftState.dataByYear[payload.key] =  {...state.dataByYear[payload.key], ...payload.income}
-  })
-  return nextState
-}
+    draftState.data[payload.key] = { ...state.data[payload.key], ...payload.income };
+    draftState.dataByYear[payload.key] = { ...state.dataByYear[payload.key], ...payload.income };
+  });
+  return nextState;
+};
 
 const addIncomeTypeRequestHandler = (state) => {
   const nextState = produce(state, draftState => {
     draftState.incomeTypeAddLoading = true;
-  })
+  });
   return nextState;
-}
+};
 
 const addIncomeTypeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    draftState.types[payload.key] = {...payload.type};
+    draftState.types[payload.key] = { ...payload.type };
     draftState.incomeTypeAddLoading = false;
-  })
+  });
   return nextState;
-}
+};
 
 const deleteIncomeTypeRequestHandler = (state) => {
   const nextState = produce(state, draftState => {
     draftState.incomeTypeDeleteLoading = true;
-  })
+  });
   return nextState;
-}
+};
 
 const deleteIncomeTypeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     delete draftState.types[payload.key];
     draftState.incomeTypeDeleteLoading = false;
-  })
+  });
   return nextState;
-}
+};
 
 const currentDataYearChangeHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
@@ -144,14 +144,14 @@ const currentDataYearChangeHandler = (state, payload) => {
 
     Object.keys(state.data)
       .forEach(key => {
-        const date = moment(state.data[key].date).format('YYYY')
+        const date = moment(state.data[key].date).format('YYYY');
         if (date === payload.year) {
           draftState.dataByYear[key] = state.data[key];
         }
-      })
-  })
+      });
+  });
   return nextState;
-}
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -191,7 +191,7 @@ export default (state = initialState, action) => {
       return addIncomeTypeRequestHandler(state);
     }
 
-    case  INCOME_TYPE_ADD_SUCCEEDED: {
+    case INCOME_TYPE_ADD_SUCCEEDED: {
       return addIncomeTypeSuccessHandler(state, action.payload);
     }
 

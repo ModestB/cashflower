@@ -23,7 +23,8 @@ const tokenSchema = mongoose.Schema({
 
 // Define custom toJSON method
 // To hide/delete properties which you don't want to return in the response
-tokenSchema.methods.toJSON = () => {
+
+function tokenSchemaToJSONHandler() {
   const token = this;
   const tokenObject = token.toObject();
 
@@ -33,7 +34,9 @@ tokenSchema.methods.toJSON = () => {
   delete tokenObject.__v;
 
   return tokenObject;
-};
+}
+
+tokenSchema.methods.toJSON = tokenSchemaToJSONHandler;
 
 const Token = mongoose.model('Token', tokenSchema);
 

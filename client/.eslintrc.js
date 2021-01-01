@@ -18,8 +18,10 @@ module.exports = {
     'react',
   ],
   rules: {
-    'linebreak-style': ['error', 'windows'],
+    'linebreak-style': 0,
     'react/jsx-filename-extension': [0],
+    'arrow-parens': [0],
+    'no-param-reassign': 0,
     'operator-linebreak': [
       'error',
       'after',

@@ -56,17 +56,20 @@ userSchema.virtual('incomeTypes', {
 
 // Enables function before we save the created object
 
-userSchema.pre('save', async (next) => {
+async function userSchemaPreSaveHandler(next) {
   // Hash the password before saving the user model
   const user = this;
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }
   next();
-});
+}
 
-userSchema.methods.generateAuthToken = async () => {
-  // Generate an auth token for the user
+userSchema.pre('save', userSchemaPreSaveHandler);
+
+// Generate an auth token for the user
+
+async function generateAuthToken() {
   const user = this;
   const jwtoken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
   const token = new Token({
@@ -77,9 +80,13 @@ userSchema.methods.generateAuthToken = async () => {
   await token.save();
 
   return token;
-};
+}
 
-userSchema.methods.generateDefaultIncomeTypes = async () => {
+userSchema.methods.generateAuthToken = generateAuthToken;
+
+// Generate default income types
+
+async function generateDefaultIncomeTypes() {
   const user = this;
 
   const defaultIcomeTypes = [
@@ -96,10 +103,12 @@ userSchema.methods.generateDefaultIncomeTypes = async () => {
   ];
 
   await IncomeType.create(defaultIcomeTypes);
-};
+}
+userSchema.methods.generateDefaultIncomeTypes = generateDefaultIncomeTypes;
 
-userSchema.statics.findByCredentials = async (email, password) => {
-  // Search for a user by email and password.
+// Search for a user by email and password.
+
+async function findByCredentials(email, password) {
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -113,12 +122,14 @@ userSchema.statics.findByCredentials = async (email, password) => {
   }
 
   return user;
-};
+}
+
+userSchema.statics.findByCredentials = findByCredentials;
 
 // Define custom toJSON method
 // To hide/delete properties which you don't want to return in the response
 
-userSchema.methods.toJSON = () => {
+function userSchemaToJSONHandler() {
   const user = this;
   const userObject = user.toObject();
 
@@ -132,17 +143,22 @@ userSchema.methods.toJSON = () => {
   delete userObject.__v;
 
   return userObject;
-};
+}
+
+userSchema.methods.toJSON = userSchemaToJSONHandler;
 
 // Delete User Incomes when user is removed
-userSchema.pre('remove', async (next) => {
+
+async function useSchemaPreRemoveHandler(next) {
   const user = this;
 
   await Income.deleteMany({ owner: user._id });
   await IncomeType.deleteMany({ owner: user._id });
 
   next();
-});
+}
+
+userSchema.pre('remove', useSchemaPreRemoveHandler);
 
 const User = mongoose.model('User', userSchema);
 

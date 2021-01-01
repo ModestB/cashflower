@@ -10,16 +10,8 @@ export function* authAutoLogoutSaga(action) {
 
 export function* authLogoutSaga(action) {
   if (action.payload.token) {
-    // const config = {
-    //   headers: { Authorization: `Bearer ${action.payload.token.token}` },
-    // };
-
-    // const bodyParameters = {
-    //   key: 'value',
-    // };
     yield axios.post('users/logout');
   }
-  
 }
 
 export function* authUserSaga(action) {
@@ -48,7 +40,7 @@ export function* authUserSaga(action) {
       ),
     );
     if (response.data.token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token.token}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${response.data.token.token}`;
     }
     yield put(actions.getAllIncomeData(response.data.user.id));
     yield put(actions.authAutoLogout(expirationDate, response.data.token.token));
@@ -65,7 +57,7 @@ export function* authCheckSaga() {
   } else if (localStorageData.token) {
     const expirationDate = yield new Date(localStorageData.expirationDate);
     if (localStorageData.token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorageData.token}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${localStorageData.token}`;
     }
     if (expirationDate <= new Date()) {
       yield put(actions.authLogout());
