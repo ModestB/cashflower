@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { incomeTypeAddRequest, incomeTypeDeleteRequest } from '../../../../store/actions/actions';
-import AddDataModal from '../../../../components/dataTable/addDataModal/AddDataModal';
+import EditData from '../../../../components/dataTable/editData/EditData';
 
-function AddIcome({
-  columnsSettings,
-  submitButtonLabel,
+function EditIncome({
+  row,
+  editHandler,
   cancelHandler,
-  submitHandler,
-  openModal,
-  openModalHandler,
+  submitButtonLabel,
+  columnsSettings,
 }) {
-  const dispatch = useDispatch();
-  const userId = useSelector(state => state.auth.userId);
   const incomeTypes = useSelector(state => state.income.types);
   const incomeTypeAddLoading = useSelector(state => state.income.incomeTypeAddLoading);
   const incomeTypeDeleteLoading = useSelector(state => state.income.incomeTypeDeleteLoading);
+  const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState('');
   const [type, setType] = useState(Object.keys(incomeTypes)[0]);
-  const [comment, setComment] = useState(' ');
+  const [comment, setComment] = useState('');
+
+  useEffect(() => {
+    if (row) {
+      if (row.date) setSelectedDate(new Date(row.date));
+      if (row.amount) setAmount(row.amount);
+      if (row.type) {
+        setType(row.type.toLowerCase());
+      }
+      if (row.comment) setComment(row.comment);
+    }
+  }, [row]);
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
@@ -34,7 +43,7 @@ function AddIcome({
     setComment(event.target.value);
   };
 
-  const addDataHandler = () => {
+  const editDataHandler = () => {
     const formatedData = {
       date: selectedDate.toISOString().split('T')[0],
       amount,
@@ -42,7 +51,10 @@ function AddIcome({
       comment,
     };
 
-    submitHandler(formatedData, userId);
+    editHandler(
+      formatedData,
+      row.id,
+    );
   };
 
   const addTypeHandler = (uid, incomeType) => {
@@ -72,31 +84,33 @@ function AddIcome({
   };
 
   return (
-    <AddDataModal
-      dataValues={dataValues}
+    <EditData
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
       columnsSettings={columnsSettings}
       dataChangeHandlers={dataChangeHandlers}
-      addDataHandler={addDataHandler}
+      dataValues={dataValues}
+      editDataHandler={editDataHandler}
       addTypeHandler={addTypeHandler}
       deleteTypeHandler={deleteTypeHandler}
       selectOptions={selectOptions}
       selectAddLoading={incomeTypeAddLoading}
       selectDeleteLoading={incomeTypeDeleteLoading}
-      openModal={openModal}
-      openModalHandler={openModalHandler}
     />
   );
 }
 
-AddIcome.propTypes = {
-  submitHandler: PropTypes.func.isRequired,
-  cancelHandler: PropTypes.func.isRequired,
-  submitButtonLabel: PropTypes.string.isRequired,
+EditIncome.propTypes = {
+  row: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editHandler: PropTypes.func.isRequired,
+  cancelHandler: PropTypes.func,
+  submitButtonLabel: PropTypes.string,
   columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  openModal: PropTypes.bool.isRequired,
-  openModalHandler: PropTypes.func.isRequired,
 };
 
-export default AddIcome;
+EditIncome.defaultProps = {
+  submitButtonLabel: 'Save Income',
+  cancelHandler: () => {},
+};
+
+export default EditIncome;

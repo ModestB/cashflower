@@ -1,15 +1,14 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import LinearProgress from '@material-ui/core/LinearProgress';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Material from '../../../shared/material';
 
 const useStyles = makeStyles((theme) => ({
   colorPrimary: {
     backgroundColor: 'rgba(63, 81, 181, 0.4)',
   },
   barColorPrimary: {
-    backgroundColor: 	theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   colorSuccess: {
     backgroundColor: 'rgba(76, 175, 80, 0.4)',
@@ -22,14 +21,18 @@ const useStyles = makeStyles((theme) => ({
   },
   barColorDanger: {
     backgroundColor: theme.palette.error.main,
-  }
+  },
 }));
 
-export default function LoadingTableRow (props) {
+function LoadingTableRow({
+  type,
+  colSpan,
+}) {
   const classes = useStyles();
-  let color, bgColor = null; 
+  let color = null;
+  let bgColor = null;
 
-  switch (props.type) {
+  switch (type) {
     case 'success':
       color = classes.colorSuccess;
       bgColor = classes.barColorSuccess;
@@ -38,7 +41,6 @@ export default function LoadingTableRow (props) {
       color = classes.colorDanger;
       bgColor = classes.barColorDanger;
       break;
-  
     default:
       color = classes.colorPrimary;
       bgColor = classes.barColorPrimary;
@@ -46,10 +48,23 @@ export default function LoadingTableRow (props) {
   }
 
   return (
-    <TableRow> 
-      <TableCell colSpan={props.colSpan}>
-        <LinearProgress classes={{colorPrimary: color, barColorPrimary: bgColor}}/>
-      </TableCell>
-    </TableRow>
-  )
+    <Material.TableRow>
+      <Material.TableCell colSpan={colSpan}>
+        <Material.LinearProgress
+          classes={{ colorPrimary: color, barColorPrimary: bgColor }}
+        />
+      </Material.TableCell>
+    </Material.TableRow>
+  );
 }
+
+LoadingTableRow.propTypes = {
+  type: PropTypes.string,
+  colSpan: PropTypes.number.isRequired,
+};
+
+LoadingTableRow.defaultProps = {
+  type: '',
+};
+
+export default LoadingTableRow;

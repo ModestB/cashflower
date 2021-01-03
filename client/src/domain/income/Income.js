@@ -1,101 +1,99 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../store/actions/actions";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import IncomeTable from "./incomeTable/IncomeTable";
-import IncomeGraph from "./incomeGraph/IncomeGraph"
- 
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import Material from '../../shared/material';
+import IncomeTable from './incomeTable/IncomeTable';
+import IncomeGraph from './incomeGraph/IncomeGraph';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   },
   containerTable: {
-    height: 'calc(100vh - 88px)'
+    height: 'calc(100vh - 88px)',
   },
   containerGraph: {
-    height: 'calc(100vh - 104px)'
-  }
+    height: 'calc(100vh - 104px)',
+  },
 }));
 
 const columnsSettings = {
   date: {
-    id: "date",
-    label: "Date",
+    id: 'date',
+    label: 'Date',
     editable: true,
-    inputType: "date",
-    dateFormat: "YYYY-MM-DD",
+    inputType: 'date',
+    dateFormat: 'YYYY-MM-DD',
     minWidth: 200,
   },
   amount: {
-    id: "amount",
-    label: "Amount",
+    id: 'amount',
+    label: 'Amount',
     editable: true,
-    inputType: "number",
+    inputType: 'number',
     minWidth: 100,
   },
   type: {
-    id: "type",
-    label: "Income type",
-    selectType: "income",
+    id: 'type',
+    label: 'Income type',
+    selectType: 'income',
     editable: true,
-    inputType: "select",
+    inputType: 'select',
     minWidth: 170,
   },
   comment: {
-    id: "comment",
-    label: "Comment",
+    id: 'comment',
+    label: 'Comment',
     editable: true,
-    inputType: "textArea",
+    inputType: 'textArea',
     minWidth: 170,
     // colspan: 1,
     headerColSpan: 2,
   },
   edit: {
-    id: "edit",
-    label: "",
+    id: 'edit',
+    label: '',
     minWidth: 50,
   },
 };
 
-const Income = (props) => {
+const Income = () => {
   const incomeData = useSelector(state => state.income.dataByYear);
   const [hasIncomeData, setHasIncomeData] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
     if (incomeData) {
-      setHasIncomeData(Object.keys(incomeData).length);
-    };
+      setHasIncomeData(Object.keys(incomeData).length > 0);
+    }
   }, [incomeData]);
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={hasIncomeData ? 8 : 12} className={classes.containerTable}>
+      <Material.Grid container spacing={3}>
+        <Material.Grid item xs={hasIncomeData ? 8 : 12} className={classes.containerTable}>
           <IncomeTable
             columnsSettings={columnsSettings}
-            tableData={incomeData}
             submitBtnLabel="Add Income"
             editBtnLabel="Save Income"
           />
-        </Grid>
+        </Material.Grid>
         {
           hasIncomeData &&
           (
-            <Grid item xs={4} className={classes.containerGraph}>
+            <Material.Grid item xs={4} className={classes.containerGraph}>
               <IncomeGraph />
-            </Grid>
+            </Material.Grid>
           )
         }
-      </Grid>
+      </Material.Grid>
     </div>
   );
-}
+};
 
 export default Income;

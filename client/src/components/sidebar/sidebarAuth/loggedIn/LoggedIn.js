@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { authLogout } from '../../../../store/actions/actions';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { authLogout } from '../../../../store/actions/actions';
+import Material from '../../../../shared/material';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -27,27 +24,27 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   menuRoot: {
-    padding: '0'
-  }, 
+    padding: '0',
+  },
   iconButton: {
-    padding: `${theme.spacing(1)}px ${theme.spacing(1)}px ${theme.spacing(1)}px 0`
+    padding: `${theme.spacing(1)}px ${theme.spacing(1)}px ${theme.spacing(1)}px 0`,
   },
   menuLabel: {
-    margin: `${theme.spacing(1)}px 0`
+    margin: `${theme.spacing(1)}px 0`,
   },
   username: {
     display: 'flex',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }));
 
-export default function LoggedIn(props) {
+export default function LoggedIn() {
   const dispatch = useDispatch();
+  const username = useSelector(state => state.auth.email);
+  const token = useSelector(state => state.auth.token);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const username = useSelector(state => state.auth.email);
-  const token = useSelector(state => state.auth.token);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -75,7 +72,7 @@ export default function LoggedIn(props) {
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu
+    <Material.Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
@@ -84,14 +81,14 @@ export default function LoggedIn(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-    </Menu>
+      <Material.MenuItem onClick={handleMenuClose}>Profile</Material.MenuItem>
+      <Material.MenuItem onClick={handleLogout}>Logout</Material.MenuItem>
+    </Material.Menu>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
-    <Menu
+    <Material.Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
@@ -101,12 +98,12 @@ export default function LoggedIn(props) {
       onClose={handleMobileMenuClose}
       MenuListProps={{
         classes: {
-          root: classes.menuRoot
-        }
+          root: classes.menuRoot,
+        },
       }}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
+      <Material.MenuItem onClick={handleProfileMenuOpen}>
+        <Material.IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
@@ -114,11 +111,11 @@ export default function LoggedIn(props) {
           className={classes.iconButton}
         >
           <AccountCircle />
-        </IconButton>
+        </Material.IconButton>
         <p className={classes.menuLabel}>Profile</p>
-      </MenuItem>
-      <MenuItem onClick={handleLogout}>
-        <IconButton
+      </Material.MenuItem>
+      <Material.MenuItem onClick={handleLogout}>
+        <Material.IconButton
           aria-label="logout"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
@@ -126,19 +123,19 @@ export default function LoggedIn(props) {
           className={classes.iconButton}
         >
           <ExitToAppIcon />
-        </IconButton>
-        <p className={classes.menuLabel} >
+        </Material.IconButton>
+        <p className={classes.menuLabel}>
           Logout
         </p>
-      </MenuItem>
-    </Menu>
+      </Material.MenuItem>
+    </Material.Menu>
   );
 
   return (
     <div className={classes.grow}>
       <div className={classes.sectionDesktop}>
-      <Typography className={classes.username}>{username}</Typography>
-        <IconButton
+        <Material.Typography className={classes.username}>{username}</Material.Typography>
+        <Material.IconButton
           edge="end"
           aria-label="account of current user"
           aria-controls={menuId}
@@ -147,10 +144,10 @@ export default function LoggedIn(props) {
           color="inherit"
         >
           <AccountCircle />
-        </IconButton>
+        </Material.IconButton>
       </div>
       <div className={classes.sectionMobile}>
-        <IconButton
+        <Material.IconButton
           aria-label="show more"
           aria-controls={mobileMenuId}
           aria-haspopup="true"
@@ -158,7 +155,7 @@ export default function LoggedIn(props) {
           color="inherit"
         >
           <MoreIcon />
-        </IconButton>
+        </Material.IconButton>
       </div>
       {renderMobileMenu}
       {renderMenu}

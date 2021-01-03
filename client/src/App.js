@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { authCheck } from './store/actions/actions';
 
 import Sidebar from './components/sidebar/Sidebar';

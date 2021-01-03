@@ -1,10 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import Material from '../../../shared/material';
 
 const useStyles = makeStyles(() => ({
   formControl: {
@@ -15,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function CustomSelect({
+function CustomSelect({
   value,
   label,
   onChangeHandler,
@@ -23,31 +20,43 @@ export default function CustomSelect({
 }) {
   const classes = useStyles();
   return (
-    <FormControl variant="outlined" className={classes.formControl}>
-      <InputLabel
+    <Material.FormControl variant="outlined" className={classes.formControl}>
+      <Material.InputLabel
         id={`custom-select-label-${label.toLowerCase()}`}
       >
         {label}
-      </InputLabel>
-      <Select
+      </Material.InputLabel>
+      <Material.Select
         labelId={`custom-select-label-${label.toLowerCase()}`}
         id={`custom-select-${label.toLowerCase()}`}
         value={value}
         onChange={onChangeHandler}
         label={label}
-        classes={{ select: classes.select}}
+        classes={{ select: classes.select }}
       >
         {
-          items.map((item, index) => (
-            <MenuItem
-              key={`${label.toLowerCase()}${index}`}
+          items.map((item) => (
+            <Material.MenuItem
+              key={`${label.toLowerCase()}${item}`}
               value={item}
             >
               {item}
-            </MenuItem>
+            </Material.MenuItem>
           ))
         }
-      </Select>
-    </FormControl>
+      </Material.Select>
+    </Material.FormControl>
   );
 }
+
+CustomSelect.propTypes = {
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  label: PropTypes.string.isRequired,
+  onChangeHandler: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+export default CustomSelect;

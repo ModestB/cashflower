@@ -1,30 +1,17 @@
-import React, { useState } from "react";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import React from 'react';
+import PropTypes from 'prop-types';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Material from '../../../shared/material';
 
 const ITEM_HEIGHT = 48;
 
-export default function TableRowMenu(props) {
+function TableRowMenu({
+  id,
+  showEditHandler,
+  deleteHandler,
+}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
-  const options = [
-    { label: "Edit",
-      handler: () => {
-        props.showEditHandler();
-        handleClose();
-      }
-    },
-    {
-      label: "Delete",
-      handler: () => {
-        props.deleteHandler(props.id);
-        handleClose();
-      },
-    },
-  ];
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,17 +21,34 @@ export default function TableRowMenu(props) {
     setAnchorEl(null);
   };
 
+  const options = [
+    {
+      label: 'Edit',
+      handler: () => {
+        showEditHandler();
+        handleClose();
+      },
+    },
+    {
+      label: 'Delete',
+      handler: () => {
+        deleteHandler(id);
+        handleClose();
+      },
+    },
+  ];
+
   return (
-    <React.Fragment>
-      <IconButton
+    <>
+      <Material.IconButton
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
       >
         <MoreVertIcon />
-      </IconButton>
-      <Menu
+      </Material.IconButton>
+      <Material.Menu
         id="long-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -53,16 +57,24 @@ export default function TableRowMenu(props) {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: "20ch",
+            width: '20ch',
           },
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option.label} onClick={option.handler}>
+          <Material.MenuItem key={option.label} onClick={option.handler}>
             {option.label}
-          </MenuItem>
+          </Material.MenuItem>
         ))}
-      </Menu>
-    </React.Fragment>
+      </Material.Menu>
+    </>
   );
 }
+
+TableRowMenu.propTypes = {
+  id: PropTypes.string.isRequired,
+  showEditHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
+};
+
+export default TableRowMenu;

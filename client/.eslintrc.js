@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    node: true,
+    es2020: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -11,7 +12,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
+    ecmaVersion: 11,
     sourceType: 'module',
   },
   plugins: [
@@ -22,6 +23,7 @@ module.exports = {
     'react/jsx-filename-extension': [0],
     'arrow-parens': [0],
     'no-param-reassign': 0,
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'operator-linebreak': [
       'error',
       'after',

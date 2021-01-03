@@ -1,64 +1,49 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-
-import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import AssessmentIcon from "@material-ui/icons/Assessment";
-
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-
-import SidebarAuth from "./sidebarAuth/SidebarAuth";
-
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+// import DateRangeIcon from '@material-ui/icons/DateRange';
+// import AssignmentIcon from '@material-ui/icons/Assignment';
+// import AssessmentIcon from '@material-ui/icons/Assessment';
+import MenuIcon from '@material-ui/icons/Menu';
+import Material from '../../shared/material';
+import SidebarAuth from './sidebarAuth/SidebarAuth';
 
 const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
   drawerPaper: {
     width: drawerWidth,
   },
   sidebarTitle: {
-    padding: "16px",
+    padding: '16px',
   },
 }));
 
-function Sidebar(props) {
-  const { window } = props;
+function Sidebar() {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  let location = useLocation();
-  let sectionTitle = !location.state ? "Income" : location.state.sectionTitle;
+  const location = useLocation();
+  const sectionTitle = !location.state ? 'Income' : location.state.sectionTitle;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -66,69 +51,66 @@ function Sidebar(props) {
 
   const listItems = [
     {
-      text: "Income",
+      text: 'Income',
       icon: <AccountBalanceIcon />,
-      location: { pathname: "/", state: { sectionTitle: "Income" } },
+      location: { pathname: '/', state: { sectionTitle: 'Income' } },
     },
     // {
-    //   text: "Monthly Investments",
+    //   text: 'Monthly Investments',
     //   icon: <DateRangeIcon />,
     //   location: {
-    //     pathname: "/monthly",
-    //     state: { sectionTitle: "Monthly Investments" },
+    //     pathname: '/monthly',
+    //     state: { sectionTitle: 'Monthly Investments' },
     //   },
     // },
     // {
-    //   text: "Total Investments",
+    //   text: 'Total Investments',
     //   icon: <AssessmentIcon />,
     //   location: {
-    //     pathname: "/total",
-    //     state: { sectionTitle: "Total Investments" },
+    //     pathname: '/total',
+    //     state: { sectionTitle: 'Total Investments' },
     //   },
     // },
     // {
-    //   text: "Investments Plans",
+    //   text: 'Investments Plans',
     //   icon: <AssignmentIcon />,
     //   location: {
-    //     pathname: "/plans",
-    //     state: { sectionTitle: "Investments Plans" },
+    //     pathname: '/plans',
+    //     state: { sectionTitle: 'Investments Plans' },
     //   },
     // },
   ];
 
   const drawer = (
-    <React.Fragment>
+    <>
       <div className={classes.toolbar} />
-      <Typography className={classes.sidebarTitle} variant="h6">
+      <Material.Typography className={classes.sidebarTitle} variant="h6">
         CashFlower
-      </Typography>
-      <Divider />
+      </Material.Typography>
+      <Material.Divider />
 
-      <List>
+      <Material.List>
         {listItems.map((listItem) => (
-          <ListItem
+          <Material.ListItem
             button
             key={listItem.text}
             component={Link}
             to={listItem.location}
           >
-            <ListItemIcon>{listItem.icon}</ListItemIcon>
-            <ListItemText primary={listItem.text} />
-          </ListItem>
+            <Material.ListItemIcon>{listItem.icon}</Material.ListItemIcon>
+            <Material.ListItemText primary={listItem.text} />
+          </Material.ListItem>
         ))}
-      </List>
-      <Divider />
-    </React.Fragment>
+      </Material.List>
+      <Material.Divider />
+    </>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
-    <React.Fragment>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
+    <>
+      <Material.AppBar position="fixed" className={classes.appBar}>
+        <Material.Toolbar>
+          <Material.IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
@@ -136,20 +118,20 @@ function Sidebar(props) {
             className={classes.menuButton}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
+          </Material.IconButton>
+          <Material.Typography variant="h6" noWrap>
             {sectionTitle}
-          </Typography>
+          </Material.Typography>
           <SidebarAuth />
-        </Toolbar>
-      </AppBar>
+        </Material.Toolbar>
+      </Material.AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
+        <Material.Hidden smUp implementation="css">
+          <Material.Drawer
+            container={window.document.body}
             variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -160,10 +142,10 @@ function Sidebar(props) {
             }}
           >
             {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
+          </Material.Drawer>
+        </Material.Hidden>
+        <Material.Hidden xsDown implementation="css">
+          <Material.Drawer
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -171,10 +153,10 @@ function Sidebar(props) {
             open
           >
             {drawer}
-          </Drawer>
-        </Hidden>
+          </Material.Drawer>
+        </Material.Hidden>
       </nav>
-    </React.Fragment>
+    </>
   );
 }
 

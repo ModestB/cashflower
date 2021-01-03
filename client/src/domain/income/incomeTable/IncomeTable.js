@@ -1,110 +1,57 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../store/actions/actions";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import Material from '../../../shared/material';
 import { arraySortByDate } from '../../../shared/utilities';
-
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-import AddIncome from "./addIncome/AddIcome";
-import DataTableRow from "../../../components/dataTable/dataTableRow/DataTableRow";
-import LoadingTableRow from "../../../components/dataTable/loadingTableRow/LoadingTableRow";
+import * as actions from '../../../store/actions/actions';
+import incomeTableSyles from './incomeTableStyles';
+import AddIncome from './addIncome/AddIcome';
+import EditIncome from './editIncome/EditIncome';
+import IncomeTableRow from './IncomeTableRow/IncomeTableRow';
+import LoadingTableRow from '../../../components/dataTable/loadingTableRow/LoadingTableRow';
 import CustomSelect from '../../../components/dataTable/customSelect/CustomSelect';
-import AddIncomeModal from '../../../components/dataTable/addData/AddDataModal';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: theme.palette.grey[50],
-  },
-  container: {
-    maxHeight: 'calc(100% - 152px)',
-    // overflowX: "hidden",
-  },
-  table: {
-    tableLayout: "fixed",
-    width: "100%",
-  },
-  tableHead: {
-    padding: theme.spacing(2),
-  },
-  tablePagination: {
-    marginTop: 'auto'
-  },
-  formControl: {
-    minWidth: 170,
-  },
-  yearsFormControl: {
-    minWidth: 90,
-  },
-  customScroll: theme.mixins.customScrollBar,
-  tableCellActions: {
-    visibility: "hidden",
-  },
-  tableRow: {
-    "&:hover": {
-      "& $tableCellActions": {
-        visibility: "visible",
-      },
-    },
-  },
-}));
-
-export default function IcomeTable(props) {
+function IncomeTable({
+  columnsSettings,
+  submitBtnLabel,
+  editBtnLabel,
+}) {
+  const classes = incomeTableSyles();
+  const rowPerIncomeTablePage = [15, 30, 50];
   const dispatch = useDispatch();
+  const incomeData = useSelector(state => state.income.dataByYear);
   const incomeDataYears = useSelector(state => state.income.dataYears);
   const userId = useSelector(state => state.auth.userId);
   const incomeDataLoading = useSelector(state => state.income.incomeDataLoading);
   const incomeAddLoading = useSelector(state => state.income.incomeAddLoading);
   const currentDataYear = useSelector(state => state.income.currentDataYear);
-  const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [tableData, setTableData] = useState([]);
+  const [tablePage, setTablePage] = useState(0);
+  const [rowsPerTablePage, setRowsPerTablePage] = useState(rowPerIncomeTablePage[0]);
   const [showAddData, setShowAddData] = useState(false);
-  const [rowToEdit, setRowToEdit] = useState(null);
-  const [dataYears, setDataYears] = useState([]);
+  const [hasIncomeData, setHasIncomeData] = useState(false);
+  const [showTablePagination, setShowTablePagination] = useState(false);
   const tableRef = useRef(null);
+  const colSpan = Object.keys(columnsSettings).length;
   let tableBody = null;
-  const colSpan = Object.keys(props.columnsSettings).length;
 
   useEffect(() => {
-    setTableData(props.tableData);
-  }, [props.tableData]);
-
-  useEffect(() => {
-    if (incomeDataYears && incomeDataYears.length) {
-      setDataYears(incomeDataYears);
-    }  
-  }, [incomeDataYears]);
+    if (incomeData && Object.keys(incomeData).length) {
+      setShowTablePagination(Object.keys(incomeData).length > rowPerIncomeTablePage[0]);
+      setHasIncomeData(Object.keys(incomeData).length > 0);
+    }
+  }, [incomeData]);
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setTablePage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    setRowsPerTablePage(+event.target.value);
+    setTablePage(0);
   };
 
-  const tableDataAddHandler = (data, userId) => {
-    dispatch(actions.incomeAddRequest(data, userId));
+  const tableDataAddHandler = (data, uid) => {
+    dispatch(actions.incomeAddRequest(data, uid));
     setShowAddData(false);
   };
 
@@ -115,15 +62,6 @@ export default function IcomeTable(props) {
 
   const showAddDataHandler = () => {
     setShowAddData(true);
-    setRowToEdit(null);
-  };
-
-  const editDataHandler = (id) => {
-    const rowToEditId = Object.keys(tableData)
-      .map (key => tableData[key])
-      .find(row => row.id === id)
-
-    setRowToEdit(rowToEditId);
   };
 
   const hideAddDataHandler = () => {
@@ -136,26 +74,14 @@ export default function IcomeTable(props) {
 
   const handleCurrentDataYearChange = (event) => {
     dispatch(actions.currentDataYearChange(event.target.value));
-  }
+  };
 
-  // TODO: Separate to new component
   const addData = (
-    // <TableRow>
-    //   <TableCell 
-    //     colSpan={colSpan} 
-    //     padding="none"
-    //   >
-    
-    //   </TableCell>
-    // </TableRow>
     <AddIncome
       cancelHandler={hideAddDataHandler}
       submitHandler={tableDataAddHandler}
-      editHandler={tableDataEditHandler}
-      submitButtonLabel={props.submitBtnLabel}
-      columnsSettings={props.columnsSettings}
-      row={rowToEdit}
-      type='modal'
+      submitButtonLabel={submitBtnLabel}
+      columnsSettings={columnsSettings}
       openModal={showAddData}
       openModalHandler={setShowAddData}
     />
@@ -163,119 +89,116 @@ export default function IcomeTable(props) {
 
   if (!incomeDataLoading) {
     tableBody = (
-      <TableBody>
+      <Material.TableBody>
         {showAddData && addData}
-        {incomeAddLoading && 
-          <LoadingTableRow colSpan={colSpan} type='success' />
-        }
-  
-        {tableData && Object.keys(tableData)  
-          .map(key => {
-            const newTableData = {...tableData[key], key: key};
-            return newTableData;
-          })
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        {incomeAddLoading &&
+          <LoadingTableRow colSpan={colSpan} type="success" />}
+        {incomeData && Object.values(incomeData)
+          .slice(tablePage * rowsPerTablePage, tablePage * rowsPerTablePage + rowsPerTablePage)
           .sort(arraySortByDate)
-          .map((row, index) => {
-            return (
-              <DataTableRow
-                key={index}
+          .map((row) => (
+            <IncomeTableRow
+              key={row.id}
+              row={row}
+              columnsSettings={columnsSettings}
+              deleteHandler={deleteDataRowHandler}
+              addDataEmptyCellSpan={2}
+            >
+              <EditIncome
+                editHandler={tableDataEditHandler}
+                submitButtonLabel={editBtnLabel}
+                columnsSettings={columnsSettings}
                 row={row}
-                columnsSettings={props.columnsSettings}
-                deleteHandler={deleteDataRowHandler}
-                editDataHandler={editDataHandler}
-                addDataEmptyCellSpan={2}
-              >
-                <AddIncome
-                  submitHandler={tableDataAddHandler}
-                  editHandler={tableDataEditHandler}
-                  submitButtonLabel={props.editBtnLabel}
-                  columnsSettings={props.columnsSettings}
-                  row={row}
-                />
-              </DataTableRow>
-            );
-          })}
-      </TableBody>
-    )
+              />
+            </IncomeTableRow>
+          ))}
+      </Material.TableBody>
+    );
   } else {
-    tableBody = 
-      <TableBody>
+    tableBody = (
+      <Material.TableBody>
         <LoadingTableRow colSpan={colSpan} />
-      </TableBody>
+      </Material.TableBody>
+    );
   }
   return (
-    <Paper elevation={3} className={classes.root}>
-      <Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
+    <Material.Paper elevation={3} className={classes.root}>
+      <Material.Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
         {
-          dataYears.length
-          ?
-          (
-            <CustomSelect 
-              value={currentDataYear}
-              label='Year'
-              onChangeHandler={handleCurrentDataYearChange}
-              items={dataYears}
-            />
-          )
-          :
-          <Box />
+          hasIncomeData ?
+            (
+              <CustomSelect
+                value={currentDataYear}
+                label="Year"
+                onChangeHandler={handleCurrentDataYearChange}
+                items={incomeDataYears}
+              />
+            )
+            : <Material.Box />
         }
-        {props.submitBtnLabel && (
-          <Box display="flex" justifyContent="flex-end" p={1}>
-            <Button
+        {submitBtnLabel && (
+          <Material.Box display="flex" justifyContent="flex-end" p={1}>
+            <Material.Button
               variant="contained"
               color="primary"
               onClick={() => showAddDataHandler()}
             >
-              {props.submitBtnLabel}
-            </Button>
-          </Box>
+              {submitBtnLabel}
+            </Material.Button>
+          </Material.Box>
         )}
-      </Box>
+      </Material.Box>
 
-      <TableContainer
-        ref={tableRef}
-        className={[classes.container, classes.customScroll].join(" ")}
-      >
-        <Table stickyHeader aria-label="sticky table" className={classes.table}>
-          <TableHead className={classes.tableHead}>
-            <TableRow>
-              {Object.keys(props.columnsSettings)
-                .map(key => props.columnsSettings[key])
-                .filter((column) => column.id !== "edit")
-                .map((column) => {
-                  return (
-                    <TableCell
+      {hasIncomeData && (
+        <Material.TableContainer
+          ref={tableRef}
+          className={[classes.container, classes.customScroll].join(' ')}
+        >
+          <Material.Table stickyHeader aria-label="sticky table" className={classes.table}>
+            <Material.TableHead className={classes.tableHead}>
+              <Material.TableRow>
+                {Object.keys(columnsSettings)
+                  .map(key => columnsSettings[key])
+                  .filter((column) => column.id !== 'edit')
+                  .map((column) => (
+                    <Material.TableCell
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
                       colSpan={column.headerColSpan ? column.headerColSpan : 1}
                     >
                       {column.label}
-                    </TableCell>
-                  );
-                })}
-            </TableRow>
-          </TableHead>
+                    </Material.TableCell>
+                  ))}
+              </Material.TableRow>
+            </Material.TableHead>
 
-          {tableBody}
+            {tableBody}
 
-        </Table>
-      </TableContainer>
+          </Material.Table>
+        </Material.TableContainer>
+      )}
 
-      {tableData && (
-        <TablePagination
-          rowsPerPageOptions={[15, 30, 50]}
+      {showTablePagination && (
+        <Material.TablePagination
+          rowsPerPageOptions={rowPerIncomeTablePage}
           component="div"
-          count={Object.keys(tableData).length}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          count={Object.keys(incomeData).length}
+          rowsPerPage={rowsPerTablePage}
+          page={tablePage}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
           className={classes.tablePagination}
         />
       )}
-    </Paper>
+    </Material.Paper>
   );
 }
+
+IncomeTable.propTypes = {
+  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  submitBtnLabel: PropTypes.string.isRequired,
+  editBtnLabel: PropTypes.string.isRequired,
+};
+
+export default IncomeTable;
