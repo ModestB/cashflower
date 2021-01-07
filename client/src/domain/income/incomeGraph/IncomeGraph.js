@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
 } from 'recharts';
-import moment from 'moment';
-import { ucFirst } from '../../../shared/utilities';
-
-import Paper from '@material-ui/core/Paper';
+import { format, setMonth } from 'date-fns';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import Material from '../../../shared/material';
+import { ucFirst } from '../../../shared/utilities';
 
 const useStyles = makeStyles((theme) => ({
   box: {
-    height: '50%'
+    height: '50%',
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
     width: '100%',
   },
@@ -26,59 +32,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const initialGraphData = () => {
-  const initialGraphData = {};
+  const graphData = {};
 
-  for (let i = 1; i <= 12; i++) {
+  for (let i = 1; i <= 12; i += 1) {
     const month = i.toString().length < 2 ? `0${i}` : `${i}`;
-    initialGraphData[i] = {
-      month: month,
-      monthLabel: moment().month(month).format('MMM'),
-      income: 0
+    graphData[i] = {
+      month,
+      monthLabel: format(setMonth(new Date(), month - 1), 'MMM'),
+      income: 0,
     };
-  } 
+  }
 
-  return initialGraphData;
-}
+  return graphData;
+};
 
-function IncomeGraph(props) {
+function IncomeGraph() {
   const incomeData = useSelector(state => state.income.dataByYear);
   const incomeTypes = useSelector(state => state.income.types);
-  const [incomeDataByMonth, setIncomeDataByMonth] = useState({})
+  const [incomeDataByMonth, setIncomeDataByMonth] = useState({});
   const [incomeDataByType, setIncomeDataByType] = useState({});
   const classes = useStyles();
-  
+
   useEffect(() => {
-    const nextIncomeDataByMonth = {...initialGraphData()};
+    const nextIncomeDataByMonth = { ...initialGraphData() };
     const nextDataByType = {};
 
     Object.keys(incomeData)
       .forEach(key => {
         const type = incomeTypes[incomeData[key].type].label;
-        const month = moment(incomeData[key].date).format('MM');
+        const month = format(new Date(incomeData[key].date), 'MM');
         const editedMonth = month.charAt(0) === '0' ? month.substring(1) : month;
-        nextIncomeDataByMonth[editedMonth].income = nextIncomeDataByMonth[editedMonth].income + parseInt(incomeData[key].amount);
+        nextIncomeDataByMonth[editedMonth].income += parseInt(incomeData[key].amount, 10);
 
         if (type) {
           if (nextDataByType[type]) {
-            nextDataByType[type].income = nextDataByType[type].income + parseInt(incomeData[key].amount);
+            nextDataByType[type].income += parseInt(incomeData[key].amount, 10);
           } else {
             nextDataByType[type] = {
-              income: parseInt(incomeData[key].amount),
-              type: ucFirst(type)
-            }
+              income: parseInt(incomeData[key].amount, 10),
+              type: ucFirst(type),
+            };
           }
         }
-      })
-    setIncomeDataByType(nextDataByType)
+      });
+    setIncomeDataByType(nextDataByType);
     setIncomeDataByMonth(nextIncomeDataByMonth);
-  }, [incomeData])
+  }, [incomeData]);
 
   return (
     <>
-      <Box mb={2} display="flex" className={classes.box} >
-        <Paper className={classes.paper} >
+      <Material.Box mb={2} display="flex" className={classes.box}>
+        <Material.Paper className={classes.paper}>
           <ResponsiveContainer height="99%" width="100%">
             <LineChart
               data={Object.values(incomeDataByMonth)}
@@ -93,12 +98,12 @@ function IncomeGraph(props) {
               <Line type="monotone" dataKey="income" stroke="#3f51b5" activeDot={{ r: 8 }} />
             </LineChart>
           </ResponsiveContainer>
-        </Paper>
-      </Box>
-     
-      <Box display="flex" className={classes.box}>
-        <Paper className={classes.paper}>
-          <ResponsiveContainer  height="99%" width="100%">
+        </Material.Paper>
+      </Material.Box>
+
+      <Material.Box display="flex" className={classes.box}>
+        <Material.Paper className={classes.paper}>
+          <ResponsiveContainer height="99%" width="100%">
             <BarChart data={Object.values(incomeDataByType)}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="type" />
@@ -107,10 +112,10 @@ function IncomeGraph(props) {
               <Bar dataKey="income" fill="#3f51b5" />
             </BarChart>
           </ResponsiveContainer>
-        </Paper>
-      </Box>
+        </Material.Paper>
+      </Material.Box>
     </>
-  )
+  );
 }
 
 export default IncomeGraph;

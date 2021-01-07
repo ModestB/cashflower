@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   tablePagination: {
     marginTop: 'auto',
+    minHeight: '50px',
+    overflow: 'hidden',
   },
   formControl: {
     minWidth: 170,

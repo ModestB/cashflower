@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
+import format from 'date-fns/format';
 import Material from '../../../../shared/material';
 import incomeTableRowStyles from './incomeTableRowStyles';
 import TableRowMenu from '../../../../components/dataTable/tableRowMenu/TableRowMenu';
 import LoadingTableRow from '../../../../components/dataTable/loadingTableRow/LoadingTableRow';
 
-export default function DataTableRow(props) {
+export default function IncomeTableRow(props) {
   const classes = incomeTableRowStyles();
   const incomeTypes = useSelector(state => state.income.types);
   const [columns, setColumns] = useState([]);
@@ -69,7 +69,7 @@ export default function DataTableRow(props) {
         }
 
         if (column.inputType === 'date') {
-          tableCellData = moment(value).format(column.dateFormat);
+          tableCellData = format(new Date(value), column.dateFormat);
         }
 
         if (column.countableTotal) {

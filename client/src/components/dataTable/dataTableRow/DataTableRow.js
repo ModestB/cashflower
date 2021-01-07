@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles'; 
-import moment from 'moment';
+import format from 'date-fns/format';
 import Material from '../../../shared/material';
 import TableRowMenu from '../tableRowMenu/TableRowMenu';
 import LoadingTableRow from '../loadingTableRow/LoadingTableRow';
@@ -98,7 +98,7 @@ export default function DataTableRow(props) {
         }
     
         if (column.inputType === "date") {
-          tableCellData = moment(value).format(column.dateFormat);
+          tableCellData = format(new Date(value), column.dateFormat);
         }
     
         if (column.countableTotal) {

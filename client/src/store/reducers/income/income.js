@@ -1,5 +1,5 @@
 import produce from 'immer';
-import moment from 'moment';
+import format from 'date-fns/format';
 import {
   INCOME_GET_ALL_REQUESTED,
   INCOME_GET_ALL_SUCCEEDED,
@@ -21,7 +21,7 @@ const initialState = {
   dataByYear: {},
   types: {},
   dataYears: {},
-  currentDataYear: moment().format('YYYY'),
+  currentDataYear: format(new Date(), 'yyyy'),
   incomeDataLoading: false,
   incomeAddLoading: false,
   incomeTypeAddLoading: false,
@@ -38,7 +38,7 @@ const requestAddIncomeHandler = (state) => {
 
 const addIncomeSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    const year = moment(payload.income.date).format('YYYY');
+    const year = format(new Date(payload.income.date), 'yyyy');
     draftState.data[payload.key] = payload.income;
     draftState.incomeAddLoading = false;
 
@@ -81,7 +81,7 @@ const getAllIcomeDataSuccesHandler = (state, payload) => {
     Object.keys(payload.income)
       .forEach(key => {
         draftState.data[payload.income[key].id] = payload.income[key];
-        const date = moment(payload.income[key].date).format('YYYY');
+        const date = format(new Date(payload.income[key].date), 'yyyy');
         if (!years.includes(date)) {
           years.push(date);
         }
@@ -144,7 +144,7 @@ const currentDataYearChangeHandler = (state, payload) => {
 
     Object.keys(state.data)
       .forEach(key => {
-        const date = moment(state.data[key].date).format('YYYY');
+        const date = format(new Date(state.data[key].date), 'yyyy');
         if (date === payload.year) {
           draftState.dataByYear[key] = state.data[key];
         }

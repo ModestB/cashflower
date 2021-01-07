@@ -28,7 +28,7 @@ const columnsSettings = {
     label: 'Date',
     editable: true,
     inputType: 'date',
-    dateFormat: 'YYYY-MM-DD',
+    dateFormat: 'yyyy-MM-dd',
     minWidth: 200,
   },
   amount: {
