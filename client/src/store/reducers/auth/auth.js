@@ -3,6 +3,7 @@ import {
   AUTH_SUCCEEDED,
   AUTH_FAILED,
   AUTH_LOGOUT,
+  REGISTRATION_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
 
 const initialState = {
@@ -51,6 +52,15 @@ export default (state = initialState, action) => {
     }
 
     case AUTH_SUCCEEDED: {
+      return authSuccessHandler(
+        state,
+        action.payload.email,
+        action.payload.userId,
+        action.payload.token,
+      );
+    }
+
+    case REGISTRATION_SUCCEEDED: {
       return authSuccessHandler(
         state,
         action.payload.email,

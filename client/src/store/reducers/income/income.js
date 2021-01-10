@@ -14,6 +14,7 @@ import {
   INCOME_TYPE_DELETE_REQUESTED,
   INCOME_TYPE_DELETE_SUCCEEDED,
   CURRENT_INCOME_YEAR_CHANGE,
+  AUTH_LOGOUT,
 } from '../../actionTypes/actionTypes';
 
 const initialState = {
@@ -205,6 +206,10 @@ export default (state = initialState, action) => {
 
     case CURRENT_INCOME_YEAR_CHANGE: {
       return currentDataYearChangeHandler(state, action.payload);
+    }
+
+    case AUTH_LOGOUT: {
+      return initialState;
     }
 
     default:

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Material from '../../../shared/material';
-import { arraySortByDate } from '../../../shared/utilities';
+import { arraySortByDateDesc } from '../../../shared/utilities';
 import * as actions from '../../../store/actions/actions';
 import incomeTableSyles from './incomeTableStyles';
 import AddIncome from './addIncome/AddIcome';
@@ -94,8 +94,8 @@ function IncomeTable({
         {incomeAddLoading &&
           <LoadingTableRow colSpan={colSpan} type="success" />}
         {incomeData && Object.values(incomeData)
+          .sort(arraySortByDateDesc)
           .slice(tablePage * rowsPerTablePage, tablePage * rowsPerTablePage + rowsPerTablePage)
-          .sort(arraySortByDate)
           .map((row) => (
             <IncomeTableRow
               key={row.id}

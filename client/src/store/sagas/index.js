@@ -9,13 +9,13 @@ import {
   addIncomeTypeSaga,
   deleteIncomeTypeSaga,
 } from './income/incomeSaga';
-
 import {
   authUserSaga,
   authCheckSaga,
   authAutoLogoutSaga,
   authLogoutSaga,
 } from './auth/authSaga';
+import registrationSaga from './registration/registrationSaga';
 
 export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_GET_ALL_REQUESTED, setAllIncomeDataSaga);
@@ -31,4 +31,8 @@ export function* watchAuth() {
   yield takeLatest(actionTypes.AUTH_CHECK, authCheckSaga);
   yield takeLatest(actionTypes.AUTH_AUTO_LOGOUT, authAutoLogoutSaga);
   yield takeLatest(actionTypes.AUTH_LOGOUT, authLogoutSaga);
+}
+
+export function* watchRegistration() {
+  yield takeLatest(actionTypes.REGISTRATION_REQUESTED, registrationSaga);
 }

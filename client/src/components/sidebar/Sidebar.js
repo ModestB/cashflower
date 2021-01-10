@@ -1,13 +1,11 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 // import DateRangeIcon from '@material-ui/icons/DateRange';
 // import AssignmentIcon from '@material-ui/icons/Assignment';
 // import AssessmentIcon from '@material-ui/icons/Assessment';
-import MenuIcon from '@material-ui/icons/Menu';
 import Material from '../../shared/material';
-import SidebarAuth from './sidebarAuth/SidebarAuth';
 
 const drawerWidth = 250;
 
@@ -16,12 +14,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-    },
-  },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
     },
   },
   menuButton: {
@@ -41,9 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function Sidebar() {
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const location = useLocation();
-  const sectionTitle = !location.state ? 'Income' : location.state.sectionTitle;
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -108,23 +98,6 @@ function Sidebar() {
 
   return (
     <>
-      <Material.AppBar position="fixed" className={classes.appBar}>
-        <Material.Toolbar>
-          <Material.IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </Material.IconButton>
-          <Material.Typography variant="h6" noWrap>
-            {sectionTitle}
-          </Material.Typography>
-          <SidebarAuth />
-        </Material.Toolbar>
-      </Material.AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Material.Hidden smUp implementation="css">
