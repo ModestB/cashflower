@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     maxHeight: 'calc(100% - 152px)',
-    // overflowX: 'hidden',
   },
   table: {
     tableLayout: 'fixed',

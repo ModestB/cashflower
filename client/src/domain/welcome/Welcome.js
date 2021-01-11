@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
+import { changeHeaderTitle } from '../../store/actions/actions';
 import Material from '../../shared/material';
 import Login from './Login/Login';
 import Register from './Register/Regsiter';
@@ -23,7 +26,12 @@ function a11yProps(index) {
 }
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {
+    children,
+    value,
+    index,
+    ...other
+  } = props;
   return (
     <div
       role="tabpanel"
@@ -41,16 +49,27 @@ function TabPanel(props) {
   );
 }
 
-// TabPanel.propTypes = {
-//   children: PropTypes.node,
-//   index: PropTypes.any.isRequired,
-//   value: PropTypes.any.isRequired,
-// };
+TabPanel.propTypes = {
+  children: PropTypes.node.isRequired,
+  index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+};
 
 export default function Welcome() {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    dispatch(changeHeaderTitle('Cashflower'));
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

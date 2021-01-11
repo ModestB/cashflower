@@ -7,9 +7,9 @@ const IncomeType = require('./incomeType');
 const Token = require('./token');
 
 const userSchema = mongoose.Schema({
-  name: {
+  username: {
     type: String,
-    required: [true, 'Name is required!'],
+    required: [true, 'Userame is required!'],
     trim: true,
   },
   email: {

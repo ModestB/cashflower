@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 // import DateRangeIcon from '@material-ui/icons/DateRange';
@@ -30,8 +29,7 @@ function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
   const isAuth = useSelector(state => state.auth.token !== null);
-  const location = useLocation();
-  const sectionTitle = isAuth ? location.state.sectionTitle : 'Cashflower';
+  const headerTitle = useSelector(state => state.general.headerTitle);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -54,7 +52,7 @@ function Header() {
             <MenuIcon />
           </Material.IconButton>
           <Material.Typography variant="h6" noWrap>
-            {sectionTitle}
+            {headerTitle}
           </Material.Typography>
           {
             isAuth && <HeaderAuth />

@@ -32,6 +32,7 @@ function tokenSchemaToJSONHandler() {
   delete tokenObject.createdAt;
   delete tokenObject.updatedAt;
   delete tokenObject.__v;
+  delete tokenObject.owner;
 
   return tokenObject;
 }

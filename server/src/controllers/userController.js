@@ -48,7 +48,7 @@ const UserController = {
     const user = { ...req.user };
     const updates = Object.keys(req.body);
     const alowedUpdates = [
-      'name',
+      'username',
       'email',
       'password',
     ];

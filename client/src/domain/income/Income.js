@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { changeHeaderTitle } from '../../store/actions/actions';
 import Material from '../../shared/material';
 import IncomeTable from './incomeTable/IncomeTable';
 import IncomeGraph from './incomeGraph/IncomeGraph';
@@ -63,9 +64,14 @@ const columnsSettings = {
 };
 
 const Income = () => {
+  const dispatch = useDispatch();
   const incomeData = useSelector(state => state.income.dataByYear);
   const [hasIncomeData, setHasIncomeData] = useState(false);
   const classes = useStyles();
+
+  useEffect(() => {
+    dispatch(changeHeaderTitle('Income'));
+  }, []);
 
   useEffect(() => {
     if (incomeData) {
