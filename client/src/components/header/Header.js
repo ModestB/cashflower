@@ -8,13 +8,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Material from '../../shared/material';
 import HeaderAuth from './headerAuth/HeaderAuth';
 
-const drawerWidth = 250;
-
 const useStyles = makeStyles((theme) => ({
   appBar: {
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth}px)`,
+      marginLeft: theme.drawerWidth,
     },
   },
   menuButton: {

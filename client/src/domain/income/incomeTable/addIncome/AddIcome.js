@@ -90,13 +90,21 @@ function AddIcome({
   );
 }
 
+AddIcome.defaultProps = {
+  submitHandler: () => {},
+  cancelHandler: () => {},
+  submitButtonLabel: '',
+  openModal: () => {},
+  openModalHandler: () => {},
+};
+
 AddIcome.propTypes = {
-  submitHandler: PropTypes.func.isRequired,
-  cancelHandler: PropTypes.func.isRequired,
-  submitButtonLabel: PropTypes.string.isRequired,
   columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  openModal: PropTypes.bool.isRequired,
-  openModalHandler: PropTypes.func.isRequired,
+  submitHandler: PropTypes.func,
+  cancelHandler: PropTypes.func,
+  submitButtonLabel: PropTypes.string,
+  openModal: PropTypes.bool,
+  openModalHandler: PropTypes.func,
 };
 
 export default AddIcome;

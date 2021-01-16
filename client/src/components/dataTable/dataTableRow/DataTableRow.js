@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles'; 
 import format from 'date-fns/format';
+import { makeStyles } from '@material-ui/core/styles';
 import Material from '../../../shared/material';
 import TableRowMenu from '../tableRowMenu/TableRowMenu';
 import LoadingTableRow from '../loadingTableRow/LoadingTableRow';
@@ -32,28 +31,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DataTableRow(props) {
-  const incomeTypes = useSelector(state => state.income.types);
-  const income = useSelector(state => state.income.types);
+  const classes = useStyles();
   const [columns, setColumns] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const classes = useStyles();
-  let rowContent = null;
   const colSpan = Object.keys(props.columnsSettings).length;
+  let rowContent = null;
 
   useEffect(() => {
     setIsDeleting(false);
   }, [props.row]);
 
   useEffect(() => {
-    const columns = Object.keys(props.columnsSettings)
-      .map(key => props.columnsSettings[key])
-    setColumns(columns)
+    const col = Object.keys(props.columnsSettings)
+      .map(key => props.columnsSettings[key]);
+    setColumns(col);
   }, [props.columnsSettings]);
 
   const showEditDataHandler = () => {
     setShowEdit(true);
-    props.editDataHandler(props.row.key)
   };
 
   const cancelHandler = () => {
@@ -67,25 +63,23 @@ export default function DataTableRow(props) {
   };
 
   if (!showEdit) {
-    rowContent = 
+    rowContent =
       columns.map((column) => {
-       
         const value = props.row[column.id];
         let tableCellData =
-          column.format && typeof value === "number"
-            ? column.format(value)
+          column.format && typeof value === 'number' ?
+            column.format(value)
             : value;
-    
-        if (column.id === "type" && Object.keys(incomeTypes).length) {
-          if (incomeTypes[value]) {
-            tableCellData = incomeTypes[value].label;
+
+        if (column.id === 'type') {
+          if (column.items[value]) {
+            tableCellData = column.items[value].label;
           } else {
             tableCellData = '';
           }
-          
         }
-    
-        if (column.id === "edit") {
+
+        if (column.id === 'edit') {
           tableCellData = (
             <div className={classes.tableCellActions}>
               <TableRowMenu
@@ -96,22 +90,18 @@ export default function DataTableRow(props) {
             </div>
           );
         }
-    
-        if (column.inputType === "date") {
+
+        if (column.inputType === 'date') {
           tableCellData = format(new Date(value), column.dateFormat);
         }
-    
+
         if (column.countableTotal) {
-          tableCellData = 
+          tableCellData =
             columns
-              .filter((column) => {
-                return column.countable;
-              })
-              .reduce((acc, cur) => {
-                return acc + props.row[cur.id];
-              }, 0);
+              .filter((col) => col.countable)
+              .reduce((acc, cur) => acc + props.row[cur.id], 0);
         }
-    
+
         return (
           <Material.TableCell
             key={column.id}
@@ -122,29 +112,28 @@ export default function DataTableRow(props) {
             {tableCellData}
           </Material.TableCell>
         );
-      });  
+      });
   } else {
-    rowContent = 
+    rowContent = (
       <Material.TableCell
         className={classes.tableCellEdit}
         colSpan={colSpan}
       >
         {React.cloneElement(
-          props.children, 
-          {cancelHandler}
-        )}      
+          props.children,
+          { cancelHandler },
+        )}
       </Material.TableCell>
+    );
   }
-
 
   let row = (
     <Material.TableRow
       className={[
         classes.tableRow,
-        props.tableOptions && props.tableOptions.totalSummary
-          ? classes.tableTotalRow
-          : "",
-      ].join(" ")}
+        props.tableOptions && props.tableOptions.totalSummary ? classes.tableTotalRow
+          : '',
+      ].join(' ')}
       hover
       role="checkbox"
       tabIndex={-1}
@@ -155,8 +144,8 @@ export default function DataTableRow(props) {
   );
 
   if (isDeleting) {
-    row = <LoadingTableRow colSpan={colSpan} type='danger' />
-  };
+    row = <LoadingTableRow colSpan={colSpan} type="danger" />;
+  }
 
   return row;
 }

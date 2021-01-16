@@ -7,12 +7,10 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 // import AssessmentIcon from '@material-ui/icons/Assessment';
 import Material from '../../shared/material';
 
-const drawerWidth = 250;
-
 const useStyles = makeStyles((theme) => ({
   drawer: {
     [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
+      width: theme.drawerWidth,
       flexShrink: 0,
     },
   },
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: theme.drawerWidth,
   },
   sidebarTitle: {
     padding: '16px',

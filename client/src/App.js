@@ -9,6 +9,7 @@ import Welcome from './domain/welcome/Welcome';
 import Header from './components/header/Header';
 import Sidebar from './components/sidebar/Sidebar';
 import Income from './domain/income/Income';
+// import Monthly from './domain/monthly/Monthly';
 
 import './App.scss';
 
@@ -21,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    width: `calc(100% - ${theme.drawerWidth}px)`,
+    marginLeft: theme.drawerWidth,
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -49,8 +52,8 @@ function App() {
                   <div className={classes.toolbar} />
                   <Switch>
                     <Route exact path="/" component={Income} />
-                    {/* <Route path="/monthly" component={Monthly} />
-                    <Route path="/plans" component={Plans} />
+                    {/* <Route path="/monthly" component={Monthly} /> */}
+                    {/* <Route path="/plans" component={Plans} />
                     <Route path="/total" component={Total} /> */}
                   </Switch>
                 </main>

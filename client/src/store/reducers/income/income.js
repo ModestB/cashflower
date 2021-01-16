@@ -21,7 +21,7 @@ const initialState = {
   data: {},
   dataByYear: {},
   types: {},
-  dataYears: {},
+  dataYears: [],
   currentDataYear: format(new Date(), 'yyyy'),
   incomeDataLoading: false,
   incomeAddLoading: false,

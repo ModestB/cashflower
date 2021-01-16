@@ -1,8 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
-import theme from '../../theme';
-import { withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import theme from '../../themes/defaultTheme';
 
 // Like https://github.com/brunobertolini/styled-by
 const styledBy = (property, mapping) => (props) => mapping[props[property]];
@@ -21,17 +21,17 @@ const styles = {
       backgroundColor: styledBy('color', {
         success: theme.palette.success.dark,
         danger: theme.palette.danger.dark,
-      })
+      }),
     },
   },
 };
 
-const StyledButton = withStyles(styles)(({ classes, children, className, color, ...other } ) => {
-  return (
-    <Button className={clsx(classes.root, className)} {...other} >
-      {children || 'class names'}
-    </Button>
-  );
-})
+const StyledButton = withStyles(styles)(({
+  classes, children, className, color, ...other
+}) => (
+  <Button className={clsx(classes.root, className)} {...other}>
+    {children || 'class names'}
+  </Button>
+));
 
 export default StyledButton;

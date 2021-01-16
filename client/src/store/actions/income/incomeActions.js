@@ -108,7 +108,7 @@ export const incomeTypeDeleteSucceess = (key) => ({
   },
 });
 
-export const currentDataYearChange = (year) => ({
+export const currentIncomeDataYearChange = (year) => ({
   type: CURRENT_INCOME_YEAR_CHANGE,
   payload: {
     year,
