@@ -18,11 +18,18 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const authLoading = useSelector(state => state.auth.loading);
 
-  const loginHandler = () => {
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
     if (!authLoading) dispatch(actions.authRequest(email, password));
   };
+
   return (
-    <form className={classes.form} noValidate autoComplete="off">
+    <form
+      className={classes.form}
+      noValidate
+      autoComplete="off"
+      onSubmit={formSubmitHandler}
+    >
       <Material.TextField
         id="outlined-basic"
         label="Email"
@@ -60,7 +67,7 @@ export default function Login() {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={loginHandler}
+              type="submit"
             >
               {
                 !authLoading ?
