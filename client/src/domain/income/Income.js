@@ -1,34 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import { changeHeaderTitle } from '../../store/actions/actions';
-import Material from '../../shared/material';
+import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import IncomeTable from './incomeTable/IncomeTable';
 import IncomeGraph from './incomeGraph/IncomeGraph';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  containerTable: {
-    height: 'calc(100vh - 88px)',
-  },
-  containerGraph: {
-    height: 'calc(100vh - 104px)',
-  },
-}));
 
 const Income = () => {
   const dispatch = useDispatch();
   const incomeData = useSelector(state => state.income.dataByYear);
   const incomeTypes = useSelector(state => state.income.types);
   const [hasIncomeData, setHasIncomeData] = useState(false);
-  const classes = useStyles();
   const columnsSettings = {
     date: {
       id: 'date',
@@ -81,25 +62,14 @@ const Income = () => {
   }, [incomeData]);
 
   return (
-    <div className={classes.root}>
-      <Material.Grid container spacing={3}>
-        <Material.Grid item xs={hasIncomeData ? 8 : 12} className={classes.containerTable}>
-          <IncomeTable
-            columnsSettings={columnsSettings}
-            submitBtnLabel="Add Income"
-            editBtnLabel="Save Income"
-          />
-        </Material.Grid>
-        {
-          hasIncomeData &&
-          (
-            <Material.Grid item xs={4} className={classes.containerGraph}>
-              <IncomeGraph />
-            </Material.Grid>
-          )
-        }
-      </Material.Grid>
-    </div>
+    <TableChartGrid hasData={hasIncomeData}>
+      <IncomeTable
+        columnsSettings={columnsSettings}
+        submitBtnLabel="Add Income"
+        editBtnLabel="Save Income"
+      />
+      <IncomeGraph />
+    </TableChartGrid>
   );
 };
 

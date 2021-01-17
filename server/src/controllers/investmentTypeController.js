@@ -1,18 +1,18 @@
-const IncomeType = require('../models/incomeType');
+const InvestmentType = require('../models/investmentType');
 const { errorFormatter } = require('../helpers/utils');
 
-const IncomeTypeController = {
+const InvestmentTypeController = {
   create: async (req, res) => {
-    const incomeType = new IncomeType({
+    const investmentType = new InvestmentType({
       ...req.body,
       owner: req.user._id,
     });
 
     try {
-      incomeType.id = incomeType._id;
-      await incomeType.save();
+      investmentType.id = investmentType._id;
+      await investmentType.save();
 
-      res.send(incomeType);
+      res.send(investmentType);
     } catch (error) {
       let msg = '';
       let err = error;
@@ -27,9 +27,9 @@ const IncomeTypeController = {
   readAll: async (req, res) => {
     try {
       await req.user.populate({
-        path: 'incomeTypes',
+        path: 'investmentTypes',
       }).execPopulate();
-      res.send(req.user.incomeTypes);
+      res.send(req.user.investmentTypes);
     } catch (error) {
       res.status(500).send(errorFormatter());
     }
@@ -50,12 +50,12 @@ const IncomeTypeController = {
     }
 
     try {
-      const incomeType = await IncomeType.findOne({ _id, owner: req.user._id });
-      updates.forEach((update) => { incomeType[update] = req.body[update]; });
+      const investmentType = await InvestmentType.findOne({ _id, owner: req.user._id });
+      updates.forEach((update) => { investmentType[update] = req.body[update]; });
 
-      await incomeType.save();
+      await investmentType.save();
 
-      res.send(incomeType);
+      res.send(investmentType);
       return true;
     } catch (error) {
       res.status(500).send(errorFormatter(error));
@@ -67,9 +67,9 @@ const IncomeTypeController = {
     const _id = req.params.id;
 
     try {
-      const incomeType = await IncomeType.findOneAndDelete({ _id, owner: req.user._id });
+      const investmentType = await InvestmentType.findOneAndDelete({ _id, owner: req.user._id });
 
-      res.send(incomeType);
+      res.send(investmentType);
     } catch (error) {
       const msg = 'Income type not found!';
       res.status(500).send(errorFormatter({}, msg));
@@ -77,4 +77,4 @@ const IncomeTypeController = {
   },
 };
 
-module.exports = IncomeTypeController;
+module.exports = InvestmentTypeController;

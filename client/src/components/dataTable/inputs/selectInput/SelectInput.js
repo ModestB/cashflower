@@ -55,7 +55,7 @@ function SelectInput({
     if (!newOption || selectAddLoading) return;
     const optionLabel =
       newOption.substring(0, 1).toUpperCase() +
-      newOption.substring(1).toLowerCase();
+      newOption.substring(1);
     const optionValue = newOption.toLowerCase();
     const option = { value: optionValue, label: optionLabel };
 

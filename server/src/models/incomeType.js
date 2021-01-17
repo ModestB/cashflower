@@ -35,6 +35,7 @@ function incomeTypeSchemaToJSONHandler() {
   incomeTypeObject.id = incomeTypeObject._id;
 
   delete incomeTypeObject._id;
+  delete incomeTypeObject.__V;
   delete incomeTypeObject.owner;
 
   return incomeTypeObject;

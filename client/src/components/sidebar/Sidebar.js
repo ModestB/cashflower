@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-// import DateRangeIcon from '@material-ui/icons/DateRange';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 // import AssignmentIcon from '@material-ui/icons/Assignment';
 // import AssessmentIcon from '@material-ui/icons/Assessment';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import Material from '../../shared/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,14 +44,14 @@ function Sidebar() {
       icon: <AccountBalanceIcon />,
       location: { pathname: '/', state: { sectionTitle: 'Income' } },
     },
-    // {
-    //   text: 'Monthly Investments',
-    //   icon: <DateRangeIcon />,
-    //   location: {
-    //     pathname: '/monthly',
-    //     state: { sectionTitle: 'Monthly Investments' },
-    //   },
-    // },
+    {
+      text: 'Investments',
+      icon: <EqualizerIcon />,
+      location: {
+        pathname: '/investments',
+        state: { sectionTitle: 'Investments' },
+      },
+    },
     // {
     //   text: 'Total Investments',
     //   icon: <AssessmentIcon />,

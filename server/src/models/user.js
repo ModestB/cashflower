@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Income = require('./income');
 const IncomeType = require('./incomeType');
+const Investment = require('./investment');
+const InvestmentType = require('./investmentType');
 const Token = require('./token');
 
 const userSchema = mongoose.Schema({
@@ -50,6 +52,18 @@ userSchema.virtual('income', {
 
 userSchema.virtual('incomeTypes', {
   ref: 'IncomeType',
+  localField: '_id',
+  foreignField: 'owner',
+});
+
+userSchema.virtual('investment', {
+  ref: 'Investment',
+  localField: '_id',
+  foreignField: 'owner',
+});
+
+userSchema.virtual('investmentTypes', {
+  ref: 'InvestmentType',
   localField: '_id',
   foreignField: 'owner',
 });
@@ -154,6 +168,8 @@ async function useSchemaPreRemoveHandler(next) {
 
   await Income.deleteMany({ owner: user._id });
   await IncomeType.deleteMany({ owner: user._id });
+  await Investment.deleteMany({ owner: user._id });
+  await InvestmentType.deleteMany({ owner: user._id });
 
   next();
 }

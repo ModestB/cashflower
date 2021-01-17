@@ -10,6 +10,14 @@ import {
   deleteIncomeTypeSaga,
 } from './income/incomeSaga';
 import {
+  setAllInvestmentDataSaga,
+  addInvestmentDataSaga,
+  deleteInvestmentDataSaga,
+  editInvestmentDataSaga,
+  addInvestmentTypeSaga,
+  deleteInvestmentTypeSaga,
+} from './investment/investmentSaga';
+import {
   authUserSaga,
   authCheckSaga,
   authAutoLogoutSaga,
@@ -24,6 +32,15 @@ export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_EDIT_REQUESTED, editIncomeDataSaga);
   yield takeLatest(actionTypes.INCOME_TYPE_ADD_REQUESTED, addIncomeTypeSaga);
   yield takeLatest(actionTypes.INCOME_TYPE_DELETE_REQUESTED, deleteIncomeTypeSaga);
+}
+
+export function* watchInvestment() {
+  yield takeLatest(actionTypes.INVESTMENT_GET_ALL_REQUESTED, setAllInvestmentDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_ADD_REQUESTED, addInvestmentDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_DELETE_REQUESTED, deleteInvestmentDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_EDIT_REQUESTED, editInvestmentDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_TYPE_ADD_REQUESTED, addInvestmentTypeSaga);
+  yield takeLatest(actionTypes.INVESTMENT_TYPE_DELETE_REQUESTED, deleteInvestmentTypeSaga);
 }
 
 export function* watchAuth() {

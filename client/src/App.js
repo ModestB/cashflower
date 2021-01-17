@@ -9,7 +9,7 @@ import Welcome from './domain/welcome/Welcome';
 import Header from './components/header/Header';
 import Sidebar from './components/sidebar/Sidebar';
 import Income from './domain/income/Income';
-// import Monthly from './domain/monthly/Monthly';
+import Investments from './domain/investments/Investments';
 
 import './App.scss';
 
@@ -52,7 +52,7 @@ function App() {
                   <div className={classes.toolbar} />
                   <Switch>
                     <Route exact path="/" component={Income} />
-                    {/* <Route path="/monthly" component={Monthly} /> */}
+                    <Route path="/investments" component={Investments} />
                     {/* <Route path="/plans" component={Plans} />
                     <Route path="/total" component={Total} /> */}
                   </Switch>

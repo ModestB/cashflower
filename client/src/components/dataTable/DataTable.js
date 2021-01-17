@@ -124,7 +124,7 @@ function DataTable({
     tableBody = (
       <Material.TableBody>
         {
-          addDataComponent({
+          addDataComponent && addDataComponent({
             columnsSettings,
             cancelHandler: hideAddDataHandler,
             submitHandler: tableDataAddHandler,
@@ -147,7 +147,7 @@ function DataTable({
               addDataEmptyCellSpan={2}
             >
               {
-                editDataComponent({
+                editDataComponent && editDataComponent({
                   columnsSettings,
                   row,
                   editHandler: tableDataEditHandler,
@@ -239,7 +239,7 @@ function DataTable({
 }
 
 DataTable.defaultProps = {
-  tableDataYears: [],
+  tableDataYears: [`${new Date().getFullYear()}`],
   submitBtnLabel: '',
   editBtnLabel: '',
   activeTableDataYear: `${new Date().getFullYear()}`,
