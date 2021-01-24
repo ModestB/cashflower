@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     outline: 'none',
+    width: '1000px',
+    height: '160px',
   },
   formRow: {
     margin: `0 -${theme.spacing(1)}px`,
@@ -127,6 +129,8 @@ function AddDataModal({
                         default:
                           break;
                       }
+
+                      if (!input) return null;
 
                       return (
                         <Material.FormControl

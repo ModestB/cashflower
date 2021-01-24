@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
-import 'date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Material from '../../../shared/material';
 import DateInput from '../inputs/dateInput/DateInput';
 import NumberInput from '../inputs/numberInput/NumberInput';
 import SelectInput from '../inputs/selectInput/SelectInput';
 import TextAreaInput from '../inputs/textAreaInput/TextAreaInput';
+import useOnClickOutside from '../../../shared/hooks/useOnClickOutside';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +55,9 @@ function EditData({
 }) {
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
+  const editRef = useRef();
+
+  useOnClickOutside(editRef, () => cancelHandler());
 
   useEffect(() => {
     if (loading) {
@@ -70,7 +73,7 @@ function EditData({
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Material.Grid container className={classes.root}>
+      <Material.Grid container className={classes.root} ref={editRef}>
         <Material.Table className={classes.table}>
           <Material.TableBody>
             <Material.TableRow>
