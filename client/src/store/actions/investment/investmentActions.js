@@ -1,6 +1,6 @@
 import {
-  INVESTMENT_GET_ALL_REQUESTED,
-  INVESTMENT_GET_ALL_SUCCEEDED,
+  INVESTMENT_GET_REQUESTED,
+  INVESTMENT_GET_SUCCEEDED,
   INVESTMENT_ADD_REQUESTED,
   INVESTMENT_ADD_SUCCEEDED,
   INVESTMENT_EDIT_REQUESTED,
@@ -11,28 +11,27 @@ import {
   INVESTMENT_TYPE_ADD_SUCCEEDED,
   INVESTMENT_TYPE_DELETE_REQUESTED,
   INVESTMENT_TYPE_DELETE_SUCCEEDED,
-  CURRENT_INVESTMENT_YEAR_CHANGE,
 } from '../../actionTypes/actionTypes';
 
-export const getAllInvestmentData = (userId) => ({
-  type: INVESTMENT_GET_ALL_REQUESTED,
+export const getInvestmentData = (year) => ({
+  type: INVESTMENT_GET_REQUESTED,
   payload: {
-    userId,
+    year,
   },
 });
 
-export const setAllInvestmentData = (investment) => ({
-  type: INVESTMENT_GET_ALL_SUCCEEDED,
+export const setInvestmentData = (investment) => ({
+  type: INVESTMENT_GET_SUCCEEDED,
   payload: {
     investment,
   },
 });
 
-export const investmentAddRequest = (investment, userId) => ({
+export const investmentAddRequest = (investment, currentDataYear) => ({
   type: INVESTMENT_ADD_REQUESTED,
   payload: {
     investment,
-    userId,
+    currentDataYear,
   },
 });
 
@@ -104,12 +103,5 @@ export const investmentTypeDeleteSucceess = (key) => ({
   type: INVESTMENT_TYPE_DELETE_SUCCEEDED,
   payload: {
     key,
-  },
-});
-
-export const currentInvestmentDataYearChange = (year) => ({
-  type: CURRENT_INVESTMENT_YEAR_CHANGE,
-  payload: {
-    year,
   },
 });

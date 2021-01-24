@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeHeaderTitle } from '../../store/actions/actions';
+import { changeHeaderTitle, getIncomeData } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import IncomeTable from './incomeTable/IncomeTable';
 import IncomeGraph from './incomeGraph/IncomeGraph';
 
 const Income = () => {
   const dispatch = useDispatch();
-  const incomeData = useSelector(state => state.income.dataByYear);
+  const currentDataYear = useSelector(state => state.income.currentDataYear);
+  const incomeData = useSelector(state => state.income.data);
   const incomeTypes = useSelector(state => state.dataInfo.types.income);
   const [hasIncomeData, setHasIncomeData] = useState(false);
   const columnsSettings = {
@@ -53,6 +54,9 @@ const Income = () => {
 
   useEffect(() => {
     dispatch(changeHeaderTitle('Income'));
+    if (!Object.keys(incomeData).length) {
+      dispatch(getIncomeData(currentDataYear));
+    }
   }, []);
 
   useEffect(() => {

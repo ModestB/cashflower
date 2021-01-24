@@ -1,3 +1,5 @@
+import format from 'date-fns/format';
+
 export const ucFirst = (word) => word.charAt(0).toUpperCase() + word.substring(1);
 
 export function arraySortByDateDesc(a, b) {
@@ -11,3 +13,5 @@ export function arraySortByDateDesc(a, b) {
 }
 
 export const whiteSpacesValidator = (value) => !!/\s/.test(value);
+
+export const formatDateToYear = date => parseInt(format(date, 'yyyy'), 10);

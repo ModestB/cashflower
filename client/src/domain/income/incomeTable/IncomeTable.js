@@ -12,7 +12,7 @@ function IncomeTable({
   editBtnLabel,
 }) {
   const dispatch = useDispatch();
-  const incomeData = useSelector(state => state.income.dataByYear);
+  const incomeData = useSelector(state => state.income.data);
   const incomeDataYears = useSelector(state => state.dataInfo.years.income);
   const incomeDataLoading = useSelector(state => state.income.incomeDataLoading);
   const incomeAddLoading = useSelector(state => state.income.incomeAddLoading);
@@ -31,13 +31,13 @@ function IncomeTable({
       addDataComponent={(props) => (
         <AddIncome {...props} />
       )}
-      addDataHandler={(data, uid) => dispatch(actions.incomeAddRequest(data, uid))}
+      addDataHandler={(data) => dispatch(actions.incomeAddRequest(data, currentDataYear))}
       editDataComponent={(props) => (
         <EditIncome {...props} />
       )}
       editDataHandler={(id, data, uid) => dispatch(actions.incomeEditRequest(id, data, uid))}
       deleteDataHandler={(id, uid) => dispatch(actions.deleteIncomeRequest(id, uid))}
-      currentDataYearHandler={(year) => dispatch(actions.currentIncomeDataYearChange(year))}
+      currentDataYearHandler={(year) => dispatch(actions.getIncomeData(year))}
     />
   );
 }

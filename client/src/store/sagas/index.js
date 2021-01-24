@@ -2,7 +2,7 @@ import { takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../actionTypes/actionTypes';
 import {
-  setAllIncomeDataSaga,
+  setIncomeDataSaga,
   addIncomeDataSaga,
   deleteIncomeDataSaga,
   editIncomeDataSaga,
@@ -10,7 +10,7 @@ import {
   deleteIncomeTypeSaga,
 } from './income/incomeSaga';
 import {
-  setAllInvestmentDataSaga,
+  setInvestmentDataSaga,
   addInvestmentDataSaga,
   deleteInvestmentDataSaga,
   editInvestmentDataSaga,
@@ -26,7 +26,7 @@ import {
 import registrationSaga from './registration/registrationSaga';
 
 export function* watchIncome() {
-  yield takeLatest(actionTypes.INCOME_GET_ALL_REQUESTED, setAllIncomeDataSaga);
+  yield takeLatest(actionTypes.INCOME_GET_REQUESTED, setIncomeDataSaga);
   yield takeLatest(actionTypes.INCOME_ADD_REQUESTED, addIncomeDataSaga);
   yield takeLatest(actionTypes.INCOME_DELETE_REQUESTED, deleteIncomeDataSaga);
   yield takeLatest(actionTypes.INCOME_EDIT_REQUESTED, editIncomeDataSaga);
@@ -35,7 +35,7 @@ export function* watchIncome() {
 }
 
 export function* watchInvestment() {
-  yield takeLatest(actionTypes.INVESTMENT_GET_ALL_REQUESTED, setAllInvestmentDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_GET_REQUESTED, setInvestmentDataSaga);
   yield takeLatest(actionTypes.INVESTMENT_ADD_REQUESTED, addInvestmentDataSaga);
   yield takeLatest(actionTypes.INVESTMENT_DELETE_REQUESTED, deleteInvestmentDataSaga);
   yield takeLatest(actionTypes.INVESTMENT_EDIT_REQUESTED, editInvestmentDataSaga);

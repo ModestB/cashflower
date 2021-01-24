@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeHeaderTitle, getAllInvestmentData } from '../../store/actions/actions';
+import { changeHeaderTitle, getInvestmentData } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import InvestmentsTable from './investmentsTable/InvestmentsTable';
 import InvestmentsGraph from './investmentsGraph/InvestmentsGraph';
 
 const Investments = () => {
   const dispatch = useDispatch();
-  const dataLoaded = useSelector(state => state.investment.dataLoaded);
-  const investmentData = useSelector(state => state.investment.dataByYear);
+  const currentDataYear = useSelector(state => state.investment.currentDataYear);
+  const investmentData = useSelector(state => state.investment.data);
   const investmentTypes = useSelector(state => state.dataInfo.types.investment);
-  const userID = useSelector(state => state.auth.userId);
   const [hasData, setHasData] = useState(false);
 
   const columnsSettings = {
@@ -55,8 +54,8 @@ const Investments = () => {
 
   useEffect(() => {
     dispatch(changeHeaderTitle('Investments'));
-    if (userID && !dataLoaded) {
-      dispatch(getAllInvestmentData(userID));
+    if (!Object.keys(investmentData).length) {
+      dispatch(getInvestmentData(currentDataYear));
     }
   }, []);
 

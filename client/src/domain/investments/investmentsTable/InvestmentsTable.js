@@ -12,7 +12,7 @@ function InvestmentTable({
   editBtnLabel,
 }) {
   const dispatch = useDispatch();
-  const investmentData = useSelector(state => state.investment.dataByYear);
+  const investmentData = useSelector(state => state.investment.data);
   const investmentDataYears = useSelector(state => state.dataInfo.years.investment);
   const investmentDataLoading = useSelector(state => state.investment.investmentDataLoading);
   const investmentAddLoading = useSelector(state => state.investment.investmentAddLoading);
@@ -30,13 +30,13 @@ function InvestmentTable({
       addDataComponent={(props) => (
         <AddInvestment {...props} />
       )}
-      addDataHandler={(data, uid) => dispatch(actions.investmentAddRequest(data, uid))}
+      addDataHandler={(data) => dispatch(actions.investmentAddRequest(data, currentDataYear))}
       editDataComponent={(props) => (
         <EditInvestment {...props} />
       )}
       editDataHandler={(id, data, uid) => dispatch(actions.investmentEditRequest(id, data, uid))}
       deleteDataHandler={(id, uid) => dispatch(actions.deleteInvestmentRequest(id, uid))}
-      currentDataYearHandler={(year) => dispatch(actions.currentInvestmentDataYearChange(year))}
+      currentDataYearHandler={(year) => dispatch(actions.getInvestmentData(year))}
     />
   );
 }

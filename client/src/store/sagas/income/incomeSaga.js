@@ -1,14 +1,18 @@
 import { put } from 'redux-saga/effects';
 import axios from '../../../axios';
 import * as actions from '../../actions/actions';
+import { formatDateToYear } from '../../../shared/utilities';
 
-export function* setAllIncomeDataSaga() {
-  const res = yield axios.get('/income');
+export function* setIncomeDataSaga(action) {
+  const { year } = { ...action.payload };
+  const url = `/income?startYear=${year}&endYear=${year}`;
+  const res = yield axios.get(url);
 
-  yield put(actions.setAllIncomeData(res.data.income));
+  yield put(actions.setIncomeData(res.data.income));
 }
 
 export function* addIncomeDataSaga(action) {
+  const { currentDataYear } = { ...action.payload };
   const promise = new Promise((resolve) => {
     axios.post('/income', action.payload.income)
       .then((response) => {
@@ -16,8 +20,13 @@ export function* addIncomeDataSaga(action) {
       });
   });
   const results = yield promise;
+  const resultDataYear = formatDateToYear(new Date(results.data.date));
 
   yield put(actions.incomeAddSucceess(results.data, results.data.id));
+
+  if (currentDataYear !== resultDataYear) {
+    yield put(actions.getIncomeData(resultDataYear));
+  }
 }
 
 export function* editIncomeDataSaga(action) {

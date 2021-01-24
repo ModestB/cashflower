@@ -1,14 +1,18 @@
 import { put } from 'redux-saga/effects';
 import axios from '../../../axios';
 import * as actions from '../../actions/actions';
+import { formatDateToYear } from '../../../shared/utilities';
 
-export function* setAllInvestmentDataSaga() {
-  const res = yield axios.get('/investment');
+export function* setInvestmentDataSaga(action) {
+  const { year } = { ...action.payload };
+  const url = `/investment?startYear=${year}&endYear=${year}`;
+  const res = yield axios.get(url);
 
-  yield put(actions.setAllInvestmentData(res.data.investment));
+  yield put(actions.setInvestmentData(res.data.investment));
 }
 
 export function* addInvestmentDataSaga(action) {
+  const { currentDataYear } = { ...action.payload };
   const promise = new Promise((resolve) => {
     axios.post('/investment', action.payload.investment)
       .then((response) => {
@@ -16,8 +20,13 @@ export function* addInvestmentDataSaga(action) {
       });
   });
   const results = yield promise;
+  const resultDataYear = formatDateToYear(new Date(results.data.date));
 
   yield put(actions.investmentAddSucceess(results.data, results.data.id));
+
+  if (currentDataYear !== resultDataYear) {
+    yield put(actions.getInvestmentData(resultDataYear));
+  }
 }
 
 export function* editInvestmentDataSaga(action) {

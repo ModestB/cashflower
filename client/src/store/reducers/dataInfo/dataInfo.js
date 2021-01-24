@@ -1,5 +1,4 @@
 import produce from 'immer';
-import format from 'date-fns/format';
 import {
   AUTH_SUCCEEDED,
   INCOME_ADD_SUCCEEDED,
@@ -13,6 +12,7 @@ import {
   INVESTMENT_TYPE_DELETE_REQUESTED,
   INVESTMENT_TYPE_DELETE_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
+import { formatDateToYear } from '../../../shared/utilities';
 
 const initialState = {
   years: {},
@@ -25,7 +25,7 @@ const initialState = {
 
 const addYearHandler = (state, payload, store) => {
   const nextState = produce(state, draftState => {
-    const year = parseInt(format(new Date(payload[store].date), 'yyyy'), 10);
+    const year = formatDateToYear(new Date(payload[store].date));
 
     if (!state.years[store].includes(parseInt(year, 10))) {
       draftState.years[store] = [

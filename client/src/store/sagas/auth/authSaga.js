@@ -44,7 +44,6 @@ export function* authUserSaga(action) {
     if (response.data.token) {
       axios.defaults.headers.common.Authorization = `Bearer ${response.data.token.token}`;
     }
-    yield put(actions.getAllIncomeData(response.data.user.id));
     yield put(actions.authAutoLogout(expirationDate, response.data.token.token));
   } catch (error) {
     yield put(actions.authFailed(error.response.data.error));
@@ -78,7 +77,6 @@ export function* authCheckSaga() {
           response.data.dataTypes,
         ),
       );
-      yield put(actions.getAllIncomeData(response.data.user.id));
       const expiresIn = yield (expirationDate.getTime() - new Date().getTime());
       yield put(actions.authAutoLogout(expiresIn, localStorageData.token));
     }

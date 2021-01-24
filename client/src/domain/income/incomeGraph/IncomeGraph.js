@@ -48,7 +48,7 @@ const initialGraphData = () => {
 };
 
 function IncomeGraph() {
-  const incomeData = useSelector(state => state.income.dataByYear);
+  const incomeData = useSelector(state => state.income.data);
   const incomeTypes = useSelector(state => state.dataInfo.types.income);
   const [incomeDataByMonth, setIncomeDataByMonth] = useState({});
   const [incomeDataByType, setIncomeDataByType] = useState({});

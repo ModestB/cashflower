@@ -1,6 +1,6 @@
 import {
-  INCOME_GET_ALL_REQUESTED,
-  INCOME_GET_ALL_SUCCEEDED,
+  INCOME_GET_REQUESTED,
+  INCOME_GET_SUCCEEDED,
   INCOME_ADD_REQUESTED,
   INCOME_ADD_SUCCEEDED,
   INCOME_EDIT_REQUESTED,
@@ -11,28 +11,27 @@ import {
   INCOME_TYPE_ADD_SUCCEEDED,
   INCOME_TYPE_DELETE_REQUESTED,
   INCOME_TYPE_DELETE_SUCCEEDED,
-  CURRENT_INCOME_YEAR_CHANGE,
 } from '../../actionTypes/actionTypes';
 
-export const getAllIncomeData = (userId) => ({
-  type: INCOME_GET_ALL_REQUESTED,
+export const getIncomeData = (year) => ({
+  type: INCOME_GET_REQUESTED,
   payload: {
-    userId,
+    year,
   },
 });
 
-export const setAllIncomeData = (income) => ({
-  type: INCOME_GET_ALL_SUCCEEDED,
+export const setIncomeData = (income) => ({
+  type: INCOME_GET_SUCCEEDED,
   payload: {
     income,
   },
 });
 
-export const incomeAddRequest = (income, userId) => ({
+export const incomeAddRequest = (income, currentDataYear) => ({
   type: INCOME_ADD_REQUESTED,
   payload: {
     income,
-    userId,
+    currentDataYear,
   },
 });
 
@@ -104,12 +103,5 @@ export const incomeTypeDeleteSucceess = (key) => ({
   type: INCOME_TYPE_DELETE_SUCCEEDED,
   payload: {
     key,
-  },
-});
-
-export const currentIncomeDataYearChange = (year) => ({
-  type: CURRENT_INCOME_YEAR_CHANGE,
-  payload: {
-    year,
   },
 });
