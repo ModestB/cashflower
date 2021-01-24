@@ -15,12 +15,14 @@ export const authRequest = (email, password) => ({
   },
 });
 
-export const authSuccess = (email, userId, token) => ({
+export const authSuccess = (email, userId, token, dataYears, dataTypes) => ({
   type: AUTH_SUCCEEDED,
   payload: {
     email,
     userId,
     token,
+    dataYears,
+    dataTypes,
   },
 });
 

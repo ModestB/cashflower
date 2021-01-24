@@ -37,6 +37,8 @@ export function* authUserSaga(action) {
         response.data.user.email,
         response.data.user.id,
         response.data.token,
+        response.data.dataYears,
+        response.data.dataTypes,
       ),
     );
     if (response.data.token) {
@@ -62,12 +64,21 @@ export function* authCheckSaga() {
     if (expirationDate <= new Date()) {
       yield put(actions.authLogout());
     } else {
-      yield put(actions.authSuccess(
-        localStorageData.email,
-        localStorageData.userId,
-        localStorageData.token,
-      ));
-      yield put(actions.getAllIncomeData(localStorageData.userId));
+      if (localStorageData.token) {
+        axios.defaults.headers.common.Authorization = `Bearer ${localStorageData.token}`;
+      }
+      const response = yield axios.get('users/me');
+
+      yield put(
+        actions.authSuccess(
+          response.data.user.email,
+          response.data.user.id,
+          response.data.token,
+          response.data.dataYears,
+          response.data.dataTypes,
+        ),
+      );
+      yield put(actions.getAllIncomeData(response.data.user.id));
       const expiresIn = yield (expirationDate.getTime() - new Date().getTime());
       yield put(actions.authAutoLogout(expiresIn, localStorageData.token));
     }

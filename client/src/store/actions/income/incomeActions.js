@@ -21,11 +21,10 @@ export const getAllIncomeData = (userId) => ({
   },
 });
 
-export const setAllIncomeData = (income, types) => ({
+export const setAllIncomeData = (income) => ({
   type: INCOME_GET_ALL_SUCCEEDED,
   payload: {
     income,
-    types,
   },
 });
 

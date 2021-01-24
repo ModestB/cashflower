@@ -1,3 +1,4 @@
+import produce from 'immer';
 import {
   AUTH_REQUESTED,
   AUTH_SUCCEEDED,
@@ -14,15 +15,16 @@ const initialState = {
   loading: false,
 };
 
-const authSuccessHandler = (state, email, userId, token) => {
-  const newState = { ...state };
-  newState.email = email;
-  newState.userId = userId;
-  newState.token = token;
-  newState.error = '';
-  newState.loading = false;
+const authSuccessHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.email = payload.email;
+    draftState.userId = payload.userId;
+    draftState.token = payload.token;
+    draftState.error = '';
+    draftState.loading = false;
+  });
 
-  return newState;
+  return nextState;
 };
 
 const authFailedHandler = (state, error) => {
@@ -52,21 +54,11 @@ export default (state = initialState, action) => {
     }
 
     case AUTH_SUCCEEDED: {
-      return authSuccessHandler(
-        state,
-        action.payload.email,
-        action.payload.userId,
-        action.payload.token,
-      );
+      return authSuccessHandler(state, action.payload);
     }
 
     case REGISTRATION_SUCCEEDED: {
-      return authSuccessHandler(
-        state,
-        action.payload.email,
-        action.payload.userId,
-        action.payload.token,
-      );
+      return authSuccessHandler(state, action.payload);
     }
 
     case AUTH_FAILED: {

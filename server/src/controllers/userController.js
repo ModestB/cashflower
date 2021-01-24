@@ -27,16 +27,16 @@ const UserController = {
   // Read user profile
   read: async (req, res) => {
     try {
-      await req.user.populate({
-        path: 'incomeTypes',
-        select: '-__v',
-      }).execPopulate();
-
-      const user = { ...req.user };
+      const dataYears = await User.getDataDistinctYears(req.user);
+      await User.populateDataTypes(req.user);
 
       res.send({
-        user,
-        incomeTypes: req.user.incomeTypes,
+        user: req.user,
+        dataYears,
+        dataTypes: {
+          income: req.user.incomeTypes,
+          investment: req.user.investmentTypes,
+        },
       });
     } catch (error) {
       res.status(500).send(errorFormatter(error));
@@ -87,8 +87,18 @@ const UserController = {
       const { email, password } = req.body;
       const user = await User.findByCredentials(email, password);
       const token = await user.generateAuthToken();
+      const dataYears = await User.getDataDistinctYears(user);
+      await User.populateDataTypes(user);
 
-      res.send({ user, token });
+      res.send({
+        user,
+        token,
+        dataYears,
+        dataTypes: {
+          income: user.incomeTypes,
+          investment: user.investmentTypes,
+        },
+      });
     } catch (error) {
       const msg = 'Login Failed! Check authentication credentials';
       res.status(400).send(errorFormatter({}, msg));

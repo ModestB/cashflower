@@ -11,9 +11,9 @@ function EditInvestment({
   submitButtonLabel,
   columnsSettings,
 }) {
-  const investmentTypes = useSelector(state => state.investment.types);
-  const investmentTypeAddLoading = useSelector(state => state.investment.investmentTypeAddLoading);
-  const investmentTypeDeleteLoading = useSelector(state => state.investment.investmentTypeDeleteLoading);
+  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
+  const investmentTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
+  const investmentTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState('');

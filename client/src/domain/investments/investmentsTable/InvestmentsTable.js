@@ -13,11 +13,10 @@ function InvestmentTable({
 }) {
   const dispatch = useDispatch();
   const investmentData = useSelector(state => state.investment.dataByYear);
-  const investmentDataYears = useSelector(state => state.investment.dataYears);
+  const investmentDataYears = useSelector(state => state.dataInfo.years.investment);
   const investmentDataLoading = useSelector(state => state.investment.investmentDataLoading);
   const investmentAddLoading = useSelector(state => state.investment.investmentAddLoading);
   const currentDataYear = useSelector(state => state.investment.currentDataYear);
-
   return (
     <DataTable
       columnsSettings={columnsSettings}

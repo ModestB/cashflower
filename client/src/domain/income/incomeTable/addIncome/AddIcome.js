@@ -14,9 +14,9 @@ function AddIcome({
 }) {
   const dispatch = useDispatch();
   const userId = useSelector(state => state.auth.userId);
-  const incomeTypes = useSelector(state => state.income.types);
-  const incomeTypeAddLoading = useSelector(state => state.income.incomeTypeAddLoading);
-  const incomeTypeDeleteLoading = useSelector(state => state.income.incomeTypeDeleteLoading);
+  const incomeTypes = useSelector(state => state.dataInfo.types.income);
+  const incomeTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
+  const incomeTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState('');
   const [type, setType] = useState(Object.keys(incomeTypes)[0]);

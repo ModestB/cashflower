@@ -8,7 +8,7 @@ import IncomeGraph from './incomeGraph/IncomeGraph';
 const Income = () => {
   const dispatch = useDispatch();
   const incomeData = useSelector(state => state.income.dataByYear);
-  const incomeTypes = useSelector(state => state.income.types);
+  const incomeTypes = useSelector(state => state.dataInfo.types.income);
   const [hasIncomeData, setHasIncomeData] = useState(false);
   const columnsSettings = {
     date: {

@@ -7,6 +7,7 @@ const IncomeType = require('./incomeType');
 const Investment = require('./investment');
 const InvestmentType = require('./investmentType');
 const Token = require('./token');
+const { aggregateDistinctYearsStages } = require('../helpers/mongoUtils');
 
 const userSchema = mongoose.Schema({
   username: {
@@ -139,6 +140,51 @@ async function findByCredentials(email, password) {
 }
 
 userSchema.statics.findByCredentials = findByCredentials;
+
+// Aggregates distinct years for:
+// Income
+// Investments
+
+async function getDataDistinctYears(user) {
+  const id = user.id || user._id;
+  let income = [];
+  let investment = [];
+  const aggregateIncomeDataYears =
+    await Income.aggregate(
+      aggregateDistinctYearsStages(id),
+    );
+  const aggregateInvestmentsDataYears =
+    await Investment.aggregate(
+      aggregateDistinctYearsStages(id),
+    );
+
+  if (aggregateIncomeDataYears[0]) {
+    income = [...aggregateIncomeDataYears[0].years];
+  }
+  if (aggregateInvestmentsDataYears[0]) {
+    investment = [...aggregateInvestmentsDataYears[0].years];
+  }
+
+  return {
+    income,
+    investment,
+  };
+}
+
+userSchema.statics.getDataDistinctYears = getDataDistinctYears;
+
+async function populateDataTypes(user) {
+  await user.populate({
+    path: 'incomeTypes',
+    select: '-__v',
+  }).execPopulate();
+  await user.populate({
+    path: 'investmentTypes',
+    select: '-__v',
+  }).execPopulate();
+}
+
+userSchema.statics.populateDataTypes = populateDataTypes;
 
 // Define custom toJSON method
 // To hide/delete properties which you don't want to return in the response

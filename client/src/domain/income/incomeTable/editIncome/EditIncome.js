@@ -11,9 +11,9 @@ function EditIncome({
   submitButtonLabel,
   columnsSettings,
 }) {
-  const incomeTypes = useSelector(state => state.income.types);
-  const incomeTypeAddLoading = useSelector(state => state.income.incomeTypeAddLoading);
-  const incomeTypeDeleteLoading = useSelector(state => state.income.incomeTypeDeleteLoading);
+  const incomeTypes = useSelector(state => state.dataInfo.types.income);
+  const incomeTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
+  const incomeTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState('');

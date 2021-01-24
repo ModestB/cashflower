@@ -14,10 +14,10 @@ function AddInvestment({
 }) {
   const dispatch = useDispatch();
   const userId = useSelector(state => state.auth.userId);
-  const investmentTypes = useSelector(state => state.investment.types);
-  const investmentTypeAddLoading = useSelector(state => state.investment.investmentTypeAddLoading);
+  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
+  const investmentTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
   const investmentTypeDeleteLoading =
-    useSelector(state => state.investment.investmentTypeDeleteLoading);
+    useSelector(state => state.dataInfo.loading.typeDelete);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState('');
   const [type, setType] = useState(Object.keys(investmentTypes)[0]);

@@ -21,11 +21,10 @@ export const getAllInvestmentData = (userId) => ({
   },
 });
 
-export const setAllInvestmentData = (investment, types) => ({
+export const setAllInvestmentData = (investment) => ({
   type: INVESTMENT_GET_ALL_SUCCEEDED,
   payload: {
     investment,
-    types,
   },
 });
 

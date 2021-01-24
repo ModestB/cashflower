@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  contentWithDrawer: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
     width: `calc(100% - ${theme.drawerWidth}px)`,
     marginLeft: theme.drawerWidth,
   },
@@ -48,7 +52,7 @@ function App() {
             (
               <>
                 <Sidebar />
-                <main className={classes.content}>
+                <main className={classes.contentWithDrawer}>
                   <div className={classes.toolbar} />
                   <Switch>
                     <Route exact path="/" component={Income} />

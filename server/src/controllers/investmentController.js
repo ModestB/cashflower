@@ -1,6 +1,5 @@
 const { startOfYear, endOfYear } = require('date-fns');
 const Investment = require('../models/investment');
-const InvestmentType = require('../models/investmentType');
 const { errorFormatter } = require('../helpers/utils');
 
 const InvestmentController = {
@@ -56,13 +55,9 @@ const InvestmentController = {
         },
         select: '-__v',
       }).execPopulate();
-      const investmentTypes = await InvestmentType.find({
-        owner: req.user._id,
-      });
 
       res.send({
         investment: req.user.investment,
-        investmentTypes,
       });
     } catch (error) {
       res.status(500).send(errorFormatter(error));

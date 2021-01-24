@@ -239,10 +239,10 @@ function DataTable({
 }
 
 DataTable.defaultProps = {
-  tableDataYears: [`${new Date().getFullYear()}`],
+  tableDataYears: [new Date().getFullYear()],
   submitBtnLabel: '',
   editBtnLabel: '',
-  activeTableDataYear: `${new Date().getFullYear()}`,
+  activeTableDataYear: new Date().getFullYear(),
   tableDataLoading: false,
   tableDataAddLoading: false,
   addDataComponent: undefined,
@@ -258,8 +258,8 @@ DataTable.propTypes = {
   tableData: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitBtnLabel: PropTypes.string,
   editBtnLabel: PropTypes.string,
-  tableDataYears: PropTypes.arrayOf(PropTypes.string),
-  activeTableDataYear: PropTypes.string,
+  tableDataYears: PropTypes.arrayOf(PropTypes.number),
+  activeTableDataYear: PropTypes.number,
   tableDataLoading: PropTypes.bool,
   tableDataAddLoading: PropTypes.bool,
   addDataComponent: PropTypes.func,

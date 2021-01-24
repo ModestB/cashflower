@@ -5,7 +5,7 @@ import * as actions from '../../actions/actions';
 export function* setAllIncomeDataSaga() {
   const res = yield axios.get('/income');
 
-  yield put(actions.setAllIncomeData(res.data.income, res.data.incomeTypes));
+  yield put(actions.setAllIncomeData(res.data.income));
 }
 
 export function* addIncomeDataSaga(action) {

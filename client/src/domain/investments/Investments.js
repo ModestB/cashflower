@@ -9,7 +9,7 @@ const Investments = () => {
   const dispatch = useDispatch();
   const dataLoaded = useSelector(state => state.investment.dataLoaded);
   const investmentData = useSelector(state => state.investment.dataByYear);
-  const investmentTypes = useSelector(state => state.investment.types);
+  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
   const userID = useSelector(state => state.auth.userId);
   const [hasData, setHasData] = useState(false);
 

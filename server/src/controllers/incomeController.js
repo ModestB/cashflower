@@ -1,6 +1,5 @@
 const { startOfYear, endOfYear } = require('date-fns');
 const Income = require('../models/income');
-const IncomeType = require('../models/incomeType');
 const { errorFormatter } = require('../helpers/utils');
 
 const IncomeController = {
@@ -33,6 +32,7 @@ const IncomeController = {
         $gte: startYear,
       };
     }
+
     if (req.query.endYear) {
       const endYear = endOfYear(new Date(req.query.endYear, 0, 1));
 
@@ -56,13 +56,9 @@ const IncomeController = {
         },
         select: '-__v',
       }).execPopulate();
-      const incomeTypes = await IncomeType.find({
-        owner: req.user._id,
-      });
 
       res.send({
         income: req.user.income,
-        incomeTypes,
       });
     } catch (error) {
       res.status(500).send(errorFormatter(error));

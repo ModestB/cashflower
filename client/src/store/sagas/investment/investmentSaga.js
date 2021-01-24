@@ -5,7 +5,7 @@ import * as actions from '../../actions/actions';
 export function* setAllInvestmentDataSaga() {
   const res = yield axios.get('/investment');
 
-  yield put(actions.setAllInvestmentData(res.data.investment, res.data.investmentTypes));
+  yield put(actions.setAllInvestmentData(res.data.investment));
 }
 
 export function* addInvestmentDataSaga(action) {

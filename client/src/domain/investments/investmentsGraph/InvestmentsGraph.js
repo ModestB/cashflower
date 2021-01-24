@@ -49,7 +49,7 @@ const initialGraphData = () => {
 
 function InvestmentGraph() {
   const investmentData = useSelector(state => state.investment.dataByYear);
-  const investmentTypes = useSelector(state => state.investment.types);
+  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
   const [investmentDataByMonth, setInvestmentDataByMonth] = useState({});
   const [investmentDataByType, setInvestmentDataByType] = useState({});
   const classes = useStyles();
