@@ -5,7 +5,11 @@ import { formatDateToYear } from '../../../shared/utilities';
 
 export function* setIncomeDataSaga(action) {
   const { year } = { ...action.payload };
-  const url = `/income?startYear=${year}&endYear=${year}`;
+  let url = `/income?startYear=${year}&endYear=${year}`;
+  if (year === 'All') {
+    url = '/income';
+  }
+
   const res = yield axios.get(url);
 
   yield put(actions.setIncomeData(res.data.income));

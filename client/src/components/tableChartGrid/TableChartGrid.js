@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   containerGraph: {
     height: 'calc(100vh - 104px)',
+    margin: `-${theme.spacing(2)}px 0`,
   },
 }));
 
@@ -26,7 +27,7 @@ const TableChartGrid = ({ hasData, children }) => {
 
   return (
     <div className={classes.root}>
-      <Material.Grid container spacing={3}>
+      <Material.Grid container spacing={2}>
         <Material.Grid
           item
           xs={hasGraph ? 8 : 12}

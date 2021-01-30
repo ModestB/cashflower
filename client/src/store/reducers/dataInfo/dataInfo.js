@@ -74,6 +74,12 @@ const authSuccessHandler = (state, payload) => {
     draftState.types.income = {};
     draftState.types.investment = {};
 
+    Object.keys(payload.dataYears).forEach((key) => {
+      if (payload.dataYears[key].length > 1) {
+        draftState.years[key] = [...payload.dataYears[key], 'All'];
+      }
+    });
+
     Object.keys(payload.dataTypes.income).forEach(key => {
       const incomeType = {
         [payload.dataTypes.income[key].id]: payload.dataTypes.income[key],

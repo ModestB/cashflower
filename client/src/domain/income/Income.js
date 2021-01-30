@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeHeaderTitle, getIncomeData } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import IncomeTable from './incomeTable/IncomeTable';
-import IncomeGraph from './incomeGraph/IncomeGraph';
+import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
+import ChartByType from '../../components/charts/chartByType/ChartByType';
 
 const Income = () => {
   const dispatch = useDispatch();
+  const incomeDataYears = useSelector(state => state.dataInfo.years.income);
   const currentDataYear = useSelector(state => state.income.currentDataYear);
   const incomeData = useSelector(state => state.income.data);
   const incomeTypes = useSelector(state => state.dataInfo.types.income);
@@ -72,7 +74,18 @@ const Income = () => {
         submitBtnLabel="Add Income"
         editBtnLabel="Save Income"
       />
-      <IncomeGraph />
+
+      <>
+        <ChartByDate
+          dataYears={incomeDataYears}
+          currentDataYear={currentDataYear}
+          data={incomeData}
+        />
+        <ChartByType
+          data={incomeData}
+          types={incomeTypes}
+        />
+      </>
     </TableChartGrid>
   );
 };

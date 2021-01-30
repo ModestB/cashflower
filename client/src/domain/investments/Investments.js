@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeHeaderTitle, getInvestmentData } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import InvestmentsTable from './investmentsTable/InvestmentsTable';
-import InvestmentsGraph from './investmentsGraph/InvestmentsGraph';
+import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
+import ChartByType from '../../components/charts/chartByType/ChartByType';
 
 const Investments = () => {
   const dispatch = useDispatch();
+  const investmentDataYears = useSelector(state => state.dataInfo.years.investment);
   const currentDataYear = useSelector(state => state.investment.currentDataYear);
   const investmentData = useSelector(state => state.investment.data);
   const investmentTypes = useSelector(state => state.dataInfo.types.investment);
@@ -72,7 +74,17 @@ const Investments = () => {
         submitBtnLabel="Add Investment"
         editBtnLabel="Save Investment"
       />
-      <InvestmentsGraph />
+      <>
+        <ChartByDate
+          dataYears={investmentDataYears}
+          currentDataYear={currentDataYear}
+          data={investmentData}
+        />
+        <ChartByType
+          data={investmentData}
+          types={investmentTypes}
+        />
+      </>
     </TableChartGrid>
   );
 };

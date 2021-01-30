@@ -5,7 +5,11 @@ import { formatDateToYear } from '../../../shared/utilities';
 
 export function* setInvestmentDataSaga(action) {
   const { year } = { ...action.payload };
-  const url = `/investment?startYear=${year}&endYear=${year}`;
+  let url = `/investment?startYear=${year}&endYear=${year}`;
+  if (year === 'All') {
+    url = '/investment';
+  }
+
   const res = yield axios.get(url);
 
   yield put(actions.setInvestmentData(res.data.investment));
