@@ -54,12 +54,14 @@ const Income = () => {
     },
   };
 
-  useEffect(() => {
+  const onInitLoad = () => {
     dispatch(changeHeaderTitle('Income'));
     if (!Object.keys(incomeData).length) {
       dispatch(getIncomeData(currentDataYear));
     }
-  }, []);
+  };
+
+  useEffect(onInitLoad, []);
 
   useEffect(() => {
     if (incomeData) {

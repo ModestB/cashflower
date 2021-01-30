@@ -66,7 +66,8 @@ function ChartByDate({
         }
       });
     setDataByDate(nextIncomeDataByDate);
-  }, [data]);
+  }, [data, currentDataYear, dataYears]);
+
   return (
     <ChartBox>
       <ResponsiveContainer height="99%" width="100%">

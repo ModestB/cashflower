@@ -54,17 +54,21 @@ function EditData({
   submitButtonLabel,
 }) {
   const [loading, setLoading] = useState(false);
+  const [selectIsOpen, setSelectIsOpen] = useState(false);
+
   const classes = useStyles();
   const editRef = useRef();
 
-  useOnClickOutside(editRef, () => cancelHandler());
+  useOnClickOutside(editRef, () => !selectIsOpen && cancelHandler());
 
-  useEffect(() => {
+  const dataValueChangeHandler = () => {
     if (loading) {
       setLoading(false);
       cancelHandler();
     }
-  }, [dataValues]);
+  };
+
+  useEffect(dataValueChangeHandler, [dataValues]);
 
   const submitHandler = () => {
     setLoading(true);
@@ -104,6 +108,7 @@ function EditData({
                     case 'select':
                       input = (
                         <SelectInput
+                          setSelectIsOpen={setSelectIsOpen}
                           label={column.label}
                           value={dataValues[column.id]}
                           selectType={column.selectType}

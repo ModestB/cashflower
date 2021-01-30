@@ -54,12 +54,14 @@ const Investments = () => {
     },
   };
 
-  useEffect(() => {
+  const onInitLoad = () => {
     dispatch(changeHeaderTitle('Investments'));
     if (!Object.keys(investmentData).length) {
       dispatch(getInvestmentData(currentDataYear));
     }
-  }, []);
+  };
+
+  useEffect(onInitLoad, []);
 
   useEffect(() => {
     if (investmentData) {

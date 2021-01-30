@@ -41,9 +41,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Material.Box p={3}>
-          <Material.Typography>{children}</Material.Typography>
-        </Material.Box>
+        <Material.Box p={3}>{children}</Material.Box>
       )}
     </div>
   );
@@ -67,9 +65,11 @@ export default function Welcome() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
-  useEffect(() => {
+  const onInitLoad = () => {
     dispatch(changeHeaderTitle('Cashflower'));
-  }, []);
+  };
+
+  useEffect(onInitLoad, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

@@ -60,9 +60,6 @@ const themeOverrides = {
   MuiOutlinedInput: {
     root: {
       color: palette.primary.main,
-      '&$cssFocused $notchedOutline': {
-        borderColor: palette.primary.main,
-      },
       '&:hover $notchedOutline': {
         borderColor: palette.primary.main,
       },

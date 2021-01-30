@@ -16,6 +16,21 @@ const useStyles = makeStyles((theme) => ({
   form: theme.mixins.formColumn,
 }));
 
+const PASSWORD_VALIDATION_OPTIONS = {
+  minLength: 8,
+  minLowercase: 1,
+  minUppercase: 1,
+  minNumbers: 1,
+  minSymbols: 0,
+  returnScore: false,
+  pointsPerUnique: 1,
+  pointsPerRepeat: 0.5,
+  pointsForContainingLower: 10,
+  pointsForContainingUpper: 10,
+  pointsForContainingNumber: 10,
+  pointsForContainingSymbol: 10,
+};
+
 export default function Register() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -54,90 +69,68 @@ export default function Register() {
     setUsernameError(msg);
   };
 
-  const usernameValidationHandler = () => {
-    if (whiteSpacesValidator(username)) {
-      userNameErrorHandler('No spaces are allowed in the username!');
-      return;
-    }
-    if (!isAlphanumeric(username)) {
-      userNameErrorHandler('Symbols are no allowed in the username!');
-      return;
-    }
-    if (!isLength(username, { min: 5, max: 25 })) {
-      userNameErrorHandler('Username must be atleast 5 characters and maximum length of 25!');
-      return;
-    }
-    setValidUsername(true);
-    setUsernameError('');
-  };
-
-  const emailValidationHandler = () => {
-    if (!isEmail(email)) {
-      setValidEmail(false);
-      setEmailError('Please enter valid email!');
-      return;
-    }
-    setValidEmail(true);
-    setEmailError('');
-  };
-
-  const passwordValidationHandler = () => {
-    const passwordValidationOption = {
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 0,
-      returnScore: false,
-      pointsPerUnique: 1,
-      pointsPerRepeat: 0.5,
-      pointsForContainingLower: 10,
-      pointsForContainingUpper: 10,
-      pointsForContainingNumber: 10,
-      pointsForContainingSymbol: 10,
-    };
-    if (!isStrongPassword(password, passwordValidationOption)) {
-      setValidPassword(false);
-      setPasswordError('Password must be atleast 8 characters long, contain 1 uppercase, 1 lowercase character and 1 number!');
-      return;
-    }
-    setValidPassword(true);
-    setPasswordError('');
-  };
-
-  const confirmPasswordValidationHandler = () => {
-    if (!equals(confirmPassword, password)) {
-      setValidConfirmPassword(false);
-      setConfirmPasswordError('Both passwords must be the same!');
-      return;
-    }
-    setValidConfirmPassword(true);
-    setConfirmPasswordError('');
-  };
+  // Username validation
 
   useEffect(() => {
     if (validateUsername) {
-      usernameValidationHandler();
+      if (whiteSpacesValidator(username)) {
+        userNameErrorHandler('No spaces are allowed in the username!');
+        return;
+      }
+      if (!isAlphanumeric(username)) {
+        userNameErrorHandler('Symbols are no allowed in the username!');
+        return;
+      }
+      if (!isLength(username, { min: 5, max: 25 })) {
+        userNameErrorHandler('Username must be atleast 5 characters and maximum length of 25!');
+        return;
+      }
+      setValidUsername(true);
+      setUsernameError('');
     }
   }, [username, validateUsername]);
 
+  // Email validation
+
   useEffect(() => {
     if (validateEmail) {
-      emailValidationHandler();
+      if (!isEmail(email)) {
+        setValidEmail(false);
+        setEmailError('Please enter valid email!');
+        return;
+      }
+      setValidEmail(true);
+      setEmailError('');
     }
   }, [email, validateEmail]);
 
+  // Password validation
+
   useEffect(() => {
     if (validatePassword) {
-      passwordValidationHandler();
+      if (!isStrongPassword(password, PASSWORD_VALIDATION_OPTIONS)) {
+        setValidPassword(false);
+        setPasswordError('Password must be atleast 8 characters long, contain 1 uppercase, 1 lowercase character and 1 number!');
+        return;
+      }
+      setValidPassword(true);
+      setPasswordError('');
     }
   }, [password, validatePassword]);
 
+  // Confirm password validation
+
   useEffect(() => {
     if (validateConfirmPassword) {
-      confirmPasswordValidationHandler();
+      if (!equals(confirmPassword, password)) {
+        setValidConfirmPassword(false);
+        setConfirmPasswordError('Both passwords must be the same!');
+        return;
+      }
+      setValidConfirmPassword(true);
+      setConfirmPasswordError('');
     }
-  }, [confirmPassword, validateConfirmPassword]);
+  }, [confirmPassword, validateConfirmPassword, password]);
 
   useEffect(() => {
     if (
@@ -162,7 +155,7 @@ export default function Register() {
         className={classes.formControl}
         onChange={(e) => setUsername(e.target.value)}
         onBlur={() => setValidateUsername(true)}
-        error={!validUsername && usernameError.length}
+        error={!validUsername && usernameError.length > 0}
         helperText={usernameError}
       />
       <Material.TextField
@@ -174,7 +167,7 @@ export default function Register() {
         className={classes.formControl}
         onChange={(e) => setEmail(e.target.value)}
         onBlur={() => setValidateEmail(true)}
-        error={!validEmail && emailError.length}
+        error={!validEmail && emailError.length > 0}
         helperText={emailError}
       />
       <Material.TextField
@@ -186,7 +179,7 @@ export default function Register() {
         className={classes.formControl}
         onChange={(e) => setPassword(e.target.value)}
         onBlur={() => setValidatePassword(true)}
-        error={!validPassword && passwordError.length}
+        error={!validPassword && passwordError.length > 0}
         helperText={passwordError}
         InputProps={{
           endAdornment: (
@@ -211,7 +204,7 @@ export default function Register() {
         className={classes.formControl}
         onChange={(e) => setConfirmPassword(e.target.value)}
         onBlur={() => setValidateConfirmPassword(true)}
-        error={!validConfirmPassword && confirmPasswordError.length}
+        error={!validConfirmPassword && confirmPasswordError.length > 0}
         helperText={confirmPasswordError}
       />
       <Material.Box className={classes.buttonGrid}>

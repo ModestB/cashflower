@@ -37,7 +37,7 @@ function ChartByType({
         }
       });
     setDataByType(nextDataByType);
-  }, [data]);
+  }, [data, types]);
 
   return (
     <ChartBox>

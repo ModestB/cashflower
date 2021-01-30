@@ -86,7 +86,7 @@ export function* deleteInvestmentTypeSaga(action) {
       });
   });
 
-  const result = yield promise;
+  yield promise;
 
   yield put(actions.investmentTypeDeleteSucceess(action.payload.key));
 }

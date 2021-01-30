@@ -38,9 +38,11 @@ function App() {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  useEffect(() => {
+  const initLoad = () => {
     dispatch(authCheck());
-  }, []);
+  };
+
+  useEffect(initLoad, []);
 
   return (
     <>

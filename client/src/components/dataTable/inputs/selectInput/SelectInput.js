@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SelectInput({
+  setSelectIsOpen,
   options,
   onChangeHandler,
   selectAddLoading,
@@ -36,6 +37,10 @@ function SelectInput({
   const [open, setOpen] = useState(false);
   const [newOption, setNewOption] = useState('');
   const classes = useStyles();
+
+  useEffect(() => {
+    setSelectIsOpen(open);
+  }, [open, setSelectIsOpen]);
 
   const openHandler = () => setOpen(true);
 
@@ -137,7 +142,12 @@ function SelectInput({
   );
 }
 
+SelectInput.defaultProps = {
+  setSelectIsOpen: () => {},
+};
+
 SelectInput.propTypes = {
+  setSelectIsOpen: PropTypes.func,
   options: PropTypes.oneOfType([PropTypes.object]).isRequired,
   onChangeHandler: PropTypes.func.isRequired,
   selectAddLoading: PropTypes.bool.isRequired,

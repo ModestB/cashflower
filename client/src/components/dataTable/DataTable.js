@@ -83,7 +83,7 @@ function DataTable({
       setShowTablePagination(Object.keys(tableData).length > rowPerTablePage[0]);
       setHasData(Object.keys(tableData).length > 0);
     }
-  }, [tableData]);
+  }, [tableData, rowPerTablePage]);
 
   const handleChangePage = (event, newPage) => {
     setTablePage(newPage);
@@ -258,7 +258,7 @@ DataTable.propTypes = {
   tableData: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitBtnLabel: PropTypes.string,
   editBtnLabel: PropTypes.string,
-  tableDataYears: PropTypes.arrayOf(PropTypes.number),
+  tableDataYears: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
   activeTableDataYear: PropTypes.number,
   tableDataLoading: PropTypes.bool,
   tableDataAddLoading: PropTypes.bool,

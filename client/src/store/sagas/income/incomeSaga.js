@@ -86,7 +86,7 @@ export function* deleteIncomeTypeSaga(action) {
       });
   });
 
-  const result = yield promise;
+  yield promise;
 
   yield put(actions.incomeTypeDeleteSucceess(action.payload.key));
 }

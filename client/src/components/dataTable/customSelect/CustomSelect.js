@@ -56,7 +56,10 @@ CustomSelect.propTypes = {
   ]).isRequired,
   label: PropTypes.string.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])).isRequired,
 };
 
 export default CustomSelect;
