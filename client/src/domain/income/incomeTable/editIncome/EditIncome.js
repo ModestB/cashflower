@@ -9,7 +9,6 @@ function EditIncome({
   editHandler,
   cancelHandler,
   submitButtonLabel,
-  columnsSettings,
 }) {
   const incomeTypes = useSelector(state => state.dataInfo.types.income);
   const incomeTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
@@ -87,7 +86,6 @@ function EditIncome({
     <EditData
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
-      columnsSettings={columnsSettings}
       dataChangeHandlers={dataChangeHandlers}
       dataValues={dataValues}
       editDataHandler={editDataHandler}
@@ -105,7 +103,6 @@ EditIncome.propTypes = {
   editHandler: PropTypes.func.isRequired,
   cancelHandler: PropTypes.func,
   submitButtonLabel: PropTypes.string,
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 EditIncome.defaultProps = {

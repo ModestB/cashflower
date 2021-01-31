@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import format from 'date-fns/format';
 import { makeStyles } from '@material-ui/core/styles';
 import Material from '../../../shared/material';
 import TableRowMenu from '../tableRowMenu/TableRowMenu';
 import LoadingTableRow from '../loadingTableRow/LoadingTableRow';
+import { TableSettingsContext } from '../../../context/TableSettingsContext';
 
 const useStyles = makeStyles((theme) => ({
   tableCellActions: {
@@ -31,11 +32,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DataTableRow(props) {
+  const { tableSettings } = useContext(TableSettingsContext);
   const classes = useStyles();
   const [columns, setColumns] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const colSpan = Object.keys(props.columnsSettings).length;
+  const colSpan = Object.keys(tableSettings).length;
   let rowContent = null;
 
   useEffect(() => {
@@ -43,10 +45,10 @@ export default function DataTableRow(props) {
   }, [props.row]);
 
   useEffect(() => {
-    const col = Object.keys(props.columnsSettings)
-      .map(key => props.columnsSettings[key]);
+    const col = Object.keys(tableSettings)
+      .map(key => tableSettings[key]);
     setColumns(col);
-  }, [props.columnsSettings]);
+  }, [tableSettings]);
 
   const showEditDataHandler = () => {
     setShowEdit(true);

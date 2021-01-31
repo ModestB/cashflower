@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Material from '../../../shared/material';
+import { TableSettingsContext } from '../../../context/TableSettingsContext';
 import DateInput from '../inputs/dateInput/DateInput';
 import NumberInput from '../inputs/numberInput/NumberInput';
 import SelectInput from '../inputs/selectInput/SelectInput';
@@ -43,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
 function EditData({
   cancelHandler,
   editDataHandler,
-  columnsSettings,
   dataValues,
   dataChangeHandlers,
   selectOptions,
@@ -53,6 +58,7 @@ function EditData({
   selectDeleteLoading,
   submitButtonLabel,
 }) {
+  const { tableSettings } = useContext(TableSettingsContext);
   const [loading, setLoading] = useState(false);
   const [selectIsOpen, setSelectIsOpen] = useState(false);
 
@@ -81,7 +87,7 @@ function EditData({
         <Material.Table className={classes.table}>
           <Material.TableBody>
             <Material.TableRow>
-              {Object.values(columnsSettings)
+              {Object.values(tableSettings)
                 .map((column) => {
                   let input = null;
                   if (!column.inputType) return null;
@@ -203,7 +209,6 @@ function EditData({
 EditData.propTypes = {
   cancelHandler: PropTypes.func.isRequired,
   editDataHandler: PropTypes.func.isRequired,
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   dataValues: PropTypes.oneOfType([PropTypes.object]).isRequired,
   dataChangeHandlers: PropTypes.oneOfType([PropTypes.object]).isRequired,
   selectOptions: PropTypes.oneOfType([PropTypes.object]).isRequired,

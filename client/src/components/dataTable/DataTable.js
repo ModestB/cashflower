@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +12,7 @@ import { arraySortByDateDesc } from '../../shared/utilities';
 import DataTableRow from './dataTableRow/DataTableRow';
 import LoadingTableRow from './loadingTableRow/LoadingTableRow';
 import CustomSelect from './customSelect/CustomSelect';
+import { TableSettingsContext } from '../../context/TableSettingsContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DataTable({
-  columnsSettings,
   submitBtnLabel,
   editBtnLabel,
   tableData,
@@ -66,6 +71,7 @@ function DataTable({
   deleteDataHandler,
   currentDataYearHandler,
 }) {
+  const { tableSettings } = useContext(TableSettingsContext);
   const classes = useStyles();
   const rowPerTablePage = [15, 30, 50];
   const userId = useSelector(state => state.auth.userId);
@@ -75,7 +81,7 @@ function DataTable({
   const [hasData, setHasData] = useState(false);
   const [showTablePagination, setShowTablePagination] = useState(false);
   const tableRef = useRef(null);
-  const colSpan = Object.keys(columnsSettings).length;
+  const colSpan = Object.keys(tableSettings).length;
   let tableBody = null;
 
   useEffect(() => {
@@ -125,7 +131,7 @@ function DataTable({
       <Material.TableBody>
         {
           addDataComponent && addDataComponent({
-            columnsSettings,
+            columnsSettings: tableSettings,
             cancelHandler: hideAddDataHandler,
             submitHandler: tableDataAddHandler,
             submitButtonLabel: submitBtnLabel,
@@ -142,13 +148,12 @@ function DataTable({
             <DataTableRow
               key={row.id}
               row={row}
-              columnsSettings={columnsSettings}
               deleteHandler={deleteDataRowHandler}
               addDataEmptyCellSpan={2}
             >
               {
                 editDataComponent && editDataComponent({
-                  columnsSettings,
+                  columnsSettings: tableSettings,
                   row,
                   editHandler: tableDataEditHandler,
                   submitButtonLabel: editBtnLabel,
@@ -201,8 +206,8 @@ function DataTable({
         <Material.Table stickyHeader aria-label="sticky table" className={classes.table}>
           <Material.TableHead className={classes.tableHead}>
             <Material.TableRow>
-              {Object.keys(columnsSettings)
-                .map(key => columnsSettings[key])
+              {Object.keys(tableSettings)
+                .map(key => tableSettings[key])
                 .filter((column) => column.id !== 'edit')
                 .map((column) => (
                   <Material.TableCell
@@ -254,7 +259,6 @@ DataTable.defaultProps = {
 };
 
 DataTable.propTypes = {
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   tableData: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitBtnLabel: PropTypes.string,
   editBtnLabel: PropTypes.string,

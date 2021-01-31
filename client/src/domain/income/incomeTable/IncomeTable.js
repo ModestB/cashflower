@@ -1,26 +1,44 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions/actions';
 import AddIncome from './addIncome/AddIcome';
 import EditIncome from './editIncome/EditIncome';
 import DataTable from '../../../components/dataTable/DataTable';
+import { TableSettingsContext } from '../../../context/TableSettingsContext';
+import {
+  tableDateColumnSettings,
+  tableAmountColumnSettings,
+  tableTypeColumnSettings,
+  tableCommentColumnSettings,
+  tableEditColumnSettings,
+} from '../../../shared/constants';
 
 function IncomeTable({
-  columnsSettings,
   submitBtnLabel,
   editBtnLabel,
 }) {
   const dispatch = useDispatch();
   const incomeData = useSelector(state => state.income.data);
+  const incomeTypes = useSelector(state => state.dataInfo.types.income);
   const incomeDataYears = useSelector(state => state.dataInfo.years.income);
   const incomeDataLoading = useSelector(state => state.income.incomeDataLoading);
   const incomeAddLoading = useSelector(state => state.income.incomeAddLoading);
   const currentDataYear = useSelector(state => state.income.currentDataYear);
+  const { setTableSettings } = useContext(TableSettingsContext);
+
+  useEffect(() => {
+    setTableSettings({
+      ...tableDateColumnSettings('Date', true),
+      ...tableAmountColumnSettings('Amount', true),
+      ...tableTypeColumnSettings('Income type', 'income', true, incomeTypes),
+      ...tableCommentColumnSettings('Comment', true),
+      ...tableEditColumnSettings(),
+    });
+  }, [incomeTypes, setTableSettings]);
 
   return (
     <DataTable
-      columnsSettings={columnsSettings}
       submitBtnLabel={submitBtnLabel}
       editBtnLabel={editBtnLabel}
       tableData={incomeData}
@@ -43,7 +61,6 @@ function IncomeTable({
 }
 
 IncomeTable.propTypes = {
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitBtnLabel: PropTypes.string.isRequired,
   editBtnLabel: PropTypes.string.isRequired,
 };

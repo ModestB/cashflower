@@ -9,7 +9,6 @@ function EditInvestment({
   editHandler,
   cancelHandler,
   submitButtonLabel,
-  columnsSettings,
 }) {
   const investmentTypes = useSelector(state => state.dataInfo.types.investment);
   const investmentTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
@@ -87,7 +86,6 @@ function EditInvestment({
     <EditData
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
-      columnsSettings={columnsSettings}
       dataChangeHandlers={dataChangeHandlers}
       dataValues={dataValues}
       editDataHandler={editDataHandler}
@@ -105,7 +103,6 @@ EditInvestment.propTypes = {
   editHandler: PropTypes.func.isRequired,
   cancelHandler: PropTypes.func,
   submitButtonLabel: PropTypes.string,
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 EditInvestment.defaultProps = {

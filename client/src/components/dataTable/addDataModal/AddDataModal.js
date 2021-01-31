@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import Material from '../../../shared/material';
+import { TableSettingsContext } from '../../../context/TableSettingsContext';
 import DateInput from '../inputs/dateInput/DateInput';
 import NumberInput from '../inputs/numberInput/NumberInput';
 import SelectInput from '../inputs/selectInput/SelectInput';
@@ -43,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 function AddDataModal({
   openModalHandler,
   openModal,
-  columnsSettings,
   dataValues,
   dataChangeHandlers,
   selectOptions,
@@ -53,6 +53,7 @@ function AddDataModal({
   selectDeleteLoading,
   addDataHandler,
 }) {
+  const { tableSettings } = useContext(TableSettingsContext);
   const classes = useStyles();
 
   const handleClose = () => {
@@ -78,7 +79,7 @@ function AddDataModal({
             <Material.Grid container>
               <Material.Grid item xs={12}>
                 <Material.Box className={classes.formRow} display="flex">
-                  {Object.values(columnsSettings)
+                  {Object.values(tableSettings)
                     .map((column) => {
                       let input = null;
 
@@ -174,7 +175,6 @@ function AddDataModal({
 AddDataModal.propTypes = {
   openModalHandler: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   dataValues: PropTypes.oneOfType([PropTypes.object]).isRequired,
   dataChangeHandlers: PropTypes.oneOfType([PropTypes.object]).isRequired,
   selectOptions: PropTypes.oneOfType([PropTypes.object]).isRequired,

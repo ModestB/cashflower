@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../../store/actions/actions';
 import AddInvestment from './addInvestment/AddInvestment';
 import EditInvestment from './editInvestment/EditInvestment';
 import DataTable from '../../../components/dataTable/DataTable';
+import { TableSettingsContext } from '../../../context/TableSettingsContext';
+import {
+  tableDateColumnSettings,
+  tableAmountColumnSettings,
+  tableTypeColumnSettings,
+  tableCommentColumnSettings,
+  tableEditColumnSettings,
+} from '../../../shared/constants';
 
 function InvestmentTable({
-  columnsSettings,
   submitBtnLabel,
   editBtnLabel,
 }) {
   const dispatch = useDispatch();
   const investmentData = useSelector(state => state.investment.data);
+  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
   const investmentDataYears = useSelector(state => state.dataInfo.years.investment);
   const investmentDataLoading = useSelector(state => state.investment.investmentDataLoading);
   const investmentAddLoading = useSelector(state => state.investment.investmentAddLoading);
   const currentDataYear = useSelector(state => state.investment.currentDataYear);
+  const { setTableSettings } = useContext(TableSettingsContext);
+
+  useEffect(() => {
+    setTableSettings({
+      ...tableDateColumnSettings('Date', true),
+      ...tableAmountColumnSettings('Amount', true),
+      ...tableTypeColumnSettings('Type of Investment', 'investment', true, investmentTypes),
+      ...tableCommentColumnSettings('Comment', true),
+      ...tableEditColumnSettings(),
+    });
+  }, [investmentTypes, setTableSettings]);
+
   return (
     <DataTable
-      columnsSettings={columnsSettings}
       submitBtnLabel={submitBtnLabel}
       editBtnLabel={editBtnLabel}
       tableData={investmentData}
@@ -42,7 +61,6 @@ function InvestmentTable({
 }
 
 InvestmentTable.propTypes = {
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitBtnLabel: PropTypes.string.isRequired,
   editBtnLabel: PropTypes.string.isRequired,
 };

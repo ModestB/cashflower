@@ -5,7 +5,6 @@ import { investmentTypeAddRequest, investmentTypeDeleteRequest } from '../../../
 import AddDataModal from '../../../../components/dataTable/addDataModal/AddDataModal';
 
 function AddInvestment({
-  columnsSettings,
   submitButtonLabel,
   cancelHandler,
   submitHandler,
@@ -77,7 +76,6 @@ function AddInvestment({
       dataValues={dataValues}
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
-      columnsSettings={columnsSettings}
       dataChangeHandlers={dataChangeHandlers}
       addDataHandler={addDataHandler}
       addTypeHandler={addTypeHandler}
@@ -100,7 +98,6 @@ AddInvestment.defaultProps = {
 };
 
 AddInvestment.propTypes = {
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitHandler: PropTypes.func,
   cancelHandler: PropTypes.func,
   submitButtonLabel: PropTypes.string,

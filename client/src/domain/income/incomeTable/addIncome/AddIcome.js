@@ -5,7 +5,6 @@ import { incomeTypeAddRequest, incomeTypeDeleteRequest } from '../../../../store
 import AddDataModal from '../../../../components/dataTable/addDataModal/AddDataModal';
 
 function AddIcome({
-  columnsSettings,
   submitButtonLabel,
   cancelHandler,
   submitHandler,
@@ -76,7 +75,6 @@ function AddIcome({
       dataValues={dataValues}
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
-      columnsSettings={columnsSettings}
       dataChangeHandlers={dataChangeHandlers}
       addDataHandler={addDataHandler}
       addTypeHandler={addTypeHandler}
@@ -99,7 +97,6 @@ AddIcome.defaultProps = {
 };
 
 AddIcome.propTypes = {
-  columnsSettings: PropTypes.oneOfType([PropTypes.object]).isRequired,
   submitHandler: PropTypes.func,
   cancelHandler: PropTypes.func,
   submitButtonLabel: PropTypes.string,

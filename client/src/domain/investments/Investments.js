@@ -5,6 +5,7 @@ import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import InvestmentsTable from './investmentsTable/InvestmentsTable';
 import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
 import ChartByType from '../../components/charts/chartByType/ChartByType';
+import { TableSettingsProvider } from '../../context/TableSettingsContext';
 
 const Investments = () => {
   const dispatch = useDispatch();
@@ -13,46 +14,6 @@ const Investments = () => {
   const investmentData = useSelector(state => state.investment.data);
   const investmentTypes = useSelector(state => state.dataInfo.types.investment);
   const [hasData, setHasData] = useState(false);
-
-  const columnsSettings = {
-    date: {
-      id: 'date',
-      label: 'Date',
-      editable: true,
-      inputType: 'date',
-      dateFormat: 'yyyy-MM-dd',
-      minWidth: 170,
-    },
-    amount: {
-      id: 'amount',
-      label: 'Amount',
-      editable: true,
-      inputType: 'number',
-      minWidth: 100,
-    },
-    type: {
-      id: 'type',
-      label: 'Type of Investment',
-      selectType: 'investment',
-      editable: true,
-      inputType: 'select',
-      items: investmentTypes,
-      minWidth: 170,
-    },
-    comment: {
-      id: 'comment',
-      label: 'Comment',
-      editable: true,
-      inputType: 'textArea',
-      minWidth: 170,
-      headerColSpan: 2,
-    },
-    edit: {
-      id: 'edit',
-      label: '',
-      minWidth: 50,
-    },
-  };
 
   const onInitLoad = () => {
     dispatch(changeHeaderTitle('Investments'));
@@ -71,11 +32,12 @@ const Investments = () => {
 
   return (
     <TableChartGrid hasData={hasData}>
-      <InvestmentsTable
-        columnsSettings={columnsSettings}
-        submitBtnLabel="Add Investment"
-        editBtnLabel="Save Investment"
-      />
+      <TableSettingsProvider>
+        <InvestmentsTable
+          submitBtnLabel="Add Investment"
+          editBtnLabel="Save Investment"
+        />
+      </TableSettingsProvider>
       <>
         <ChartByDate
           dataYears={investmentDataYears}
