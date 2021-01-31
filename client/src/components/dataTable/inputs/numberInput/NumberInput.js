@@ -13,7 +13,7 @@ function NumberInput({
       label={label}
       type="number"
       value={value}
-      onChange={onChangeHandler}
+      onChange={(e) => onChangeHandler(e.target.value)}
       InputLabelProps={{
         shrink: true,
       }}

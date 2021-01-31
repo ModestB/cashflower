@@ -14,7 +14,7 @@ function TextAreaInput({
       multiline
       rowsMax={4}
       value={value}
-      onChange={onChangeHandler}
+      onChange={(e) => onChangeHandler(e.target.value)}
       InputLabelProps={{
         shrink: true,
       }}

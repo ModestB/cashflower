@@ -48,7 +48,7 @@ function SelectInput({
 
   const onChange = (e) => {
     if (e.target.value !== 'addOption') {
-      onChangeHandler(e);
+      onChangeHandler(e.target.value);
     }
   };
 

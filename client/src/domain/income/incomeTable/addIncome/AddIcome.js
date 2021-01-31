@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { incomeTypeAddRequest, incomeTypeDeleteRequest } from '../../../../store/actions/actions';
 import AddDataModal from '../../../../components/dataTable/addDataModal/AddDataModal';
+import useChangeTableData from '../../../../shared/hooks/useChangeTableData';
 
 function AddIcome({
   submitButtonLabel,
@@ -16,33 +17,16 @@ function AddIcome({
   const incomeTypes = useSelector(state => state.dataInfo.types.income);
   const incomeTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
   const incomeTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [amount, setAmount] = useState('');
-  const [type, setType] = useState(Object.keys(incomeTypes)[0]);
-  const [comment, setComment] = useState(' ');
-
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
-
-  const handleTypeChange = (event) => {
-    setType(event.target.value);
-  };
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
-  const addDataHandler = () => {
-    const formatedData = {
-      date: selectedDate.toISOString().split('T')[0],
-      amount,
-      type,
-      comment,
-    };
-
-    submitHandler(formatedData, userId);
-  };
+  const {
+    values,
+    valuesChangeHandlers,
+    saveDataHandler,
+    selectItems,
+  } = useChangeTableData({
+    userId,
+    submitHandler,
+    types: incomeTypes,
+  });
 
   const addTypeHandler = (uid, incomeType) => {
     dispatch(incomeTypeAddRequest(uid, incomeType));
@@ -52,34 +36,16 @@ function AddIcome({
     dispatch(incomeTypeDeleteRequest(key, uid));
   };
 
-  const dataChangeHandlers = {
-    date: setSelectedDate,
-    amount: handleAmountChange,
-    type: handleTypeChange,
-    comment: handleCommentChange,
-  };
-
-  const dataValues = {
-    date: selectedDate,
-    amount,
-    type,
-    comment,
-  };
-
-  const selectOptions = {
-    type: incomeTypes,
-  };
-
   return (
     <AddDataModal
-      dataValues={dataValues}
+      dataValues={values}
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
-      dataChangeHandlers={dataChangeHandlers}
-      addDataHandler={addDataHandler}
+      dataChangeHandlers={valuesChangeHandlers}
+      addDataHandler={saveDataHandler}
       addTypeHandler={addTypeHandler}
       deleteTypeHandler={deleteTypeHandler}
-      selectOptions={selectOptions}
+      selectOptions={selectItems}
       selectAddLoading={incomeTypeAddLoading}
       selectDeleteLoading={incomeTypeDeleteLoading}
       openModal={openModal}

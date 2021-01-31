@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { investmentTypeAddRequest, investmentTypeDeleteRequest } from '../../../../store/actions/actions';
 import AddDataModal from '../../../../components/dataTable/addDataModal/AddDataModal';
+import useChangeTableData from '../../../../shared/hooks/useChangeTableData';
 
 function AddInvestment({
   submitButtonLabel,
@@ -17,33 +18,16 @@ function AddInvestment({
   const investmentTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
   const investmentTypeDeleteLoading =
     useSelector(state => state.dataInfo.loading.typeDelete);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [amount, setAmount] = useState('');
-  const [type, setType] = useState(Object.keys(investmentTypes)[0]);
-  const [comment, setComment] = useState(' ');
-
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
-
-  const handleTypeChange = (event) => {
-    setType(event.target.value);
-  };
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
-  const addDataHandler = () => {
-    const formatedData = {
-      date: selectedDate.toISOString().split('T')[0],
-      amount,
-      type,
-      comment,
-    };
-
-    submitHandler(formatedData, userId);
-  };
+  const {
+    values,
+    valuesChangeHandlers,
+    saveDataHandler,
+    selectItems,
+  } = useChangeTableData({
+    userId,
+    submitHandler,
+    types: investmentTypes,
+  });
 
   const addTypeHandler = (uid, investmentType) => {
     dispatch(investmentTypeAddRequest(uid, investmentType));
@@ -53,34 +37,16 @@ function AddInvestment({
     dispatch(investmentTypeDeleteRequest(key, uid));
   };
 
-  const dataChangeHandlers = {
-    date: setSelectedDate,
-    amount: handleAmountChange,
-    type: handleTypeChange,
-    comment: handleCommentChange,
-  };
-
-  const dataValues = {
-    date: selectedDate,
-    amount,
-    type,
-    comment,
-  };
-
-  const selectOptions = {
-    type: investmentTypes,
-  };
-
   return (
     <AddDataModal
-      dataValues={dataValues}
+      dataValues={values}
       cancelHandler={cancelHandler}
       submitButtonLabel={submitButtonLabel}
-      dataChangeHandlers={dataChangeHandlers}
-      addDataHandler={addDataHandler}
+      dataChangeHandlers={valuesChangeHandlers}
+      addDataHandler={saveDataHandler}
       addTypeHandler={addTypeHandler}
       deleteTypeHandler={deleteTypeHandler}
-      selectOptions={selectOptions}
+      selectOptions={selectItems}
       selectAddLoading={investmentTypeAddLoading}
       selectDeleteLoading={investmentTypeDeleteLoading}
       openModal={openModal}
