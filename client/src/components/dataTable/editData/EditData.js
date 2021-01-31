@@ -61,11 +61,12 @@ function EditData({
   const { tableSettings } = useContext(TableSettingsContext);
   const [loading, setLoading] = useState(false);
   const [selectIsOpen, setSelectIsOpen] = useState(false);
+  const [disableClickOutside, setDisableClickOutside] = useState(false);
 
   const classes = useStyles();
   const editRef = useRef();
 
-  useOnClickOutside(editRef, () => !selectIsOpen && cancelHandler());
+  useOnClickOutside(editRef, () => !disableClickOutside && cancelHandler());
 
   const dataValueChangeHandler = () => {
     if (loading) {
@@ -99,6 +100,8 @@ function EditData({
                           label={column.label}
                           selectedDate={dataValues[column.id]}
                           onChangeHandler={dataChangeHandlers[column.id]}
+                          onOpenHandler={() => setDisableClickOutside(true)}
+                          onCloseHandler={() => setDisableClickOutside(false)}
                         />
                       );
                       break;
@@ -114,7 +117,8 @@ function EditData({
                     case 'select':
                       input = (
                         <SelectInput
-                          setSelectIsOpen={setSelectIsOpen}
+                          onOpenHandler={() => setDisableClickOutside(true)}
+                          onCloseHandler={() => setDisableClickOutside(false)}
                           label={column.label}
                           value={dataValues[column.id]}
                           selectType={column.selectType}

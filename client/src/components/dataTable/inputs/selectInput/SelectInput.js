@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SelectInput({
-  setSelectIsOpen,
+  onOpenHandler,
+  onCloseHandler,
   options,
   onChangeHandler,
   selectAddLoading,
@@ -38,13 +39,15 @@ function SelectInput({
   const [newOption, setNewOption] = useState('');
   const classes = useStyles();
 
-  useEffect(() => {
-    setSelectIsOpen(open);
-  }, [open, setSelectIsOpen]);
+  const openHandler = () => {
+    setOpen(true);
+    onOpenHandler();
+  };
 
-  const openHandler = () => setOpen(true);
-
-  const closeHandler = () => setOpen(false);
+  const closeHandler = () => {
+    setOpen(false);
+    onCloseHandler();
+  };
 
   const onChange = (e) => {
     if (e.target.value !== 'addOption') {
@@ -143,11 +146,13 @@ function SelectInput({
 }
 
 SelectInput.defaultProps = {
-  setSelectIsOpen: () => {},
+  onOpenHandler: () => {},
+  onCloseHandler: () => {},
 };
 
 SelectInput.propTypes = {
-  setSelectIsOpen: PropTypes.func,
+  onOpenHandler: PropTypes.func,
+  onCloseHandler: PropTypes.func,
   options: PropTypes.oneOfType([PropTypes.object]).isRequired,
   onChangeHandler: PropTypes.func.isRequired,
   selectAddLoading: PropTypes.bool.isRequired,

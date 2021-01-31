@@ -6,6 +6,8 @@ function DateInput({
   label,
   selectedDate,
   onChangeHandler,
+  onOpenHandler,
+  onCloseHandler,
 }) {
   return (
     <KeyboardDatePicker
@@ -19,11 +21,20 @@ function DateInput({
       KeyboardButtonProps={{
         'aria-label': 'change date',
       }}
+      onOpen={onOpenHandler}
+      onClose={onCloseHandler}
     />
   );
 }
 
+DateInput.defaultProps = {
+  onOpenHandler: () => {},
+  onCloseHandler: () => {},
+};
+
 DateInput.propTypes = {
+  onOpenHandler: PropTypes.func,
+  onCloseHandler: PropTypes.func,
   label: PropTypes.string.isRequired,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
   onChangeHandler: PropTypes.func.isRequired,
