@@ -263,7 +263,7 @@ DataTable.propTypes = {
   submitBtnLabel: PropTypes.string,
   editBtnLabel: PropTypes.string,
   tableDataYears: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
-  activeTableDataYear: PropTypes.number,
+  activeTableDataYear: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   tableDataLoading: PropTypes.bool,
   tableDataAddLoading: PropTypes.bool,
   addDataComponent: PropTypes.func,
