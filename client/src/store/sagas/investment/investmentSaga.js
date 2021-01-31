@@ -28,7 +28,7 @@ export function* addInvestmentDataSaga(action) {
 
   yield put(actions.investmentAddSucceess(results.data, results.data.id));
 
-  if (currentDataYear !== resultDataYear) {
+  if (currentDataYear !== resultDataYear && currentDataYear !== 'All') {
     yield put(actions.getInvestmentData(resultDataYear));
   }
 }
