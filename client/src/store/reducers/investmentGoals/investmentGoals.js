@@ -4,6 +4,7 @@ import {
   INVESTMENT_GOALS_GET_SUCCEEDED,
   INVESTMENT_GOAL_ADD_REQUESTED,
   INVESTMENT_GOAL_ADD_SUCCEEDED,
+  INVESTMENT_GOAL_ADD_FAILED,
   INVESTMENT_GOAL_EDIT_REQUESTED,
   INVESTMENT_GOAL_EDIT_SUCCEEDED,
   INVESTMENT_GOAL_DELETE_REQUESTED,
@@ -28,7 +29,6 @@ const requestAddInvestmentGoalHandler = (state) => {
 };
 
 const addInvestmentGoalSuccessHandler = (state, payload) => {
-  console.log(payload)
   const nextState = produce(state, draftState => {
     draftState.data[payload.key] = payload.investmentGoal;
     draftState.investmentGoalAddLoading = false;
@@ -36,6 +36,14 @@ const addInvestmentGoalSuccessHandler = (state, payload) => {
     if (state.currentDataYear === payload.investmentGoal.year) {
       draftState.data[payload.key] = payload.investmentGoal;
     }
+  });
+
+  return nextState;
+};
+
+const addInvestmentGoalFailHandler = (state) => {
+  const nextState = produce(state, draftState => {
+    draftState.investmentGoalAddLoading = false;
   });
 
   return nextState;
@@ -96,6 +104,10 @@ export default (state = initialState, action) => {
 
     case INVESTMENT_GOAL_ADD_SUCCEEDED: {
       return addInvestmentGoalSuccessHandler(state, action.payload);
+    }
+
+    case INVESTMENT_GOAL_ADD_FAILED: {
+      return addInvestmentGoalFailHandler(state);
     }
 
     case INVESTMENT_GOAL_EDIT_REQUESTED: {

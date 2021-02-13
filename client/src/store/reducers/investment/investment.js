@@ -4,6 +4,7 @@ import {
   INVESTMENT_GET_SUCCEEDED,
   INVESTMENT_ADD_REQUESTED,
   INVESTMENT_ADD_SUCCEEDED,
+  INVESTMENT_ADD_FAILED,
   INVESTMENT_EDIT_REQUESTED,
   INVESTMENT_EDIT_SUCCEEDED,
   INVESTMENT_DELETE_REQUESTED,
@@ -36,6 +37,14 @@ const addInvestmentSuccessHandler = (state, payload) => {
     if (state.currentDataYear === year) {
       draftState.data[payload.key] = payload.investment;
     }
+  });
+
+  return nextState;
+};
+
+const addInvestmentFailHandler = (state) => {
+  const nextState = produce(state, draftState => {
+    draftState.investmentAddLoading = false;
   });
 
   return nextState;
@@ -96,6 +105,10 @@ export default (state = initialState, action) => {
 
     case INVESTMENT_ADD_SUCCEEDED: {
       return addInvestmentSuccessHandler(state, action.payload);
+    }
+
+    case INVESTMENT_ADD_FAILED: {
+      return addInvestmentFailHandler(state);
     }
 
     case INVESTMENT_EDIT_REQUESTED: {

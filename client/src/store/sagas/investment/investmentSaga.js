@@ -17,32 +17,47 @@ export function* setInvestmentDataSaga(action) {
 
 export function* addInvestmentDataSaga(action) {
   const { currentDataYear } = { ...action.payload };
-  const promise = new Promise((resolve) => {
-    axios.post('/investment', action.payload.investment)
-      .then((response) => {
-        resolve(response);
-      });
-  });
-  const results = yield promise;
-  const resultDataYear = formatDateToYear(new Date(results.data.date));
 
-  yield put(actions.investmentAddSucceess(results.data, results.data.id));
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.post('/investment', action.payload.investment)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+    const results = yield promise;
+    const resultDataYear = formatDateToYear(new Date(results.data.date));
 
-  if (currentDataYear !== resultDataYear && currentDataYear !== 'All') {
-    yield put(actions.getInvestmentData(resultDataYear));
+    yield put(actions.investmentAddSucceess(results.data, results.data.id));
+
+    if (currentDataYear !== resultDataYear && currentDataYear !== 'All') {
+      yield put(actions.getInvestmentData(resultDataYear));
+    }
+  } catch (error) {
+    yield put(actions.investmentAddFailed(error.response.data.message));
   }
 }
 
 export function* editInvestmentDataSaga(action) {
-  const promise = new Promise((resolve) => {
-    axios.patch(`/investment/${action.payload.key}`, action.payload.investment)
-      .then((response) => {
-        resolve(response.data);
-      });
-  });
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.patch(`/investment/${action.payload.key}`, action.payload.investment)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
 
-  const result = yield promise;
-  yield put(actions.investmentEditSucceess(action.payload.key, result));
+    const result = yield promise;
+    yield put(actions.investmentEditSucceess(action.payload.key, result));
+  } catch (error) {
+    yield put(actions.investmentEditFailed(error.response.data.message));
+  }
 }
 
 export function* deleteInvestmentDataSaga(action) {

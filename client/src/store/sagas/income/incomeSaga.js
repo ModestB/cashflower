@@ -17,32 +17,46 @@ export function* setIncomeDataSaga(action) {
 
 export function* addIncomeDataSaga(action) {
   const { currentDataYear } = { ...action.payload };
-  const promise = new Promise((resolve) => {
-    axios.post('/income', action.payload.income)
-      .then((response) => {
-        resolve(response);
-      });
-  });
-  const results = yield promise;
-  const resultDataYear = formatDateToYear(new Date(results.data.date));
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.post('/income', action.payload.income)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+    const results = yield promise;
+    const resultDataYear = formatDateToYear(new Date(results.data.date));
 
-  yield put(actions.incomeAddSucceess(results.data, results.data.id));
+    yield put(actions.incomeAddSucceess(results.data, results.data.id));
 
-  if (currentDataYear !== resultDataYear && currentDataYear !== 'All') {
-    yield put(actions.getIncomeData(resultDataYear));
+    if (currentDataYear !== resultDataYear && currentDataYear !== 'All') {
+      yield put(actions.getIncomeData(resultDataYear));
+    }
+  } catch (error) {
+    yield put(actions.incomeAddFailed(error.response.data.message));
   }
 }
 
 export function* editIncomeDataSaga(action) {
-  const promise = new Promise((resolve) => {
-    axios.patch(`/income/${action.payload.key}`, action.payload.income)
-      .then((response) => {
-        resolve(response.data);
-      });
-  });
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.patch(`/income/${action.payload.key}`, action.payload.income)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
 
-  const result = yield promise;
-  yield put(actions.incomeEditSucceess(action.payload.key, result));
+    const result = yield promise;
+    yield put(actions.incomeEditSucceess(action.payload.key, result));
+  } catch (error) {
+    yield put(actions.incomeEditFailed(error.response.data.message));
+  }
 }
 
 export function* deleteIncomeDataSaga(action) {

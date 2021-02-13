@@ -37,8 +37,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import {
+  Alert,
+} from '@material-ui/lab';
 
 export default {
+  Alert,
   AppBar,
   Backdrop,
   Button,

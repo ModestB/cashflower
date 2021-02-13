@@ -3,8 +3,10 @@ import {
   INCOME_GET_SUCCEEDED,
   INCOME_ADD_REQUESTED,
   INCOME_ADD_SUCCEEDED,
+  INCOME_ADD_FAILED,
   INCOME_EDIT_REQUESTED,
   INCOME_EDIT_SUCCEEDED,
+  INCOME_EDIT_FAILED,
   INCOME_DELETE_REQUESTED,
   INCOME_DELETE_SUCCEEDED,
   INCOME_TYPE_ADD_REQUESTED,
@@ -43,6 +45,13 @@ export const incomeAddSucceess = (income, key) => ({
   },
 });
 
+export const incomeAddFailed = (error) => ({
+  type: INCOME_ADD_FAILED,
+  payload: {
+    error,
+  },
+});
+
 export const deleteIncomeRequest = (key, userId) => ({
   type: INCOME_DELETE_REQUESTED,
   payload: {
@@ -72,6 +81,13 @@ export const incomeEditSucceess = (key, income) => ({
   payload: {
     key,
     income,
+  },
+});
+
+export const incomeEditFailed = (error) => ({
+  type: INCOME_EDIT_FAILED,
+  payload: {
+    error,
   },
 });
 

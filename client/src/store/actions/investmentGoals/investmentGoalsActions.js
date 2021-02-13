@@ -3,8 +3,10 @@ import {
   INVESTMENT_GOALS_GET_SUCCEEDED,
   INVESTMENT_GOAL_ADD_REQUESTED,
   INVESTMENT_GOAL_ADD_SUCCEEDED,
+  INVESTMENT_GOAL_ADD_FAILED,
   INVESTMENT_GOAL_EDIT_REQUESTED,
   INVESTMENT_GOAL_EDIT_SUCCEEDED,
+  INVESTMENT_GOAL_EDIT_FAILED,
   INVESTMENT_GOAL_DELETE_REQUESTED,
   INVESTMENT_GOAL_DELETE_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
@@ -39,6 +41,13 @@ export const investmentGoalAddSucceess = (investmentGoal, key) => ({
   },
 });
 
+export const investmentGoalAddFailed = (error) => ({
+  type: INVESTMENT_GOAL_ADD_FAILED,
+  payload: {
+    error,
+  },
+});
+
 export const deleteInvestmentGoalRequest = (key, userId) => ({
   type: INVESTMENT_GOAL_DELETE_REQUESTED,
   payload: {
@@ -69,5 +78,12 @@ export const investmentGoalEditSucceess = (key, investmentGoal) => ({
   payload: {
     key,
     investmentGoal,
+  },
+});
+
+export const investmentGoalEditFailed = (error) => ({
+  type: INVESTMENT_GOAL_EDIT_FAILED,
+  payload: {
+    error,
   },
 });

@@ -5,8 +5,9 @@ import React, {
   useContext,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { resetGeneralAlerts } from '../../store/actions/actions';
 import Material from '../../shared/material';
 import { arraySortByDateDesc } from '../../shared/utilities';
 import DataTableRow from './dataTableRow/DataTableRow';
@@ -54,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  error: {
+    width: '100%',
+  },
 }));
 
 function DataTable({
@@ -71,18 +75,41 @@ function DataTable({
   deleteDataHandler,
   currentDataYearHandler,
 }) {
+  const dispatch = useDispatch();
   const { tableSettings } = useContext(TableSettingsContext);
   const classes = useStyles();
   const rowPerTablePage = [15, 30, 50];
   const userId = useSelector(state => state.auth.userId);
+  const error = useSelector(state => state.general.alerts.error);
   const [tablePage, setTablePage] = useState(0);
   const [rowsPerTablePage, setRowsPerTablePage] = useState(rowPerTablePage[0]);
   const [showAddData, setShowAddData] = useState(false);
   const [hasData, setHasData] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [showTablePagination, setShowTablePagination] = useState(false);
   const tableRef = useRef(null);
   const colSpan = Object.keys(tableSettings).length;
   let tableBody = null;
+
+  useEffect(() => {
+    let hideAlertTimeout;
+    if (error) {
+      setShowAlert(true);
+
+      hideAlertTimeout = setTimeout(() => {
+        setShowAlert(false);
+      }, 10000);
+    }
+    return () => {
+      clearTimeout(hideAlertTimeout);
+    };
+  }, [error]);
+
+  useEffect(() => {
+    if (!showAlert && error) {
+      dispatch(resetGeneralAlerts());
+    }
+  }, [showAlert]);
 
   useEffect(() => {
     if (tableData && Object.keys(tableData).length) {
@@ -198,6 +225,25 @@ function DataTable({
           </Material.Box>
         )}
       </Material.Box>
+
+      {
+        showAlert && (
+          <Material.Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            p={2}
+          >
+            <Material.Alert
+              severity="error"
+              className={classes.error}
+              onClose={() => setShowAlert(false)}
+            >
+              {error}
+            </Material.Alert>
+          </Material.Box>
+        )
+      }
 
       <Material.TableContainer
         ref={tableRef}

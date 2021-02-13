@@ -17,19 +17,27 @@ export function* addInvestmentGoalDataSaga(action) {
   action.payload.investmentGoal.year = formatDateToYear(
     new Date(action.payload.investmentGoal.year), 'yyyy',
   );
-  const promise = new Promise((resolve) => {
-    axios.post('/investmentGoal', action.payload.investmentGoal)
-      .then((response) => {
-        resolve(response);
-      });
-  });
-  const results = yield promise;
-  const resultDataYear = results.data.year;
 
-  yield put(actions.investmentGoalAddSucceess(results.data, results.data.id));
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.post('/investmentGoal', action.payload.investmentGoal)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+    const results = yield promise;
+    const resultDataYear = results.data.year;
 
-  if (currentDataYear !== resultDataYear) {
-    yield put(actions.getInvestmentGoalsData(resultDataYear));
+    yield put(actions.investmentGoalAddSucceess(results.data, results.data.id));
+
+    if (currentDataYear !== resultDataYear) {
+      yield put(actions.getInvestmentGoalsData(resultDataYear));
+    }
+  } catch (error) {
+    yield put(actions.investmentGoalAddFailed(error.response.data.message));
   }
 }
 
@@ -38,18 +46,25 @@ export function* editInvestmentGoalDataSaga(action) {
   action.payload.investmentGoal.year = formatDateToYear(
     new Date(action.payload.investmentGoal.year), 'yyyy',
   );
-  const promise = new Promise((resolve) => {
-    axios.patch(`/investmentGoal/${action.payload.key}`, action.payload.investmentGoal)
-      .then((response) => {
-        resolve(response.data);
-      });
-  });
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.patch(`/investmentGoal/${action.payload.key}`, action.payload.investmentGoal)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
 
-  const result = yield promise;
-  yield put(actions.investmentGoalEditSucceess(action.payload.key, result));
+    const result = yield promise;
+    yield put(actions.investmentGoalEditSucceess(action.payload.key, result));
 
-  if (currentDataYear !== result.year) {
-    yield put(actions.getInvestmentGoalsData(result.year));
+    if (currentDataYear !== result.year) {
+      yield put(actions.getInvestmentGoalsData(result.year));
+    }
+  } catch (error) {
+    yield put(actions.investmentGoalEditFailed(error.response.data.message));
   }
 }
 

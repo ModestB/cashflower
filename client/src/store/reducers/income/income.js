@@ -4,6 +4,7 @@ import {
   INCOME_GET_SUCCEEDED,
   INCOME_ADD_REQUESTED,
   INCOME_ADD_SUCCEEDED,
+  INCOME_ADD_FAILED,
   INCOME_EDIT_REQUESTED,
   INCOME_EDIT_SUCCEEDED,
   INCOME_DELETE_REQUESTED,
@@ -36,6 +37,14 @@ const addIncomeSuccessHandler = (state, payload) => {
     if (state.currentDataYear === year) {
       draftState.data[payload.key] = payload.income;
     }
+  });
+
+  return nextState;
+};
+
+const addIncomeFailedHandler = (state) => {
+  const nextState = produce(state, draftState => {
+    draftState.incomeAddLoading = false;
   });
 
   return nextState;
@@ -96,6 +105,10 @@ export default (state = initialState, action) => {
 
     case INCOME_ADD_SUCCEEDED: {
       return addIncomeSuccessHandler(state, action.payload);
+    }
+
+    case INCOME_ADD_FAILED: {
+      return addIncomeFailedHandler(state);
     }
 
     case INCOME_EDIT_REQUESTED: {
