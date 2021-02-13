@@ -60,7 +60,6 @@ function EditData({
 }) {
   const { tableSettings } = useContext(TableSettingsContext);
   const [loading, setLoading] = useState(false);
-  const [selectIsOpen, setSelectIsOpen] = useState(false);
   const [disableClickOutside, setDisableClickOutside] = useState(false);
 
   const classes = useStyles();
@@ -102,17 +101,20 @@ function EditData({
                           onChangeHandler={dataChangeHandlers[column.id]}
                           onOpenHandler={() => setDisableClickOutside(true)}
                           onCloseHandler={() => setDisableClickOutside(false)}
+                          dateFormat={column.dateFormat}
                         />
                       );
                       break;
                     case 'number':
-                      input = (
-                        <NumberInput
-                          label={column.label}
-                          value={dataValues[column.id]}
-                          onChangeHandler={dataChangeHandlers[column.id]}
-                        />
-                      );
+                      if (column.editable) {
+                        input = (
+                          <NumberInput
+                            label={column.label}
+                            value={dataValues[column.id]}
+                            onChangeHandler={dataChangeHandlers[column.id]}
+                          />
+                        );
+                      }
                       break;
                     case 'select':
                       input = (
@@ -143,6 +145,10 @@ function EditData({
 
                     default:
                       break;
+                  }
+
+                  if (column.inputType === 'edit') {
+                    return null;
                   }
 
                   return (

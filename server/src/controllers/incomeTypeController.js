@@ -1,5 +1,5 @@
 const IncomeType = require('../models/incomeType');
-const { errorFormatter } = require('../helpers/utils');
+const { errorFormatter } = require('../utils/utils');
 
 const IncomeTypeController = {
   create: async (req, res) => {

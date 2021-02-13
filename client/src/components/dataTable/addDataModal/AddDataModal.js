@@ -90,17 +90,20 @@ function AddDataModal({
                               label={column.label}
                               selectedDate={dataValues[column.id]}
                               onChangeHandler={dataChangeHandlers[column.id]}
+                              dateFormat={column.dateFormat}
                             />
                           );
                           break;
                         case 'number':
-                          input = (
-                            <NumberInput
-                              label={column.label}
-                              value={dataValues[column.id]}
-                              onChangeHandler={dataChangeHandlers[column.id]}
-                            />
-                          );
+                          if (column.editable) {
+                            input = (
+                              <NumberInput
+                                label={column.label}
+                                value={dataValues[column.id]}
+                                onChangeHandler={dataChangeHandlers[column.id]}
+                              />
+                            );
+                          }
                           break;
                         case 'select':
                           input = (

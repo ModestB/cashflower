@@ -1,6 +1,6 @@
 const { startOfYear, endOfYear } = require('date-fns');
 const Income = require('../models/income');
-const { errorFormatter } = require('../helpers/utils');
+const { errorFormatter } = require('../utils/utils');
 
 const IncomeController = {
 

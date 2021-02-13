@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-// import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 // import AssessmentIcon from '@material-ui/icons/Assessment';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import Material from '../../shared/material';
@@ -59,14 +59,14 @@ function Sidebar() {
     //     state: { sectionTitle: 'Total Investments' },
     //   },
     // },
-    // {
-    //   text: 'Investments Plans',
-    //   icon: <AssignmentIcon />,
-    //   location: {
-    //     pathname: '/plans',
-    //     state: { sectionTitle: 'Investments Plans' },
-    //   },
-    // },
+    {
+      text: 'Investment Goals',
+      icon: <AssignmentIcon />,
+      location: {
+        pathname: '/investmentGoals',
+        state: { sectionTitle: 'Investment Goals' },
+      },
+    },
   ];
 
   const drawer = (

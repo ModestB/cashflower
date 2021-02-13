@@ -1,5 +1,5 @@
 const InvestmentType = require('../models/investmentType');
-const { errorFormatter } = require('../helpers/utils');
+const { errorFormatter } = require('../utils/utils');
 
 const InvestmentTypeController = {
   create: async (req, res) => {

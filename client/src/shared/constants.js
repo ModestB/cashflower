@@ -1,19 +1,31 @@
-export const tableDateColumnSettings = (label, editable) => ({
-  date: {
-    id: 'date',
+export const tableDateColumnSettings = (
+  label,
+  editable,
+  id = 'date',
+  dateFormat = 'yyyy-MM-dd',
+) => ({
+  [id]: {
+    id,
+    type: 'date',
     label,
     editable,
+    dateFormat,
     inputType: 'date',
-    dateFormat: 'yyyy-MM-dd',
     minWidth: 200,
   },
 });
 
-export const tableAmountColumnSettings = (label, editable) => ({
-  amount: {
-    id: 'amount',
+export const tableNumberColumnSettings = (
+  label,
+  editable,
+  id = 'amount',
+  headerColSpan = 1,
+) => ({
+  [id]: {
+    id,
     label,
     editable,
+    headerColSpan,
     inputType: 'number',
     minWidth: 100,
   },
@@ -24,9 +36,10 @@ export const tableTypeColumnSettings = (
   selectType,
   editable,
   items,
+  id = 'type',
 ) => ({
-  type: {
-    id: 'type',
+  [id]: {
+    id,
     label,
     selectType,
     editable,
@@ -50,6 +63,7 @@ export const tableCommentColumnSettings = (label, editable) => ({
 export const tableEditColumnSettings = () => ({
   edit: {
     id: 'edit',
+    inputType: 'edit',
     label: '',
     minWidth: 50,
   },

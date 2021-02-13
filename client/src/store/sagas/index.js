@@ -24,6 +24,12 @@ import {
   authLogoutSaga,
 } from './auth/authSaga';
 import registrationSaga from './registration/registrationSaga';
+import {
+  setInvestmentGoalsDataSaga,
+  addInvestmentGoalDataSaga,
+  deleteInvestmentGoalDataSaga,
+  editInvestmentGoalDataSaga,
+} from './investmentGoals/investmentGoalsSaga';
 
 export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_GET_REQUESTED, setIncomeDataSaga);
@@ -41,6 +47,13 @@ export function* watchInvestment() {
   yield takeLatest(actionTypes.INVESTMENT_EDIT_REQUESTED, editInvestmentDataSaga);
   yield takeLatest(actionTypes.INVESTMENT_TYPE_ADD_REQUESTED, addInvestmentTypeSaga);
   yield takeLatest(actionTypes.INVESTMENT_TYPE_DELETE_REQUESTED, deleteInvestmentTypeSaga);
+}
+
+export function* watchInvestmentGoals() {
+  yield takeLatest(actionTypes.INVESTMENT_GOALS_GET_REQUESTED, setInvestmentGoalsDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_GOAL_ADD_REQUESTED, addInvestmentGoalDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_GOAL_DELETE_REQUESTED, deleteInvestmentGoalDataSaga);
+  yield takeLatest(actionTypes.INVESTMENT_GOAL_EDIT_REQUESTED, editInvestmentGoalDataSaga);
 }
 
 export function* watchAuth() {

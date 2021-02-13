@@ -5,9 +5,10 @@ const jwt = require('jsonwebtoken');
 const Income = require('./income');
 const IncomeType = require('./incomeType');
 const Investment = require('./investment');
+const InvestmentGoal = require('./investmentGoal');
 const InvestmentType = require('./investmentType');
 const Token = require('./token');
-const { aggregateDistinctYearsStages } = require('../helpers/mongoUtils');
+const { aggregateDistinctYearsStages } = require('../utils/mongoUtils');
 
 const userSchema = mongoose.Schema({
   username: {
@@ -59,6 +60,12 @@ userSchema.virtual('incomeTypes', {
 
 userSchema.virtual('investment', {
   ref: 'Investment',
+  localField: '_id',
+  foreignField: 'owner',
+});
+
+userSchema.virtual('investmentGoals', {
+  ref: 'InvestmentGoal',
   localField: '_id',
   foreignField: 'owner',
 });
@@ -144,11 +151,13 @@ userSchema.statics.findByCredentials = findByCredentials;
 // Aggregates distinct years for:
 // Income
 // Investments
+// Investments Goals
 
 async function getDataDistinctYears(user) {
   const id = user.id || user._id;
   let income = [];
   let investment = [];
+  let investmentGoals = [];
   const aggregateIncomeDataYears =
     await Income.aggregate(
       aggregateDistinctYearsStages(id),
@@ -157,6 +166,10 @@ async function getDataDistinctYears(user) {
     await Investment.aggregate(
       aggregateDistinctYearsStages(id),
     );
+  const aggregateInvestmentsGoalsDataYears =
+    await InvestmentGoal.aggregate(
+      aggregateDistinctYearsStages(id, '$year', true),
+    );
 
   if (aggregateIncomeDataYears[0]) {
     income = [...aggregateIncomeDataYears[0].years];
@@ -164,10 +177,14 @@ async function getDataDistinctYears(user) {
   if (aggregateInvestmentsDataYears[0]) {
     investment = [...aggregateInvestmentsDataYears[0].years];
   }
+  if (aggregateInvestmentsGoalsDataYears[0]) {
+    investmentGoals = [...aggregateInvestmentsGoalsDataYears[0].years];
+  }
 
   return {
     income,
     investment,
+    investmentGoals,
   };
 }
 
@@ -215,6 +232,7 @@ async function useSchemaPreRemoveHandler(next) {
   await Income.deleteMany({ owner: user._id });
   await IncomeType.deleteMany({ owner: user._id });
   await Investment.deleteMany({ owner: user._id });
+  await InvestmentGoal.deleteMany({ owner: user._id });
   await InvestmentType.deleteMany({ owner: user._id });
 
   next();

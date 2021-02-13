@@ -8,16 +8,22 @@ function DateInput({
   onChangeHandler,
   onOpenHandler,
   onCloseHandler,
+  dateFormat,
 }) {
+  let datePickerView = ['year', 'date', 'month'];
+  if (dateFormat === 'yyyy') {
+    datePickerView = ['year'];
+  }
   return (
     <KeyboardDatePicker
       disableToolbar
       variant="inline"
-      format="MM/dd/yyyy"
+      format={dateFormat}
       id="date-picker-inline"
       label={label}
       value={selectedDate}
       onChange={onChangeHandler}
+      views={datePickerView}
       KeyboardButtonProps={{
         'aria-label': 'change date',
       }}
@@ -30,6 +36,7 @@ function DateInput({
 DateInput.defaultProps = {
   onOpenHandler: () => {},
   onCloseHandler: () => {},
+  dateFormat: 'MM/dd/yyyy',
 };
 
 DateInput.propTypes = {
@@ -38,6 +45,7 @@ DateInput.propTypes = {
   label: PropTypes.string.isRequired,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
   onChangeHandler: PropTypes.func.isRequired,
+  dateFormat: PropTypes.string,
 };
 
 export default DateInput;

@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Token = require('../models/token');
-const { errorFormatter } = require('../helpers/utils');
+const { errorFormatter } = require('../utils/utils');
 
 const UserController = {
 

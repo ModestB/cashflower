@@ -10,6 +10,7 @@ import Header from './components/header/Header';
 import Sidebar from './components/sidebar/Sidebar';
 import Income from './domain/income/Income';
 import Investments from './domain/investments/Investments';
+import InvestmentGoals from './domain/investmentGoals/InvestmentGoals';
 
 import './App.scss';
 
@@ -59,6 +60,7 @@ function App() {
                   <Switch>
                     <Route exact path="/" component={Income} />
                     <Route path="/investments" component={Investments} />
+                    <Route path="/investmentGoals" component={InvestmentGoals} />
                     {/* <Route path="/plans" component={Plans} />
                     <Route path="/total" component={Total} /> */}
                   </Switch>

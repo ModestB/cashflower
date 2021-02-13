@@ -6,6 +6,7 @@ import reducer from './reducers/index';
 import {
   watchIncome,
   watchInvestment,
+  watchInvestmentGoals,
   watchAuth,
   watchRegistration,
 } from './sagas/index';
@@ -27,5 +28,6 @@ sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchRegistration);
 sagaMiddleware.run(watchIncome);
 sagaMiddleware.run(watchInvestment);
+sagaMiddleware.run(watchInvestmentGoals);
 
 export default store;

@@ -4,8 +4,9 @@ const userRouter = require('./routers/user');
 const incomeRouter = require('./routers/income');
 const incomeTypeRouter = require('./routers/incomeType');
 const investmentRouter = require('./routers/investment');
+const investmentGoalRouter = require('./routers/investmentGoal');
 const investmentTypeRouter = require('./routers/investmentType');
-const { errorFormatter } = require('./helpers/utils');
+const { errorFormatter } = require('./utils/utils');
 
 const port = process.env.SERVER_PORT;
 require('./db/mongoose');
@@ -19,6 +20,7 @@ app.use(userRouter);
 app.use(incomeRouter);
 app.use(incomeTypeRouter);
 app.use(investmentRouter);
+app.use(investmentGoalRouter);
 app.use(investmentTypeRouter);
 
 app.all('*', (req, res, next) => {

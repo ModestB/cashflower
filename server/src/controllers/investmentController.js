@@ -1,6 +1,6 @@
-const { startOfYear, endOfYear } = require('date-fns');
 const Investment = require('../models/investment');
-const { errorFormatter } = require('../helpers/utils');
+const { errorFormatter } = require('../utils/utils');
+const { populateMatchByStartEndYears } = require('../utils/mongoUtils');
 
 const InvestmentController = {
 
@@ -21,25 +21,8 @@ const InvestmentController = {
   },
 
   readAll: async (req, res) => {
-    const match = {};
     const sort = {};
-
-    if (req.query.startYear) {
-      const startYear = startOfYear(new Date(req.query.startYear, 0, 1));
-
-      match.date = {
-        ...match.date,
-        $gte: startYear,
-      };
-    }
-    if (req.query.endYear) {
-      const endYear = endOfYear(new Date(req.query.endYear, 0, 1));
-
-      match.date = {
-        ...match.date,
-        $lte: endYear,
-      };
-    }
+    const match = populateMatchByStartEndYears(req.query.startYear, req.query.endYear);
 
     if (req.query.sortBy) {
       const sortOptions = req.query.sortBy.split(':');

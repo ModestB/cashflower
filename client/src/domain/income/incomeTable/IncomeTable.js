@@ -8,7 +8,7 @@ import DataTable from '../../../components/dataTable/DataTable';
 import { TableSettingsContext } from '../../../context/TableSettingsContext';
 import {
   tableDateColumnSettings,
-  tableAmountColumnSettings,
+  tableNumberColumnSettings,
   tableTypeColumnSettings,
   tableCommentColumnSettings,
   tableEditColumnSettings,
@@ -30,7 +30,7 @@ function IncomeTable({
   useEffect(() => {
     setTableSettings({
       ...tableDateColumnSettings('Date', true),
-      ...tableAmountColumnSettings('Amount', true),
+      ...tableNumberColumnSettings('Amount', true),
       ...tableTypeColumnSettings('Income type', 'income', true, incomeTypes),
       ...tableCommentColumnSettings('Comment', true),
       ...tableEditColumnSettings(),

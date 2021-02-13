@@ -7,6 +7,7 @@ import {
   INCOME_TYPE_DELETE_REQUESTED,
   INCOME_TYPE_DELETE_SUCCEEDED,
   INVESTMENT_ADD_SUCCEEDED,
+  INVESTMENT_GOAL_ADD_SUCCEEDED,
   INVESTMENT_TYPE_ADD_REQUESTED,
   INVESTMENT_TYPE_ADD_SUCCEEDED,
   INVESTMENT_TYPE_DELETE_REQUESTED,
@@ -23,13 +24,19 @@ const initialState = {
   },
 };
 
-const addYearHandler = (state, payload, store) => {
+const addYearHandler = (state, payload, payloadStore, stateStore) => {
+  const sStore = stateStore || payloadStore;
   const nextState = produce(state, draftState => {
-    const year = formatDateToYear(new Date(payload[store].date));
+    let year = null;
+    if (payload[payloadStore].year) {
+      year = payload[payloadStore].year;
+    } else {
+      year = formatDateToYear(new Date(payload[payloadStore].date));
+    }
 
-    if (!state.years[store].includes(parseInt(year, 10))) {
-      draftState.years[store] = [
-        ...draftState.years[store],
+    if (!state.years[sStore].includes(parseInt(year, 10))) {
+      draftState.years[sStore] = [
+        ...draftState.years[sStore],
         year,
       ].sort((a, b) => b - a);
     }
@@ -75,7 +82,10 @@ const authSuccessHandler = (state, payload) => {
     draftState.types.investment = {};
 
     Object.keys(payload.dataYears).forEach((key) => {
-      if (payload.dataYears[key].length > 1) {
+      if (
+        payload.dataYears[key].length > 1 &&
+        key !== 'investmentGoals'
+      ) {
         draftState.years[key] = [...payload.dataYears[key], 'All'];
       }
     });
@@ -131,6 +141,10 @@ export default (state = initialState, action) => {
 
     case INVESTMENT_ADD_SUCCEEDED: {
       return addYearHandler(state, action.payload, 'investment');
+    }
+
+    case INVESTMENT_GOAL_ADD_SUCCEEDED: {
+      return addYearHandler(state, action.payload, 'investmentGoal', 'investmentGoals');
     }
 
     case INVESTMENT_TYPE_ADD_REQUESTED: {

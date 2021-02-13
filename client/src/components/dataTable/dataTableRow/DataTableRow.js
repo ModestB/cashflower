@@ -73,7 +73,7 @@ export default function DataTableRow(props) {
             column.format(value)
             : value;
 
-        if (column.id === 'type') {
+        if (column.inputType === 'select') {
           if (column.items[value]) {
             tableCellData = column.items[value].label;
           } else {
@@ -81,7 +81,7 @@ export default function DataTableRow(props) {
           }
         }
 
-        if (column.id === 'edit') {
+        if (column.inputType === 'edit') {
           tableCellData = (
             <div className={classes.tableCellActions}>
               <TableRowMenu
@@ -94,7 +94,7 @@ export default function DataTableRow(props) {
         }
 
         if (column.inputType === 'date') {
-          tableCellData = format(new Date(value), column.dateFormat);
+          tableCellData = format(new Date(`${value}`), column.dateFormat);
         }
 
         if (column.countableTotal) {
