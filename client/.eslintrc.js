@@ -25,6 +25,7 @@ module.exports = {
     'arrow-parens': [0],
     'no-param-reassign': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
     'operator-linebreak': [
       'error',
       'after',

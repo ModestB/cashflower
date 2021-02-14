@@ -47,7 +47,7 @@ const InvestmentGoalController = {
         await investmentGoal.save();
         res.send({
           ...investmentGoal.toJSON(),
-          invested: invested.invested,
+          invested: invested ? invested.invested : 0,
         });
       }
     } catch (error) {

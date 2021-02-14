@@ -4,7 +4,7 @@ import { changeHeaderTitle, getIncomeData } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import IncomeTable from './incomeTable/IncomeTable';
 import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
-import ChartByType from '../../components/charts/chartByType/ChartByType';
+import DataBarChart from '../../components/charts/dataBarChart/DataBarChart';
 import { TableSettingsProvider } from '../../context/TableSettingsContext';
 
 const Income = () => {
@@ -44,9 +44,10 @@ const Income = () => {
           currentDataYear={currentDataYear}
           data={incomeData}
         />
-        <ChartByType
+        <DataBarChart
           data={incomeData}
           types={incomeTypes}
+          bars={['amount']}
         />
       </>
     </TableChartGrid>

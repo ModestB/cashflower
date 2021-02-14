@@ -4,7 +4,7 @@ import { changeHeaderTitle, getInvestmentData } from '../../store/actions/action
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import InvestmentsTable from './investmentsTable/InvestmentsTable';
 import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
-import ChartByType from '../../components/charts/chartByType/ChartByType';
+import DataBarChart from '../../components/charts/dataBarChart/DataBarChart';
 import { TableSettingsProvider } from '../../context/TableSettingsContext';
 
 const Investments = () => {
@@ -44,9 +44,10 @@ const Investments = () => {
           currentDataYear={currentDataYear}
           data={investmentData}
         />
-        <ChartByType
+        <DataBarChart
           data={investmentData}
           types={investmentTypes}
+          bars={['amount']}
         />
       </>
     </TableChartGrid>

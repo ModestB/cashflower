@@ -3,14 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeHeaderTitle, getInvestmentGoalsData } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import InvestmentGoalsTable from './investmentGoalsTable/InvestmentGoalsTable';
-import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
-import ChartByType from '../../components/charts/chartByType/ChartByType';
+import DataPieChart from '../../components/charts/dataPieChart/DataPieChart';
+import DataBarChart from '../../components/charts/dataBarChart/DataBarChart';
 import { TableSettingsProvider } from '../../context/TableSettingsContext';
 
 const InvestmentGoals = () => {
   const dispatch = useDispatch();
   const currentDataYear = useSelector(state => state.investmentGoals.currentDataYear);
   const investmentGoalsData = useSelector(state => state.investmentGoals.data);
+  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
   const [hasData, setHasData] = useState(false);
 
   const onInitLoad = () => {
@@ -37,15 +38,16 @@ const InvestmentGoals = () => {
         />
       </TableSettingsProvider>
       <>
-        {/* <ChartByDate
-          dataYears={investmentDataYears}
-          currentDataYear={currentDataYear}
-          data={investmentData}
-        />
-        <ChartByType
-          data={investmentData}
+        <DataPieChart
+          data={investmentGoalsData}
           types={investmentTypes}
-        /> */}
+          valueKey="goal"
+        />
+        <DataBarChart
+          data={investmentGoalsData}
+          types={investmentTypes}
+          bars={['goal', 'invested']}
+        />
       </>
     </TableChartGrid>
   );
