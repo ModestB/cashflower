@@ -49,7 +49,7 @@ const renderCustomizedLabel = (props) => {
 
 function DataPieChart({ data, types, valueKey }) {
   const [formatedData, setFormatedData] = useState([]);
-  const [charColors, setChartColors] = useState([]);
+  const [chartColors, setChartColors] = useState({});
 
   useEffect(() => {
     const nextFormatedData = Object.keys(data).map((key) => ({
@@ -60,7 +60,7 @@ function DataPieChart({ data, types, valueKey }) {
   }, [data]);
 
   useEffect(() => {
-    if (formatedData.length && !charColors.length) {
+    if (formatedData.length && !Object.keys(chartColors).length) {
       setChartColors(randomChartColorGenerator(formatedData.length));
     }
   }, [formatedData]);
@@ -68,7 +68,7 @@ function DataPieChart({ data, types, valueKey }) {
   return (
     <ChartBox>
       {
-        charColors.length && (
+        Object.keys(chartColors).length && (
           <ResponsiveContainer height="99%" width="100%">
             <PieChart
               margin={{
@@ -85,7 +85,7 @@ function DataPieChart({ data, types, valueKey }) {
               >
                 {
                   formatedData.map((entry, index) => (
-                    <Cell key={entry.name} fill={charColors[index]} />
+                    <Cell key={entry.name} fill={chartColors.general[index]} />
                   ))
                 }
               </Pie>

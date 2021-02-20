@@ -46,7 +46,8 @@ const InvestmentGoals = () => {
         <DataBarChart
           data={investmentGoalsData}
           types={investmentTypes}
-          bars={['goal', 'invested']}
+          bars={['goal', 'invested', 'return']}
+          barsColors={{ return: 'success' }}
         />
       </>
     </TableChartGrid>

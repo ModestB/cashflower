@@ -5,6 +5,9 @@ const investmentGoalScheme = mongoose.Schema({
     type: Number,
     required: [true, 'Investment Goal is required!'],
   },
+  return: {
+    type: Number,
+  },
   year: {
     type: Number,
     required: [true, 'Investment Goal Year is required!'],

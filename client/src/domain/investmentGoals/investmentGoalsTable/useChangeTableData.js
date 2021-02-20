@@ -9,11 +9,13 @@ const useChangeTableData = ({
   const [type, setType] = useState(Object.keys(types)[0]);
   const [year, setYear] = useState(new Date());
   const [goal, setGoal] = useState('');
+  const [investmentReturn, setInvestmentReturn] = useState('');
 
   useEffect(() => {
     if (row) {
       if (row.year) setYear(new Date(`${row.year}-01-01`));
       if (row.goal) setGoal(row.goal);
+      if (row.return) setInvestmentReturn(row.return);
       if (row.type) {
         setType(row.type.toLowerCase());
       }
@@ -25,6 +27,7 @@ const useChangeTableData = ({
       year: year.toISOString().split('T')[0],
       goal,
       type,
+      return: investmentReturn,
     };
 
     if (!Object.values(row)) {
@@ -41,11 +44,14 @@ const useChangeTableData = ({
       year,
       goal,
       type,
+      return: investmentReturn,
+      invested: row.invested,
     },
     valuesChangeHandlers: {
       year: setYear,
       goal: setGoal,
       type: setType,
+      return: setInvestmentReturn,
     },
     selectItems: {
       type: types,

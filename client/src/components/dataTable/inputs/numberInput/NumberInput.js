@@ -6,6 +6,7 @@ function NumberInput({
   label,
   value,
   onChangeHandler,
+  disabled,
 }) {
   return (
     <TextField
@@ -14,12 +15,17 @@ function NumberInput({
       type="number"
       value={value}
       onChange={(e) => onChangeHandler(e.target.value)}
+      disabled={disabled}
       InputLabelProps={{
         shrink: true,
       }}
     />
   );
 }
+
+NumberInput.defaultProps = {
+  disabled: false,
+};
 
 NumberInput.propTypes = {
   label: PropTypes.string.isRequired,
@@ -28,6 +34,7 @@ NumberInput.propTypes = {
     PropTypes.number,
   ]).isRequired,
   onChangeHandler: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default NumberInput;

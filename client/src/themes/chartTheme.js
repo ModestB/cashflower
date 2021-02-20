@@ -37,7 +37,10 @@ const randomChartColorGenerator = (amount) => {
     colorIndex += 1;
   }
 
-  return generatedColors;
+  return {
+    general: generatedColors,
+    success: green[SHADE],
+  };
 };
 
 export default randomChartColorGenerator;

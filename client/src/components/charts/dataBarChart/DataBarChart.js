@@ -24,9 +24,10 @@ function DataBarChart({
   data,
   types,
   bars,
+  barsColors,
 }) {
   const [dataByType, setDataByType] = useState([]);
-  const [charColors, setChartColors] = useState([]);
+  const [chartColors, setChartColors] = useState({});
 
   useEffect(() => {
     const nextDataByType = {};
@@ -59,7 +60,7 @@ function DataBarChart({
   }, [data, types]);
 
   useEffect(() => {
-    if (dataByType.length && !charColors.length) {
+    if (dataByType.length && !Object.keys(chartColors).length) {
       setChartColors(randomChartColorGenerator(dataByType.length));
     }
   }, [dataByType]);
@@ -67,7 +68,8 @@ function DataBarChart({
   return (
     <ChartBox>
       {
-        dataByType.length && (
+        dataByType.length &&
+        Object.keys(chartColors).length && (
           <ResponsiveContainer height="99%" width="100%">
             <BarChart data={dataByType}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -77,13 +79,15 @@ function DataBarChart({
               {
                 bars.map((bar, index) => {
                   if (bars.length > 1) {
-                    return <Bar dataKey={bar} fill={charColors[index]} />;
+                    let fill = chartColors.general[index];
+                    if (barsColors[bar]) fill = chartColors[barsColors[bar]];
+                    return <Bar key={`bar-${bar}`} dataKey={bar} fill={fill} />;
                   }
                   return (
-                    <Bar dataKey={bar}>
+                    <Bar dataKey={bar} key={`bar-${bar}`}>
                       {
                         dataByType.map((entry, i) => (
-                          <Cell key={`cell-${entry}`} fill={charColors[i]} />
+                          <Cell key={`cell-${entry}`} fill={chartColors.general[i]} />
                         ))
                       }
                     </Bar>
@@ -92,7 +96,7 @@ function DataBarChart({
               }
               {
                 bars.length > 1 && (
-                  <Legend formatter={renderColorfulLegendText} />
+                  <Legend align="center" formatter={renderColorfulLegendText} />
                 )
               }
             </BarChart>
@@ -104,10 +108,15 @@ function DataBarChart({
   );
 }
 
+DataBarChart.defaultProps = {
+  barsColors: {},
+};
+
 DataBarChart.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object]).isRequired,
   types: PropTypes.oneOfType([PropTypes.object]).isRequired,
   bars: PropTypes.arrayOf(PropTypes.string).isRequired,
+  barsColors: PropTypes.oneOfType([PropTypes.object]),
 };
 
 export default DataBarChart;

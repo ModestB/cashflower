@@ -33,7 +33,8 @@ function InvestmentGoalsTable({
       ...tableTypeColumnSettings('Type of Investment', 'investment', true, investmentTypes, 'type'),
       ...tableDateColumnSettings('Date', true, 'year', 'yyyy'),
       ...tableNumberColumnSettings('Goal', true, 'goal'),
-      ...tableNumberColumnSettings('Invested', false, 'invested', 2),
+      ...tableNumberColumnSettings('Invested', false, 'invested'),
+      ...tableNumberColumnSettings('Return', true, 'return', 2),
       ...tableEditColumnSettings(),
     });
   }, [investmentTypes, setTableSettings]);

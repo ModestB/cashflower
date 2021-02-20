@@ -106,15 +106,14 @@ function EditData({
                       );
                       break;
                     case 'number':
-                      if (column.editable) {
-                        input = (
-                          <NumberInput
-                            label={column.label}
-                            value={dataValues[column.id]}
-                            onChangeHandler={dataChangeHandlers[column.id]}
-                          />
-                        );
-                      }
+                      input = (
+                        <NumberInput
+                          label={column.label}
+                          value={dataValues[column.id]}
+                          onChangeHandler={dataChangeHandlers[column.id]}
+                          disabled={!column.editable}
+                        />
+                      );
                       break;
                     case 'select':
                       input = (
@@ -164,15 +163,6 @@ function EditData({
                     </Material.TableCell>
                   );
                 })}
-              {/* {
-                emptyCellSpan &&
-                (
-                  <Material.TableCell
-                    colSpan={emptyCellSpan}
-                    className={classes.tableCell}
-                  />
-                )
-              } */}
             </Material.TableRow>
           </Material.TableBody>
         </Material.Table>

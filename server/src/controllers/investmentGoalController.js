@@ -119,6 +119,7 @@ const InvestmentGoalController = {
       'year',
       'goal',
       'type',
+      'return',
     ];
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
