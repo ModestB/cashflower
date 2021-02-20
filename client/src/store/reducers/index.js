@@ -4,6 +4,7 @@ import general from './general/general';
 import income from './income/income';
 import investment from './investment/investment';
 import investmentGoals from './investmentGoals/investmentGoals';
+import statistics from './statistics/statistics';
 import auth from './auth/auth';
 import dataInfo from './dataInfo/dataInfo';
 
@@ -12,6 +13,7 @@ export default combineReducers({
   income,
   investment,
   investmentGoals,
+  statistics,
   auth,
   dataInfo,
 });

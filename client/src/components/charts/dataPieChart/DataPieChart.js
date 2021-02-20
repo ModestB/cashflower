@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import ChartBox from '../chartBox/ChartBox';
-import randomChartColorGenerator from '../../../themes/chartTheme';
+import chartColorGenerator from '../../../themes/chartTheme';
 
 const RADIAN = Math.PI / 180;
 
@@ -57,11 +57,15 @@ function DataPieChart({ data, types, valueKey }) {
       name: types[data[key].type].label,
     }));
     setFormatedData(nextFormatedData);
-  }, [data]);
+  }, [data, types]);
 
   useEffect(() => {
-    if (formatedData.length && !Object.keys(chartColors).length) {
-      setChartColors(randomChartColorGenerator(formatedData.length));
+    if (
+      formatedData.length &&
+      (!Object.keys(chartColors).length ||
+      chartColors.fill.length !== formatedData.length)
+    ) {
+      setChartColors(chartColorGenerator(formatedData.length));
     }
   }, [formatedData]);
 
@@ -85,7 +89,7 @@ function DataPieChart({ data, types, valueKey }) {
               >
                 {
                   formatedData.map((entry, index) => (
-                    <Cell key={entry.name} fill={chartColors.general[index]} />
+                    <Cell key={entry.name} fill={chartColors.fill[index]} />
                   ))
                 }
               </Pie>

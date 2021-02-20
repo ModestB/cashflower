@@ -13,12 +13,8 @@ import {
 } from 'recharts';
 import { ucFirst } from '../../../shared/utilities';
 import ChartBox from '../chartBox/ChartBox';
-import randomChartColorGenerator from '../../../themes/chartTheme';
-
-function renderColorfulLegendText(value, entry) {
-  const { color } = entry;
-  return <span style={{ color }}>{ucFirst(value)}</span>;
-}
+import chartColorGenerator from '../../../themes/chartTheme';
+import renderColorfulLegendText from '../partials/partials';
 
 function DataBarChart({
   data,
@@ -57,13 +53,21 @@ function DataBarChart({
         }
       });
     setDataByType(Object.values(nextDataByType));
-  }, [data, types]);
+  }, [data, types, bars]);
 
   useEffect(() => {
-    if (dataByType.length && !Object.keys(chartColors).length) {
-      setChartColors(randomChartColorGenerator(dataByType.length));
+    if (
+      dataByType.length &&
+      (!Object.keys(chartColors).length ||
+      chartColors.fill.length !== dataByType.length)
+    ) {
+      if (bars.length > 1) {
+        setChartColors(chartColorGenerator(bars.length));
+      } else {
+        setChartColors(chartColorGenerator(dataByType.length));
+      }
     }
-  }, [dataByType]);
+  }, [dataByType, bars]);
 
   return (
     <ChartBox>
@@ -79,15 +83,15 @@ function DataBarChart({
               {
                 bars.map((bar, index) => {
                   if (bars.length > 1) {
-                    let fill = chartColors.general[index];
-                    if (barsColors[bar]) fill = chartColors[barsColors[bar]];
+                    let fill = chartColors.fill[index];
+                    if (barsColors[bar]) fill = chartColors[barsColors[bar]].fill;
                     return <Bar key={`bar-${bar}`} dataKey={bar} fill={fill} />;
                   }
                   return (
                     <Bar dataKey={bar} key={`bar-${bar}`}>
                       {
                         dataByType.map((entry, i) => (
-                          <Cell key={`cell-${entry}`} fill={chartColors.general[i]} />
+                          <Cell key={`cell-${entry}`} fill={chartColors.fill[i]} />
                         ))
                       }
                     </Bar>

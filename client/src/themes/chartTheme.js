@@ -10,37 +10,46 @@ import lime from '@material-ui/core/colors/lime';
 import yellow from '@material-ui/core/colors/yellow';
 import orange from '@material-ui/core/colors/orange';
 
-const SHADE = 400;
+const FILL_SHADE = 400;
+const STROKE_SHADE = 600;
 
-const COLORS = [
-  blue[SHADE],
-  pink[SHADE],
-  green[SHADE],
-  purple[SHADE],
-  teal[SHADE],
-  indigo[SHADE],
-  yellow[SHADE],
-  lime[SHADE],
-  orange[SHADE],
-  cyan[SHADE],
-  red[SHADE],
+const getColorsOfShade = (shade) => [
+  blue[shade],
+  pink[shade],
+  green[shade],
+  purple[shade],
+  teal[shade],
+  indigo[shade],
+  yellow[shade],
+  lime[shade],
+  orange[shade],
+  cyan[shade],
+  red[shade],
 ];
 
-const randomChartColorGenerator = (amount) => {
-  const generatedColors = [];
+const chartColorGenerator = (amount) => {
+  const fillColors = getColorsOfShade(FILL_SHADE);
+  const strokeColors = getColorsOfShade(STROKE_SHADE);
+  const generatedFillColors = [];
+  const generatedStrokeColors = [];
   let colorIndex = 0;
 
   for (let i = 0; i < amount; i++) {
-    if (i >= COLORS.length) colorIndex = 0;
+    if (i >= fillColors.length) colorIndex = 0;
 
-    generatedColors.push(COLORS[colorIndex]);
+    generatedFillColors.push(fillColors[colorIndex]);
+    generatedStrokeColors.push(strokeColors[colorIndex]);
     colorIndex += 1;
   }
 
   return {
-    general: generatedColors,
-    success: green[SHADE],
+    fill: generatedFillColors,
+    stroke: generatedStrokeColors,
+    success: {
+      fill: green[FILL_SHADE],
+      stroke: green[STROKE_SHADE],
+    },
   };
 };
 
-export default randomChartColorGenerator;
+export default chartColorGenerator;

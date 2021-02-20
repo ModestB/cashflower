@@ -7,6 +7,7 @@ import {
   watchIncome,
   watchInvestment,
   watchInvestmentGoals,
+  watchStatistics,
   watchAuth,
   watchRegistration,
 } from './sagas/index';
@@ -29,5 +30,6 @@ sagaMiddleware.run(watchRegistration);
 sagaMiddleware.run(watchIncome);
 sagaMiddleware.run(watchInvestment);
 sagaMiddleware.run(watchInvestmentGoals);
+sagaMiddleware.run(watchStatistics);
 
 export default store;

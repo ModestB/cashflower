@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Material from '../../../shared/material';
 
 const useStyles = makeStyles((theme) => ({
-  box: {
+  h50: {
     height: '50%',
   },
   paper: {
@@ -15,11 +15,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ChartByType({ children }) {
+function ChartByType({ children, height }) {
   const classes = useStyles();
 
   return (
-    <Material.Box my={2} display="flex" className={classes.box}>
+    <Material.Box
+      my={2}
+      display="flex"
+      className={height !== 'auto' ? classes.h50 : ''}
+    >
       <Material.Paper className={classes.paper}>
         { children }
       </Material.Paper>
@@ -27,11 +31,16 @@ function ChartByType({ children }) {
   );
 }
 
+ChartByType.defaultProps = {
+  height: '50',
+};
+
 ChartByType.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  height: PropTypes.string,
 };
 
 export default ChartByType;

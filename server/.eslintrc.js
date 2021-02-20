@@ -10,6 +10,7 @@ module.exports = {
   },
   rules: {
     'linebreak-style': ['error', 'windows'],
+    'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
     'operator-linebreak': [
       'error',
       'after',

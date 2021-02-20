@@ -113,6 +113,96 @@ const aggregateDistinctTypesTotalAmountStages = (userId, startYear, endYear) => 
   },
 ];
 
+const aggregateTotalAmountByYearStages = (
+  userId,
+  fields,
+  dateField = '$date',
+  dateFieldNotDateType = false,
+) => {
+  let projectAggregation = {};
+  let projectAggregationFields = {};
+  let groupAggregation = {};
+  let addFieldsAggregation = {};
+  let unsetFields = [];
+
+  fields.forEach((field) => {
+    projectAggregationFields = {
+      ...projectAggregationFields,
+      [field]: 1,
+    };
+
+    groupAggregation = {
+      ...groupAggregation,
+      [`${field}s`]: {
+        $push: `$${field}`,
+      },
+    };
+
+    addFieldsAggregation = {
+      ...addFieldsAggregation,
+      [field]: {
+        $sum: `$${field}s`,
+      },
+    };
+
+    unsetFields = [
+      ...unsetFields,
+      `${field}s`,
+    ];
+  });
+
+  if (!dateFieldNotDateType) {
+    projectAggregation = {
+      $project: {
+        _id: 0,
+        year: {
+          $year: dateField,
+        },
+        ...projectAggregationFields,
+      },
+    };
+  } else {
+    projectAggregation = {
+      $project: {
+        _id: 0,
+        [dateField]: 1,
+        ...projectAggregationFields,
+      },
+    };
+  }
+
+  return ([
+    {
+      $match: {
+        owner: mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      ...projectAggregation,
+    },
+    {
+      $group: {
+        _id: '$year',
+        ...groupAggregation,
+      },
+    },
+    {
+      $addFields: {
+        year: '$_id',
+        ...addFieldsAggregation,
+      },
+    },
+    {
+      $sort: {
+        year: 1,
+      },
+    },
+    {
+      $unset: ['_id', ...unsetFields],
+    },
+  ]);
+};
+
 const populateMatchByStartEndYears = (startYear, endYear, dateField = 'date', isFullDate = true) => {
   let sy = null;
   let ey = null;
@@ -149,4 +239,5 @@ module.exports = {
   aggregateDistinctYearsStages,
   aggregateDistinctTypesTotalAmountStages,
   populateMatchByStartEndYears,
+  aggregateTotalAmountByYearStages,
 };
