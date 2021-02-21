@@ -4,4 +4,4 @@ export * from './investment/investmentActions';
 export * from './investmentGoals/investmentGoalsActions';
 export * from './auth/authActions';
 export * from './registration/registrationActions';
-export * from './statistics/statisticsActions';
+export * from './overview/overviewActions';

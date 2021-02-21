@@ -33,70 +33,72 @@ function DataSynchronizedAreaChart({ data, charts }) {
   }, [formatedData]);
 
   return (
-    <ChartBox height="auto">
-      {
-        Object.keys(chartColors).length &&
-        charts.map((chart) => (
-          <div key={`${chart.key}`}>
-            <h4>{chart.label}</h4>
-            <ResponsiveContainer width="100%" height={200}>
-              <AreaChart
-                width={500}
-                height={200}
-                data={formatedData}
-                syncId="anyId"
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                {
-                  chart.areas.map((area, index) => {
-                    let fill = chartColors.fill[index];
-                    let stroke = chartColors.stroke[index];
+    formatedData.length > 0 && (
+      <ChartBox height="auto">
+        {
+          Object.keys(chartColors).length &&
+          charts.map((chart) => (
+            <div key={`${chart.key}`}>
+              <h4>{chart.label}</h4>
+              <ResponsiveContainer width="100%" height={200}>
+                <AreaChart
+                  width={500}
+                  height={200}
+                  data={formatedData}
+                  syncId="anyId"
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="year" />
+                  <YAxis />
+                  <Tooltip />
+                  {
+                    chart.areas.map((area, index) => {
+                      let fill = chartColors.fill[index];
+                      let stroke = chartColors.stroke[index];
 
-                    if (area.fill) {
-                      switch (area.fill) {
-                        case 'none':
-                          fill = 'transparent';
-                          break;
-                        case 'success':
-                          fill = chartColors.success.fill;
-                          break;
-                        default:
-                          break;
+                      if (area.fill) {
+                        switch (area.fill) {
+                          case 'none':
+                            fill = 'transparent';
+                            break;
+                          case 'success':
+                            fill = chartColors.success.fill;
+                            break;
+                          default:
+                            break;
+                        }
                       }
-                    }
-                    if (area.stroke) {
-                      switch (area.stroke) {
-                        case 'none':
-                          stroke = 'transparent';
-                          break;
-                        case 'success':
-                          stroke = chartColors.success.stroke;
-                          break;
-                        default:
-                          break;
+                      if (area.stroke) {
+                        switch (area.stroke) {
+                          case 'none':
+                            stroke = 'transparent';
+                            break;
+                          case 'success':
+                            stroke = chartColors.success.stroke;
+                            break;
+                          default:
+                            break;
+                        }
                       }
-                    }
-                    return (
-                      <Area key={`${area}-${area.dataKey}`} type="monotone" dataKey={area.dataKey} stroke={stroke} fill={fill} strokeWidth={2} />
-                    );
-                  })
-                }
-                <Legend align="center" formatter={renderColorfulLegendText} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        ))
-      }
-    </ChartBox>
+                      return (
+                        <Area key={`${area}-${area.dataKey}`} type="monotone" dataKey={area.dataKey} stroke={stroke} fill={fill} strokeWidth={2} />
+                      );
+                    })
+                  }
+                  <Legend align="center" formatter={renderColorfulLegendText} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          ))
+        }
+      </ChartBox>
+    )
   );
 }
 

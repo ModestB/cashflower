@@ -30,7 +30,7 @@ import {
   deleteInvestmentGoalDataSaga,
   editInvestmentGoalDataSaga,
 } from './investmentGoals/investmentGoalsSaga';
-import setStatisticsSaga from './statistics/statisticsSaga';
+import setOverviewSaga from './overview/overviewSaga';
 
 export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_GET_REQUESTED, setIncomeDataSaga);
@@ -58,7 +58,7 @@ export function* watchInvestmentGoals() {
 }
 
 export function* watchStatistics() {
-  yield takeLatest(actionTypes.STATISTICS_GET_REQUESTED, setStatisticsSaga);
+  yield takeLatest(actionTypes.OVERVIEW_GET_REQUESTED, setOverviewSaga);
 }
 
 export function* watchAuth() {

@@ -80,6 +80,11 @@ const themeOverrides = {
       },
     },
   },
+  MuiAlertTitle: {
+    root: {
+      fontWeight: 700,
+    },
+  },
 };
 
 const theme = createMuiTheme({

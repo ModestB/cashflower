@@ -13,6 +13,7 @@ import { arraySortByDateDesc } from '../../shared/utilities';
 import DataTableRow from './dataTableRow/DataTableRow';
 import LoadingTableRow from './loadingTableRow/LoadingTableRow';
 import CustomSelect from './customSelect/CustomSelect';
+import LinearProgress from '../progress/linearProgress/LinearProgress';
 import { TableSettingsContext } from '../../context/TableSettingsContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   error: {
     width: '100%',
   },
+  info: {
+    width: '100%',
+  },
 }));
 
 function DataTable({
@@ -81,23 +85,26 @@ function DataTable({
   const rowPerTablePage = [15, 30, 50];
   const userId = useSelector(state => state.auth.userId);
   const error = useSelector(state => state.general.alerts.error);
+  const infoAlertMsg = useSelector(state => state.general.alerts.info);
   const [tablePage, setTablePage] = useState(0);
   const [rowsPerTablePage, setRowsPerTablePage] = useState(rowPerTablePage[0]);
   const [showAddData, setShowAddData] = useState(false);
   const [hasData, setHasData] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [showInfoAlert, setShowInfoAlert] = useState(false);
   const [showTablePagination, setShowTablePagination] = useState(false);
   const tableRef = useRef(null);
   const colSpan = Object.keys(tableSettings).length;
   let tableBody = null;
+  let tableHeader = <LinearProgress />;
 
   useEffect(() => {
     let hideAlertTimeout;
     if (error) {
-      setShowAlert(true);
+      setShowErrorAlert(true);
 
       hideAlertTimeout = setTimeout(() => {
-        setShowAlert(false);
+        setShowErrorAlert(false);
       }, 10000);
     }
     return () => {
@@ -106,17 +113,23 @@ function DataTable({
   }, [error]);
 
   useEffect(() => {
-    if (!showAlert && error) {
+    if (!showErrorAlert && error) {
       dispatch(resetGeneralAlerts());
     }
-  }, [showAlert]);
+  }, [showErrorAlert]);
 
   useEffect(() => {
     if (tableData && Object.keys(tableData).length) {
       setShowTablePagination(Object.keys(tableData).length > rowPerTablePage[0]);
-      setHasData(Object.keys(tableData).length > 0);
+    } else {
+      setShowTablePagination(false);
     }
+    setHasData(Object.keys(tableData).length > 0);
   }, [tableData, rowPerTablePage]);
+
+  useEffect(() => {
+    setShowInfoAlert(!tableDataYears.length > 0);
+  }, [tableDataYears]);
 
   const handleChangePage = (event, newPage) => {
     setTablePage(newPage);
@@ -156,16 +169,6 @@ function DataTable({
   if (!tableDataLoading) {
     tableBody = (
       <Material.TableBody>
-        {
-          addDataComponent && addDataComponent({
-            columnsSettings: tableSettings,
-            cancelHandler: hideAddDataHandler,
-            submitHandler: tableDataAddHandler,
-            submitButtonLabel: submitBtnLabel,
-            openModal: showAddData,
-            openModalHandler: setShowAddData,
-          })
-        }
         {tableDataAddLoading &&
           <LoadingTableRow colSpan={colSpan} type="success" />}
         {tableData && Object.values(tableData)
@@ -198,36 +201,71 @@ function DataTable({
       </Material.TableBody>
     );
   }
+
+  if (hasData) {
+    tableHeader = (
+      <>
+        <CustomSelect
+          value={activeTableDataYear}
+          label="Year"
+          onChangeHandler={handleCurrentDataYearChange}
+          items={tableDataYears}
+        />
+        <Material.Box display="flex" justifyContent="flex-end" p={1}>
+          <Material.Button
+            variant="contained"
+            color="primary"
+            onClick={() => showAddDataHandler()}
+          >
+            {submitBtnLabel}
+          </Material.Button>
+        </Material.Box>
+      </>
+    );
+  } else if (showInfoAlert) {
+    tableHeader = (
+      <>
+        <Material.Box flexGrow={1}>
+          <Material.Alert
+            severity="info"
+            className={classes.info}
+          >
+            <Material.AlertTitle>
+              {infoAlertMsg.title}
+            </Material.AlertTitle>
+            {infoAlertMsg.text}
+          </Material.Alert>
+        </Material.Box>
+        <Material.Box display="flex" justifyContent="flex-end" p={1}>
+          <Material.Button
+            variant="contained"
+            color="primary"
+            onClick={() => showAddDataHandler()}
+          >
+            {submitBtnLabel}
+          </Material.Button>
+        </Material.Box>
+      </>
+    );
+  }
+
   return (
     <Material.Paper elevation={3} className={classes.root}>
-      <Material.Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
-        {
-          hasData ?
-            (
-              <CustomSelect
-                value={activeTableDataYear}
-                label="Year"
-                onChangeHandler={handleCurrentDataYearChange}
-                items={tableDataYears}
-              />
-            )
-            : <Material.Box />
-        }
-        {submitBtnLabel && (
-          <Material.Box display="flex" justifyContent="flex-end" p={1}>
-            <Material.Button
-              variant="contained"
-              color="primary"
-              onClick={() => showAddDataHandler()}
-            >
-              {submitBtnLabel}
-            </Material.Button>
-          </Material.Box>
-        )}
-      </Material.Box>
-
       {
-        showAlert && (
+        addDataComponent && addDataComponent({
+          columnsSettings: tableSettings,
+          cancelHandler: hideAddDataHandler,
+          submitHandler: tableDataAddHandler,
+          submitButtonLabel: submitBtnLabel,
+          openModal: showAddData,
+          openModalHandler: setShowAddData,
+        })
+      }
+      <Material.Box display="flex" alignItems="center" justifyContent="space-between" p={2}>
+        {tableHeader}
+      </Material.Box>
+      {
+        showErrorAlert && (
           <Material.Box
             display="flex"
             alignItems="center"
@@ -237,7 +275,7 @@ function DataTable({
             <Material.Alert
               severity="error"
               className={classes.error}
-              onClose={() => setShowAlert(false)}
+              onClose={() => setShowErrorAlert(false)}
             >
               {error}
             </Material.Alert>
@@ -245,33 +283,35 @@ function DataTable({
         )
       }
 
-      <Material.TableContainer
-        ref={tableRef}
-        className={[classes.container, classes.customScroll].join(' ')}
-      >
-        <Material.Table stickyHeader aria-label="sticky table" className={classes.table}>
-          <Material.TableHead className={classes.tableHead}>
-            <Material.TableRow>
-              {Object.keys(tableSettings)
-                .map(key => tableSettings[key])
-                .filter((column) => column.id !== 'edit')
-                .map((column) => (
-                  <Material.TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                    colSpan={column.headerColSpan ? column.headerColSpan : 1}
-                  >
-                    {column.label}
-                  </Material.TableCell>
-                ))}
-            </Material.TableRow>
-          </Material.TableHead>
-
-          {tableBody}
-
-        </Material.Table>
-      </Material.TableContainer>
+      {
+        hasData && (
+          <Material.TableContainer
+            ref={tableRef}
+            className={[classes.container, classes.customScroll].join(' ')}
+          >
+            <Material.Table stickyHeader aria-label="sticky table" className={classes.table}>
+              <Material.TableHead className={classes.tableHead}>
+                <Material.TableRow>
+                  {Object.keys(tableSettings)
+                    .map(key => tableSettings[key])
+                    .filter((column) => column.id !== 'edit')
+                    .map((column) => (
+                      <Material.TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                        colSpan={column.headerColSpan ? column.headerColSpan : 1}
+                      >
+                        {column.label}
+                      </Material.TableCell>
+                    ))}
+                </Material.TableRow>
+              </Material.TableHead>
+              {tableBody}
+            </Material.Table>
+          </Material.TableContainer>
+        )
+      }
 
       {showTablePagination && (
         <Material.TablePagination

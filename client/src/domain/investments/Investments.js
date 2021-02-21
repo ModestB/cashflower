@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeHeaderTitle, getInvestmentData } from '../../store/actions/actions';
+import { changeHeaderTitle, getInvestmentData, addInfoAlert } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import InvestmentsTable from './investmentsTable/InvestmentsTable';
 import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
@@ -18,7 +18,14 @@ const Investments = () => {
   const onInitLoad = () => {
     dispatch(changeHeaderTitle('Investments'));
     if (!Object.keys(investmentData).length) {
-      dispatch(getInvestmentData(currentDataYear));
+      let dataYear = currentDataYear;
+      if (
+        investmentDataYears.length &&
+        !investmentDataYears.includes(currentDataYear)
+      ) {
+        [dataYear] = investmentDataYears;
+      }
+      dispatch(getInvestmentData(dataYear));
     }
   };
 
@@ -29,6 +36,12 @@ const Investments = () => {
       setHasData(Object.keys(investmentData).length > 0);
     }
   }, [investmentData]);
+
+  useEffect(() => {
+    if (!hasData) {
+      dispatch(addInfoAlert('Investment table is empty', 'To add investment data click Add Investment Button'));
+    }
+  }, [hasData]);
 
   return (
     <TableChartGrid hasData={hasData}>

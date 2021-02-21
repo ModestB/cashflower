@@ -39,10 +39,12 @@ import {
 } from '@material-ui/core';
 import {
   Alert,
+  AlertTitle,
 } from '@material-ui/lab';
 
 export default {
   Alert,
+  AlertTitle,
   AppBar,
   Backdrop,
   Button,

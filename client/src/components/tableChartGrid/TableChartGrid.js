@@ -30,7 +30,7 @@ const TableChartGrid = ({ hasData, children }) => {
       <Material.Grid container spacing={2}>
         <Material.Grid
           item
-          xs={hasGraph ? 8 : 12}
+          xs={hasGraph && hasData ? 8 : 12}
           className={classes.containerTable}
         >
           {

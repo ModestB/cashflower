@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeHeaderTitle, getIncomeData } from '../../store/actions/actions';
+import { changeHeaderTitle, getIncomeData, addInfoAlert } from '../../store/actions/actions';
 import TableChartGrid from '../../components/tableChartGrid/TableChartGrid';
 import IncomeTable from './incomeTable/IncomeTable';
 import ChartByDate from '../../components/charts/chartByDate/ChartByDate';
@@ -18,17 +18,28 @@ const Income = () => {
   const onInitLoad = () => {
     dispatch(changeHeaderTitle('Income'));
     if (!Object.keys(incomeData).length) {
-      dispatch(getIncomeData(currentDataYear));
+      let dataYear = currentDataYear;
+      if (
+        incomeDataYears.length &&
+        !incomeDataYears.includes(currentDataYear)
+      ) {
+        [dataYear] = incomeDataYears;
+      }
+      dispatch(getIncomeData(dataYear));
     }
   };
 
   useEffect(onInitLoad, []);
 
   useEffect(() => {
-    if (incomeData) {
-      setHasIncomeData(Object.keys(incomeData).length > 0);
-    }
+    setHasIncomeData(Object.keys(incomeData).length > 0);
   }, [incomeData]);
+
+  useEffect(() => {
+    if (!hasIncomeData) {
+      dispatch(addInfoAlert('Income table is empty', 'To add income data click Add Income Button'));
+    }
+  }, [hasIncomeData]);
 
   return (
     <TableChartGrid hasData={hasIncomeData}>

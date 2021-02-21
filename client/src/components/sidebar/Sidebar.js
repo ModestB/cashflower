@@ -60,11 +60,11 @@ function Sidebar() {
       },
     },
     {
-      text: 'Statistics',
+      text: 'Overview',
       icon: <AssessmentIcon />,
       location: {
-        pathname: '/statistics',
-        state: { sectionTitle: 'Statistics' },
+        pathname: '/overview',
+        state: { sectionTitle: 'Overview' },
       },
     },
   ];
