@@ -1,10 +1,10 @@
 const express = require('express');
-const StatisticsController = require('../controllers/statisticsController');
+const OverviewController = require('../controllers/overviewController');
 const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
 
 // Read Investments Goals
-router.get('/api/statistics', authMiddleware, StatisticsController.read);
+router.get('/api/overview', authMiddleware, OverviewController.read);
 
 module.exports = router;

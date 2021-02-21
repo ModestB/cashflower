@@ -7,7 +7,7 @@ const {
   aggregateTotalAmountByYearStages,
 } = require('../utils/mongoUtils');
 
-const StatisticsController = {
+const OverviewController = {
 
   read: async (req, res) => {
     const userId = req.user._id;
@@ -100,4 +100,4 @@ const StatisticsController = {
   },
 };
 
-module.exports = StatisticsController;
+module.exports = OverviewController;
