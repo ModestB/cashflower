@@ -2,11 +2,11 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
-import indigo from '@material-ui/core/colors/indigo';
 
 const palette = {
   primary: {
-    main: indigo[500],
+    main: '#3E92CC',
+    dark: '#12263A',
   },
   success: {
     main: green[500],
@@ -16,6 +16,12 @@ const palette = {
     main: red[500],
     dark: red[700],
     contrastText: grey[50],
+  },
+  text: {
+    muted: '#707070',
+  },
+  background: {
+    light: '#FAFBFC',
   },
 };
 
@@ -85,6 +91,11 @@ const themeOverrides = {
       fontWeight: 700,
     },
   },
+  MuiListItemIcon: {
+    root: {
+      minWidth: 'initial',
+    },
+  },
 };
 
 const theme = createMuiTheme({
@@ -92,7 +103,7 @@ const theme = createMuiTheme({
   spacing: defaultSpacing,
   mixins: themeMixins,
   overrides: themeOverrides,
-  drawerWidth: 250,
+  drawerWidth: 100,
 });
 
 export default theme;

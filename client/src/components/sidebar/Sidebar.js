@@ -1,11 +1,45 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import Material from '../../shared/material';
+import { ReactComponent as MainLogo } from '../../shared/logos/logo.svg';
+import mainTheme from '../../themes/defaultTheme';
+
+const SIDEBAR_ITEMS = [
+  {
+    text: 'Income',
+    icon: <AccountBalanceIcon />,
+    location: { pathname: '/', state: { sectionTitle: 'Income' } },
+  },
+  {
+    text: 'Investments',
+    icon: <EqualizerIcon />,
+    location: {
+      pathname: '/investments',
+      state: { sectionTitle: 'Investments' },
+    },
+  },
+  {
+    text: 'Investment Goals',
+    icon: <AssignmentIcon />,
+    location: {
+      pathname: '/investmentGoals',
+      state: { sectionTitle: 'Investment Goals' },
+    },
+  },
+  {
+    text: 'Overview',
+    icon: <AssessmentIcon />,
+    location: {
+      pathname: '/overview',
+      state: { sectionTitle: 'Overview' },
+    },
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -21,73 +55,114 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawerPaper: {
+    backgroundColor: theme.palette.background.light,
     width: theme.drawerWidth,
+    boxShadow: theme.shadows[4],
   },
   sidebarTitle: {
     padding: '16px',
   },
+  listItemText: {
+    textAlign: 'center',
+    marginTop: theme.spacing(1),
+  },
 }));
+
+const ListItemWithStyles = withStyles(theme => ({
+  root: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing(1)}px ${theme.spacing(1)}px`,
+
+    '& svg': {
+      fontSize: '30px',
+      fill: theme.palette.text.muted,
+    },
+
+    '&$selected ': {
+      color: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.primary.dark,
+
+      '& svg': {
+        fill: theme.palette.primary.contrastText,
+      },
+    },
+
+    '&$selected:hover': {
+      color: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.primary.dark,
+
+      '& svg': {
+        fill: theme.palette.primary.contrastText,
+      },
+    },
+
+    '&:hover': {
+      color: theme.palette.primary.dark,
+      backgroundColor: 'transparent',
+
+      '& svg': {
+        fill: theme.palette.primary.dark,
+      },
+    },
+  },
+  selected: {},
+}))(Material.ListItem);
 
 function Sidebar() {
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    const initIndex = SIDEBAR_ITEMS
+      .findIndex(item => item.location.pathname === location.pathname);
+
+    setSelectedIndex(initIndex);
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const listItems = [
-    {
-      text: 'Income',
-      icon: <AccountBalanceIcon />,
-      location: { pathname: '/', state: { sectionTitle: 'Income' } },
-    },
-    {
-      text: 'Investments',
-      icon: <EqualizerIcon />,
-      location: {
-        pathname: '/investments',
-        state: { sectionTitle: 'Investments' },
-      },
-    },
-    {
-      text: 'Investment Goals',
-      icon: <AssignmentIcon />,
-      location: {
-        pathname: '/investmentGoals',
-        state: { sectionTitle: 'Investment Goals' },
-      },
-    },
-    {
-      text: 'Overview',
-      icon: <AssessmentIcon />,
-      location: {
-        pathname: '/overview',
-        state: { sectionTitle: 'Overview' },
-      },
-    },
-  ];
+  const handleListItemClick = (index) => {
+    setSelectedIndex(index);
+  };
 
   const drawer = (
     <>
       <div className={classes.toolbar} />
-      <Material.Typography className={classes.sidebarTitle} variant="h6">
-        CashFlower
-      </Material.Typography>
-      <Material.Divider />
+      <Material.Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        py={2}
+      >
+        <MainLogo
+          fill={mainTheme.palette.primary.dark}
+          width="40px"
+          height="40px"
+        />
+      </Material.Box>
 
       <Material.List>
-        {listItems.map((listItem) => (
-          <Material.ListItem
+        {SIDEBAR_ITEMS.map((listItem, index) => (
+          <ListItemWithStyles
             button
             key={listItem.text}
             component={Link}
+            selected={selectedIndex === index}
+            onClick={() => handleListItemClick(index)}
             to={listItem.location}
+            className={classes.listItem}
           >
-            <Material.ListItemIcon>{listItem.icon}</Material.ListItemIcon>
-            <Material.ListItemText primary={listItem.text} />
-          </Material.ListItem>
+            <Material.ListItemIcon>
+              {listItem.icon}
+            </Material.ListItemIcon>
+            <Material.ListItemText className={classes.listItemText} primary={listItem.text} />
+          </ListItemWithStyles>
         ))}
       </Material.List>
       <Material.Divider />
