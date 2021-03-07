@@ -1,6 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
-import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 
 const palette = {
@@ -9,7 +8,7 @@ const palette = {
     dark: '#12263A',
   },
   success: {
-    main: green[500],
+    main: '#04C842',
     contrastText: grey[50],
   },
   danger: {
@@ -94,6 +93,18 @@ const themeOverrides = {
   MuiListItemIcon: {
     root: {
       minWidth: 'initial',
+    },
+  },
+  MuiAppBar: {
+    colorPrimary: {
+      backgroundColor: palette.background.light,
+      color: palette.primary.dark,
+    },
+  },
+  MuiButton: {
+    root: {
+      borderRadius: '8px',
+      padding: '6px 30px',
     },
   },
 };

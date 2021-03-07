@@ -107,7 +107,7 @@ const ListItemWithStyles = withStyles(theme => ({
     },
   },
   selected: {},
-}))(Material.ListItem);
+}))(props => <Material.ListItem {...props} />);
 
 function Sidebar() {
   const classes = useStyles();

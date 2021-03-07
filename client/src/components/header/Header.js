@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-// import DateRangeIcon from '@material-ui/icons/DateRange';
-// import AssignmentIcon from '@material-ui/icons/Assignment';
-// import AssessmentIcon from '@material-ui/icons/Assessment';
 import MenuIcon from '@material-ui/icons/Menu';
 import Material from '../../shared/material';
 import HeaderAuth from './headerAuth/HeaderAuth';
+import { ReactComponent as MainLogo } from '../../shared/logos/logo.svg';
+import mainTheme from '../../themes/defaultTheme';
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
+  appBarAuth: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${theme.drawerWidth}px)`,
       marginLeft: theme.drawerWidth,
@@ -20,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+  },
+  mainLogo: {
+    marginRight: '10px',
   },
 }));
 
@@ -37,7 +39,8 @@ function Header() {
     <>
       <Material.AppBar
         position="fixed"
-        className={`${isAuth ? classes.appBar : ''}`}
+        elevation={4}
+        className={`${isAuth ? classes.appBarAuth : ''}`}
       >
         <Material.Toolbar>
           <Material.IconButton
@@ -49,6 +52,16 @@ function Header() {
           >
             <MenuIcon />
           </Material.IconButton>
+          {
+            !isAuth && (
+              <MainLogo
+                className={classes.mainLogo}
+                fill={mainTheme.palette.primary.dark}
+                width="35px"
+                height="35px"
+              />
+            )
+          }
           <Material.Typography variant="h6" noWrap>
             {headerTitle}
           </Material.Typography>
