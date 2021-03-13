@@ -86,8 +86,8 @@ const IconButtonWithStyles = withStyles(theme => ({
 export default function LoggedIn() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const username = useSelector(state => state.auth.email);
-  const token = useSelector(state => state.auth.token);
+  const username = useSelector(state => state.user.email);
+  const token = useSelector(state => state.user.token);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);

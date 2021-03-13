@@ -2,6 +2,7 @@ import {
   CHANGE_HEADER_TITLE,
   RESET_GENERAL_ALERTS,
   ADD_INFO_ALERT,
+  ADD_ERROR_ALERT,
 } from '../../actionTypes/actionTypes';
 
 export const changeHeaderTitle = (headerTitle) => ({
@@ -20,5 +21,13 @@ export const addInfoAlert = (title, text) => ({
   payload: {
     title,
     text,
+  },
+});
+
+export const addErrorAlert = (text, place) => ({
+  type: ADD_ERROR_ALERT,
+  payload: {
+    text,
+    place,
   },
 });

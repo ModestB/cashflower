@@ -3,6 +3,7 @@ import {
   CHANGE_HEADER_TITLE,
   RESET_GENERAL_ALERTS,
   ADD_INFO_ALERT,
+  ADD_ERROR_ALERT,
   INCOME_ADD_FAILED,
   INCOME_EDIT_FAILED,
   INVESTMENT_ADD_FAILED,
@@ -14,7 +15,10 @@ import {
 const initialState = {
   headerTitle: 'Cashflower',
   alerts: {
-    error: '',
+    error: {
+      text: '',
+      place: '',
+    },
     info: {
       title: '',
       text: '',
@@ -24,7 +28,8 @@ const initialState = {
 
 const alertErrorHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    draftState.alerts.error = payload.error;
+    draftState.alerts.error.text = payload.text;
+    draftState.alerts.error.place = payload.place;
   });
 
   return nextState;
@@ -60,6 +65,10 @@ export default (state = initialState, action) => {
     case INVESTMENT_EDIT_FAILED:
     case INVESTMENT_GOAL_ADD_FAILED:
     case INVESTMENT_GOAL_EDIT_FAILED: {
+      return alertErrorHandler(state, action.payload, 'table');
+    }
+
+    case ADD_ERROR_ALERT: {
       return alertErrorHandler(state, action.payload);
     }
 

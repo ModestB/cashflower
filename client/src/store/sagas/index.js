@@ -31,6 +31,11 @@ import {
   editInvestmentGoalDataSaga,
 } from './investmentGoals/investmentGoalsSaga';
 import setOverviewSaga from './overview/overviewSaga';
+import {
+  addWalletSaga,
+  editWalletSaga,
+  deleteWalletSaga,
+} from './user/userSaga';
 
 export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_GET_REQUESTED, setIncomeDataSaga);
@@ -70,4 +75,10 @@ export function* watchAuth() {
 
 export function* watchRegistration() {
   yield takeLatest(actionTypes.REGISTRATION_REQUESTED, registrationSaga);
+}
+
+export function* watchWallets() {
+  yield takeLatest(actionTypes.ADD_WALLET_REQUESTED, addWalletSaga);
+  yield takeLatest(actionTypes.EDIT_WALLET_REQUESTED, editWalletSaga);
+  yield takeLatest(actionTypes.DELETE_WALLET_REQUESTED, deleteWalletSaga);
 }

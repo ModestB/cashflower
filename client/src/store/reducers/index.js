@@ -5,15 +5,15 @@ import income from './income/income';
 import investment from './investment/investment';
 import investmentGoals from './investmentGoals/investmentGoals';
 import overview from './overview/overview';
-import auth from './auth/auth';
-import dataInfo from './dataInfo/dataInfo';
+import user from './user/user';
+import info from './info/info';
 
 export default combineReducers({
+  user,
+  info,
   general,
   income,
   investment,
   investmentGoals,
   overview,
-  auth,
-  dataInfo,
 });

@@ -34,7 +34,7 @@ function SelectInput({
   value,
   selectType,
 }) {
-  const userId = useSelector((state) => state.auth.userId);
+  const userId = useSelector((state) => state.user.userId);
   const [open, setOpen] = useState(false);
   const [newOption, setNewOption] = useState('');
   const classes = useStyles();

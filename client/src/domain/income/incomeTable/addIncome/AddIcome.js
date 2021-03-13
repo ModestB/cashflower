@@ -13,10 +13,10 @@ function AddIcome({
   openModalHandler,
 }) {
   const dispatch = useDispatch();
-  const userId = useSelector(state => state.auth.userId);
-  const incomeTypes = useSelector(state => state.dataInfo.types.income);
-  const incomeTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
-  const incomeTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
+  const userId = useSelector(state => state.user.userId);
+  const incomeTypes = useSelector(state => state.info.types.income);
+  const incomeTypeAddLoading = useSelector(state => state.info.loading.typeAdd);
+  const incomeTypeDeleteLoading = useSelector(state => state.info.loading.typeDelete);
   const {
     values,
     valuesChangeHandlers,

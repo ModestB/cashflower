@@ -13,7 +13,7 @@ import { TableSettingsContext } from '../../../context/TableSettingsContext';
 import DateInput from '../inputs/dateInput/DateInput';
 import NumberInput from '../inputs/numberInput/NumberInput';
 import SelectInput from '../inputs/selectInput/SelectInput';
-import TextAreaInput from '../inputs/textAreaInput/TextAreaInput';
+import TextInput from '../inputs/textInput/TextInput';
 import useOnClickOutside from '../../../shared/hooks/useOnClickOutside';
 
 const useStyles = makeStyles((theme) => ({
@@ -134,7 +134,7 @@ function EditData({
                       break;
                     case 'textArea':
                       input = (
-                        <TextAreaInput
+                        <TextInput
                           label={column.label}
                           value={dataValues[column.id]}
                           onChangeHandler={dataChangeHandlers[column.id]}

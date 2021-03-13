@@ -15,7 +15,7 @@ export const authRequest = (email, password) => ({
   },
 });
 
-export const authSuccess = (email, userId, token, dataYears, dataTypes) => ({
+export const authSuccess = (email, userId, token, dataYears, dataTypes, wallets) => ({
   type: AUTH_SUCCEEDED,
   payload: {
     email,
@@ -23,6 +23,7 @@ export const authSuccess = (email, userId, token, dataYears, dataTypes) => ({
     token,
     dataYears,
     dataTypes,
+    wallets,
   },
 });
 

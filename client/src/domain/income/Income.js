@@ -9,10 +9,10 @@ import { TableSettingsProvider } from '../../context/TableSettingsContext';
 
 const Income = () => {
   const dispatch = useDispatch();
-  const incomeDataYears = useSelector(state => state.dataInfo.years.income);
+  const incomeDataYears = useSelector(state => state.info.years.income);
   const currentDataYear = useSelector(state => state.income.currentDataYear);
   const incomeData = useSelector(state => state.income.data);
-  const incomeTypes = useSelector(state => state.dataInfo.types.income);
+  const incomeTypes = useSelector(state => state.info.types.income);
   const [hasIncomeData, setHasIncomeData] = useState(false);
 
   const onInitLoad = () => {

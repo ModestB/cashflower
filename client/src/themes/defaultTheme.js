@@ -12,6 +12,7 @@ const palette = {
     contrastText: grey[50],
   },
   danger: {
+    light: red[300],
     main: red[500],
     dark: red[700],
     contrastText: grey[50],
@@ -21,9 +22,10 @@ const palette = {
   },
   background: {
     light: '#FAFBFC',
+    grey: '#C9C7C7',
   },
 };
-
+const toolbarHeightDesktop = 64;
 const defaultSpacing = 8;
 const spacing = factor => `${defaultSpacing * factor}`; // (Bootstrap strategy)
 const themeMixins = {
@@ -51,6 +53,16 @@ const themeMixins = {
     width: '100%',
     '& .MuiFormControl-root, .MuiBox-root ': {
       margin: `${spacing(1)}px 0 ${spacing(1)}px 0`,
+    },
+  },
+  toolbar: {
+    minHeight: 56,
+    '@media (min-width:0px) and (orientation: landscape)': {
+      minHeight: 48,
+    },
+    '@media (min-width:600px)': {
+      minHeight: toolbarHeightDesktop,
+      height: toolbarHeightDesktop,
     },
   },
 };
@@ -115,6 +127,9 @@ const theme = createMuiTheme({
   mixins: themeMixins,
   overrides: themeOverrides,
   drawerWidth: 100,
+  toolbarHeight: {
+    desktop: toolbarHeightDesktop,
+  },
 });
 
 export default theme;

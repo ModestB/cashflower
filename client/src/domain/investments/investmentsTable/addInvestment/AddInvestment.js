@@ -13,11 +13,11 @@ function AddInvestment({
   openModalHandler,
 }) {
   const dispatch = useDispatch();
-  const userId = useSelector(state => state.auth.userId);
-  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
-  const investmentTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
+  const userId = useSelector(state => state.user.userId);
+  const investmentTypes = useSelector(state => state.info.types.investment);
+  const investmentTypeAddLoading = useSelector(state => state.info.loading.typeAdd);
   const investmentTypeDeleteLoading =
-    useSelector(state => state.dataInfo.loading.typeDelete);
+    useSelector(state => state.info.loading.typeDelete);
   const {
     values,
     valuesChangeHandlers,

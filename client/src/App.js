@@ -8,10 +8,12 @@ import { authCheck } from './store/actions/actions';
 import Welcome from './domain/welcome/Welcome';
 import Header from './components/header/Header';
 import Sidebar from './components/sidebar/Sidebar';
+import WalletSidebar from './components/walletSidebar/WalletSidebar';
 import Income from './domain/income/Income';
 import Investments from './domain/investments/Investments';
 import InvestmentGoals from './domain/investmentGoals/InvestmentGoals';
 import Overview from './domain/overview/Overview';
+import Material from './shared/material';
 
 import './App.scss';
 
@@ -29,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     width: `calc(100% - ${theme.drawerWidth}px)`,
+    height: `calc(100vh - ${theme.toolbarHeight.desktop}px)`,
     marginLeft: theme.drawerWidth,
   },
   // necessary for content to be below app bar
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const isAuth = useSelector(state => state.auth.token !== null);
+  const isAuth = useSelector(state => state.user.token !== null);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -58,12 +61,15 @@ function App() {
                 <Sidebar />
                 <main className={classes.contentWithDrawer}>
                   <div className={classes.toolbar} />
-                  <Switch>
-                    <Route exact path="/" component={Income} />
-                    <Route path="/investments" component={Investments} />
-                    <Route path="/investmentGoals" component={InvestmentGoals} />
-                    <Route path="/overview" component={Overview} />
-                  </Switch>
+                  <Material.Box display="flex">
+                    <WalletSidebar />
+                    <Switch>
+                      <Route exact path="/" component={Income} />
+                      <Route path="/investments" component={Investments} />
+                      <Route path="/investmentGoals" component={InvestmentGoals} />
+                      <Route path="/overview" component={Overview} />
+                    </Switch>
+                  </Material.Box>
                 </main>
               </>
             )

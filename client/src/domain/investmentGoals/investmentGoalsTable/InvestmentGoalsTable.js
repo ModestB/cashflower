@@ -19,8 +19,8 @@ function InvestmentGoalsTable({
 }) {
   const dispatch = useDispatch();
   const investmentGoalsData = useSelector(state => state.investmentGoals.data);
-  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
-  const investmentGoalsDataYears = useSelector(state => state.dataInfo.years.investmentGoals);
+  const investmentTypes = useSelector(state => state.info.types.investment);
+  const investmentGoalsDataYears = useSelector(state => state.info.years.investmentGoals);
   const investmentGoalsDataLoading =
     useSelector(state => state.investmentGoals.investmentGoalsDataLoading);
   const investmentGoalAddLoading =

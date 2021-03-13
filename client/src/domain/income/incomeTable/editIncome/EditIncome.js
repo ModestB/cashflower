@@ -11,9 +11,9 @@ function EditIncome({
   cancelHandler,
   submitButtonLabel,
 }) {
-  const incomeTypes = useSelector(state => state.dataInfo.types.income);
-  const incomeTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
-  const incomeTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
+  const incomeTypes = useSelector(state => state.info.types.income);
+  const incomeTypeAddLoading = useSelector(state => state.info.loading.typeAdd);
+  const incomeTypeDeleteLoading = useSelector(state => state.info.loading.typeDelete);
   const dispatch = useDispatch();
   const {
     values,

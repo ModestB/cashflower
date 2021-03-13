@@ -68,3 +68,12 @@ export const tableEditColumnSettings = () => ({
     minWidth: 50,
   },
 });
+
+export const WALLETS_TYPES = {
+  regular: {
+    label: 'Regular',
+  },
+  goal: {
+    label: 'Goal',
+  },
+};

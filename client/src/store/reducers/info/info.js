@@ -99,6 +99,7 @@ const authSuccessHandler = (state, payload) => {
         ...incomeType,
       };
     });
+
     Object.keys(payload.dataTypes.investment).forEach(key => {
       const investmentType = {
         [payload.dataTypes.investment[key].id]: payload.dataTypes.investment[key],
@@ -108,6 +109,7 @@ const authSuccessHandler = (state, payload) => {
         ...investmentType,
       };
     });
+
   });
 
   return nextState;

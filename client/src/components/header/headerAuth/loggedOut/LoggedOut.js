@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LoggedOut() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const authLoading = useSelector(state => state.auth.loading);
+  const authLoading = useSelector(state => state.user.loading);
   const dispatch = useDispatch();
   const classes = useStyles();
 

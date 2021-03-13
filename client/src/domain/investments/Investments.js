@@ -9,10 +9,10 @@ import { TableSettingsProvider } from '../../context/TableSettingsContext';
 
 const Investments = () => {
   const dispatch = useDispatch();
-  const investmentDataYears = useSelector(state => state.dataInfo.years.investment);
+  const investmentDataYears = useSelector(state => state.info.years.investment);
   const currentDataYear = useSelector(state => state.investment.currentDataYear);
   const investmentData = useSelector(state => state.investment.data);
-  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
+  const investmentTypes = useSelector(state => state.info.types.investment);
   const [hasData, setHasData] = useState(false);
 
   const onInitLoad = () => {

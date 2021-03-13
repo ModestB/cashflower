@@ -39,6 +39,7 @@ export function* authUserSaga(action) {
         response.data.token,
         response.data.dataYears,
         response.data.dataTypes,
+        response.data.wallets,
       ),
     );
     if (response.data.token) {
@@ -75,6 +76,7 @@ export function* authCheckSaga() {
           response.data.token,
           response.data.dataYears,
           response.data.dataTypes,
+          response.data.wallets,
         ),
       );
       const expiresIn = yield (expirationDate.getTime() - new Date().getTime());

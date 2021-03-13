@@ -16,7 +16,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const authLoading = useSelector(state => state.auth.loading);
+  const authLoading = useSelector(state => state.user.loading);
 
   const formSubmitHandler = (e) => {
     e.preventDefault();

@@ -2,18 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
-function TextAreaInput({
+function TextInput({
   label,
   value,
   onChangeHandler,
+  multiline,
+  helperText,
 }) {
   return (
     <TextField
       id="standard-multiline-flexible"
       label={label}
-      multiline
+      multiline={multiline}
       rowsMax={4}
       value={value}
+      helperText={helperText}
       onChange={(e) => onChangeHandler(e.target.value)}
       InputLabelProps={{
         shrink: true,
@@ -22,10 +25,17 @@ function TextAreaInput({
   );
 }
 
-TextAreaInput.propTypes = {
+TextInput.defaultProps = {
+  multiline: false,
+  helperText: '',
+};
+
+TextInput.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
+  multiline: PropTypes.bool,
+  helperText: PropTypes.string,
 };
 
-export default TextAreaInput;
+export default TextInput;

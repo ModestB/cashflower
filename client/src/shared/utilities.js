@@ -15,3 +15,7 @@ export function arraySortByDateDesc(a, b) {
 export const whiteSpacesValidator = (value) => !!/\s/.test(value);
 
 export const formatDateToYear = date => parseInt(format(date, 'yyyy'), 10);
+
+export const formatCurrency = (amount, currency, locale) => (
+  new Intl.NumberFormat(locale, { style: 'currency', currency }).format(amount)
+);

@@ -20,8 +20,8 @@ function IncomeTable({
 }) {
   const dispatch = useDispatch();
   const incomeData = useSelector(state => state.income.data);
-  const incomeTypes = useSelector(state => state.dataInfo.types.income);
-  const incomeDataYears = useSelector(state => state.dataInfo.years.income);
+  const incomeTypes = useSelector(state => state.info.types.income);
+  const incomeDataYears = useSelector(state => state.info.years.income);
   const incomeDataLoading = useSelector(state => state.income.incomeDataLoading);
   const incomeAddLoading = useSelector(state => state.income.incomeAddLoading);
   const currentDataYear = useSelector(state => state.income.currentDataYear);

@@ -20,8 +20,8 @@ function InvestmentTable({
 }) {
   const dispatch = useDispatch();
   const investmentData = useSelector(state => state.investment.data);
-  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
-  const investmentDataYears = useSelector(state => state.dataInfo.years.investment);
+  const investmentTypes = useSelector(state => state.info.types.investment);
+  const investmentDataYears = useSelector(state => state.info.years.investment);
   const investmentDataLoading = useSelector(state => state.investment.investmentDataLoading);
   const investmentAddLoading = useSelector(state => state.investment.investmentAddLoading);
   const currentDataYear = useSelector(state => state.investment.currentDataYear);

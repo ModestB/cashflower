@@ -83,7 +83,7 @@ function DataTable({
   const { tableSettings } = useContext(TableSettingsContext);
   const classes = useStyles();
   const rowPerTablePage = [15, 30, 50];
-  const userId = useSelector(state => state.auth.userId);
+  const userId = useSelector(state => state.user.userId);
   const error = useSelector(state => state.general.alerts.error);
   const infoAlertMsg = useSelector(state => state.general.alerts.info);
   const [tablePage, setTablePage] = useState(0);
@@ -100,7 +100,7 @@ function DataTable({
 
   useEffect(() => {
     let hideAlertTimeout;
-    if (error) {
+    if (error && error.text && error.place === 'table') {
       setShowErrorAlert(true);
 
       hideAlertTimeout = setTimeout(() => {
@@ -112,11 +112,11 @@ function DataTable({
     };
   }, [error]);
 
-  useEffect(() => {
-    if (!showErrorAlert && error) {
-      dispatch(resetGeneralAlerts());
-    }
-  }, [showErrorAlert]);
+  // useEffect(() => {
+  //   if (!showErrorAlert && error) {
+  //     dispatch(resetGeneralAlerts());
+  //   }
+  // }, [showErrorAlert]);
 
   useEffect(() => {
     if (tableData && Object.keys(tableData).length) {
@@ -277,7 +277,7 @@ function DataTable({
               className={classes.error}
               onClose={() => setShowErrorAlert(false)}
             >
-              {error}
+              {error && error.text}
             </Material.Alert>
           </Material.Box>
         )

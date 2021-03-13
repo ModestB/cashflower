@@ -5,6 +5,10 @@ import {
   AUTH_FAILED,
   AUTH_LOGOUT,
   REGISTRATION_SUCCEEDED,
+  SET_ACTIVE_WALLET,
+  ADD_WALLET_SUCCEEDED,
+  EDIT_WALLET_SUCCEEDED,
+  DELETE_WALLET_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
 
 const initialState = {
@@ -13,6 +17,10 @@ const initialState = {
   email: null,
   error: null,
   loading: false,
+  wallets: [],
+  activeWallet: null,
+  currency: 'EUR',
+  locale: 'lt',
 };
 
 const authSuccessHandler = (state, payload) => {
@@ -22,6 +30,8 @@ const authSuccessHandler = (state, payload) => {
     draftState.token = payload.token;
     draftState.error = '';
     draftState.loading = false;
+    draftState.wallets = payload.wallets;
+    draftState.activeWallet = payload.wallets[0].id;
   });
 
   return nextState;
@@ -47,6 +57,41 @@ const authLogoutHandler = () => {
   return initialState;
 };
 
+const setActiveWalletandler = (state, id) => ({ ...state, activeWallet: id });
+
+const addWalletHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.wallets = [...state.wallets, payload.wallet];
+  });
+
+  return nextState;
+};
+
+const editWalletHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.wallets = state.wallets.map(wallet => {
+      if (wallet.id === payload.wallet.id) {
+        return payload.wallet;
+      }
+      return wallet;
+    });
+  });
+
+  return nextState;
+};
+
+const deleteWalletHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.wallets = state.wallets.filter(wallet => {
+      if (wallet.id !== payload.id) {
+        return wallet;
+      }
+    });
+  });
+
+  return nextState;
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case AUTH_REQUESTED: {
@@ -67,6 +112,22 @@ export default (state = initialState, action) => {
 
     case AUTH_LOGOUT: {
       return authLogoutHandler();
+    }
+
+    case SET_ACTIVE_WALLET: {
+      return setActiveWalletandler(state, action.payload.id);
+    }
+
+    case ADD_WALLET_SUCCEEDED: {
+      return addWalletHandler(state, action.payload);
+    }
+
+    case EDIT_WALLET_SUCCEEDED: {
+      return editWalletHandler(state, action.payload);
+    }
+
+    case DELETE_WALLET_SUCCEEDED: {
+      return deleteWalletHandler(state, action.payload);
     }
 
     default:

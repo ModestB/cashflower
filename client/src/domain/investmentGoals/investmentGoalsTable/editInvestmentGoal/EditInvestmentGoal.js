@@ -11,9 +11,9 @@ function EditInvestmentGoal({
   cancelHandler,
   submitButtonLabel,
 }) {
-  const investmentTypes = useSelector(state => state.dataInfo.types.investment);
-  const investmentTypeAddLoading = useSelector(state => state.dataInfo.loading.typeAdd);
-  const investmentTypeDeleteLoading = useSelector(state => state.dataInfo.loading.typeDelete);
+  const investmentTypes = useSelector(state => state.info.types.investment);
+  const investmentTypeAddLoading = useSelector(state => state.info.loading.typeAdd);
+  const investmentTypeDeleteLoading = useSelector(state => state.info.loading.typeDelete);
   const dispatch = useDispatch();
   const {
     values,

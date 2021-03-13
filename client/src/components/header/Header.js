@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isAuth = useSelector(state => state.auth.token !== null);
+  const isAuth = useSelector(state => state.user.token !== null);
   const headerTitle = useSelector(state => state.general.headerTitle);
 
   const handleDrawerToggle = () => {
