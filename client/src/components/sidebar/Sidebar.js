@@ -5,15 +5,21 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import Material from '../../shared/material';
 import { ReactComponent as MainLogo } from '../../shared/logos/logo.svg';
 import mainTheme from '../../themes/defaultTheme';
 
 const SIDEBAR_ITEMS = [
   {
+    text: 'Transactions',
+    icon: <ReceiptIcon />,
+    location: { pathname: '/', state: { sectionTitle: 'Transactions' } },
+  },
+  {
     text: 'Income',
     icon: <AccountBalanceIcon />,
-    location: { pathname: '/', state: { sectionTitle: 'Income' } },
+    location: { pathname: '/income', state: { sectionTitle: 'Income' } },
   },
   {
     text: 'Investments',

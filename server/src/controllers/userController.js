@@ -28,10 +28,12 @@ const UserController = {
   read: async (req, res) => {
     try {
       const dataYears = await User.getDataDistinctYears(req.user);
+      const wallets = await User.getUserWallets(req.user);
       await User.populateDataTypes(req.user);
 
       res.send({
         user: req.user,
+        wallets,
         dataYears,
         dataTypes: {
           income: req.user.incomeTypes,
@@ -88,11 +90,13 @@ const UserController = {
       const user = await User.findByCredentials(email, password);
       const token = await user.generateAuthToken();
       const dataYears = await User.getDataDistinctYears(user);
+      const wallets = await User.getUserWallets(user);
       await User.populateDataTypes(user);
 
       res.send({
         user,
         token,
+        wallets,
         dataYears,
         dataTypes: {
           income: user.incomeTypes,

@@ -7,6 +7,7 @@ const IncomeType = require('./incomeType');
 const Investment = require('./investment');
 const InvestmentGoal = require('./investmentGoal');
 const InvestmentType = require('./investmentType');
+const Wallet = require('./wallet');
 const Token = require('./token');
 const { aggregateDistinctYearsStages } = require('../utils/mongoUtils');
 
@@ -45,6 +46,12 @@ const userSchema = mongoose.Schema({
 // Virtual properties (not stored in MongoDB)
 // Mongoose will populate documents from the model in ref
 // whose foreignField matches this document's localField
+
+userSchema.virtual('wallets', {
+  ref: 'Wallet',
+  localField: '_id',
+  foreignField: 'owner',
+});
 
 userSchema.virtual('income', {
   ref: 'Income',
@@ -203,6 +210,15 @@ async function populateDataTypes(user) {
 
 userSchema.statics.populateDataTypes = populateDataTypes;
 
+async function getUserWallets(user) {
+  const id = user.id || user._id;
+  const wallets = await Wallet.find({ owner: id });
+
+  return wallets;
+}
+
+userSchema.statics.getUserWallets = getUserWallets;
+
 // Define custom toJSON method
 // To hide/delete properties which you don't want to return in the response
 
@@ -234,6 +250,7 @@ async function useSchemaPreRemoveHandler(next) {
   await Investment.deleteMany({ owner: user._id });
   await InvestmentGoal.deleteMany({ owner: user._id });
   await InvestmentType.deleteMany({ owner: user._id });
+  await Wallet.deleteMany({ owner: user._id });
 
   next();
 }

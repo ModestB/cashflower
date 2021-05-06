@@ -64,7 +64,7 @@ function App() {
                   <Material.Box display="flex">
                     <WalletSidebar />
                     <Switch>
-                      <Route exact path="/" component={Income} />
+                      <Route exact path="/income" component={Income} />
                       <Route path="/investments" component={Investments} />
                       <Route path="/investmentGoals" component={InvestmentGoals} />
                       <Route path="/overview" component={Overview} />
