@@ -8,6 +8,7 @@ const investmentGoalRouter = require('./routers/investmentGoal');
 const investmentTypeRouter = require('./routers/investmentType');
 const overviewRouter = require('./routers/overview');
 const walletRouter = require('./routers/wallet');
+const categoryRouter = require('./routers/category');
 const { errorFormatter } = require('./utils/utils');
 
 const port = process.env.SERVER_PORT;
@@ -26,6 +27,7 @@ app.use(investmentGoalRouter);
 app.use(investmentTypeRouter);
 app.use(overviewRouter);
 app.use(walletRouter);
+app.use(categoryRouter);
 
 app.all('*', (req, res, next) => {
   next(new Error(`Can't find ${req.originalUrl} on this server!`));

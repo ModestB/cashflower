@@ -8,8 +8,10 @@ const Investment = require('./investment');
 const InvestmentGoal = require('./investmentGoal');
 const InvestmentType = require('./investmentType');
 const Wallet = require('./wallet');
+const Category = require('./category');
 const Token = require('./token');
 const { aggregateDistinctYearsStages } = require('../utils/mongoUtils');
+const { transactionParentCategories, transactionChildCategories } = require('../constants/transactionsCategories');
 
 const userSchema = mongoose.Schema({
   username: {
@@ -83,6 +85,12 @@ userSchema.virtual('investmentTypes', {
   foreignField: 'owner',
 });
 
+userSchema.virtual('categories', {
+  ref: 'Category',
+  localField: '_id',
+  foreignField: 'owner',
+});
+
 // Enables function before we save the created object
 
 async function userSchemaPreSaveHandler(next) {
@@ -134,6 +142,17 @@ async function generateDefaultIncomeTypes() {
   await IncomeType.create(defaultIcomeTypes);
 }
 userSchema.methods.generateDefaultIncomeTypes = generateDefaultIncomeTypes;
+
+// Generate default categorys
+
+async function generateDefaultCategories() {
+  const user = this;
+
+  await Category.create(transactionParentCategories(user));
+  const parentCategories = await Category.find({ owner: user._id });
+  await Category.create(transactionChildCategories(user, parentCategories));
+}
+userSchema.methods.generateDefaultCategories = generateDefaultCategories;
 
 // Search for a user by email and password.
 
@@ -218,6 +237,15 @@ async function getUserWallets(user) {
 }
 
 userSchema.statics.getUserWallets = getUserWallets;
+
+async function getUserCategories(user) {
+  const id = user.id || user._id;
+  const categories = await Category.find({ owner: id });
+
+  return categories;
+}
+
+userSchema.statics.getUserCategories = getUserCategories;
 
 // Define custom toJSON method
 // To hide/delete properties which you don't want to return in the response

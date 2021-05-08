@@ -12,6 +12,7 @@ const UserController = {
       await user.save();
       const token = await user.generateAuthToken();
       await user.generateDefaultIncomeTypes();
+      await user.generateDefaultCategories();
       res.status(201).send({ user, token });
     } catch (error) {
       let msg = '';
@@ -29,11 +30,13 @@ const UserController = {
     try {
       const dataYears = await User.getDataDistinctYears(req.user);
       const wallets = await User.getUserWallets(req.user);
+      const categories = await User.getUserCategories(req.user);
       await User.populateDataTypes(req.user);
 
       res.send({
         user: req.user,
         wallets,
+        categories,
         dataYears,
         dataTypes: {
           income: req.user.incomeTypes,
@@ -91,12 +94,14 @@ const UserController = {
       const token = await user.generateAuthToken();
       const dataYears = await User.getDataDistinctYears(user);
       const wallets = await User.getUserWallets(user);
+      const categories = await User.getUserCategories(user);
       await User.populateDataTypes(user);
 
       res.send({
         user,
         token,
         wallets,
+        categories,
         dataYears,
         dataTypes: {
           income: user.incomeTypes,
