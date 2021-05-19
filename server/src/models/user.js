@@ -62,6 +62,12 @@ userSchema.virtual('income', {
   foreignField: 'owner',
 });
 
+userSchema.virtual('transactions', {
+  ref: 'Transaction',
+  localField: '_id',
+  foreignField: 'owner',
+});
+
 userSchema.virtual('incomeTypes', {
   ref: 'IncomeType',
   localField: '_id',
@@ -143,6 +149,24 @@ async function generateDefaultIncomeTypes() {
   await IncomeType.create(defaultIcomeTypes);
 }
 userSchema.methods.generateDefaultIncomeTypes = generateDefaultIncomeTypes;
+
+// Generate default wallet
+
+async function generateDefaultWallet() {
+  const user = this;
+
+  const defaultWallet = [
+    {
+      name: 'Default',
+      balance: 0,
+      type: 'regular',
+      owner: user._id,
+    },
+  ];
+
+  await Wallet.create(defaultWallet);
+}
+userSchema.methods.generateDefaultIncomeTypes = generateDefaultWallet;
 
 // Generate default categorys
 
