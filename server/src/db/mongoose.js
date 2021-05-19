@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const { databaseUrl, databaseName } = require('../../config');
 
 const db = mongoose.connection;
 
-mongoose.connect(process.env.MONGODB_URL, {
+mongoose.connect(`${databaseUrl}/${databaseName}`, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -10,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 db.once('open', () => {
-  console.log('Database connected:', process.env.MONGODB_URL);
+  console.log('Database connected:', `${databaseUrl}/${databaseName}`);
 });
 
 db.on('error', (err) => {

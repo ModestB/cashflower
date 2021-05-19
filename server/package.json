@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "env-cmd -f ./src/config/.env.local nodemon -L src/index.js",
+    "start": "node index.js",
+    "dev": "nodemon -r dotenv/config index.js",
     "db-start": "D:/Programavimas/mongodb/bin/mongod.exe --dbpath D:/Programavimas/mongodb/mongodb-data"
   },
   "author": "",
@@ -19,13 +19,15 @@
     "jsonwebtoken": "8.5.1",
     "mongodb": "3.6.3",
     "mongoose": "5.10.17",
-    "validator": "13.1.17"
+    "validator": "13.1.17",
+    "dotenv": "^9.0.0"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
     "eslint": "^7.16.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "migrate-mongo": "^8.2.2",
     "nodemon": "^2.0.6"
   }
 }

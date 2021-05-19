@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-
-const TOKEN_LIFE_IN_SECONDS = process.env.JWT_LIFE;
+const { jwtLifeInSeconds } = require('../../config');
 
 const tokenSchema = mongoose.Schema({
   token: {
@@ -9,8 +8,8 @@ const tokenSchema = mongoose.Schema({
   },
   expireAt: {
     type: Date,
-    default: () => Date.now() + TOKEN_LIFE_IN_SECONDS * 1000,
-    index: { expires: `${TOKEN_LIFE_IN_SECONDS}s` },
+    default: () => Date.now() + jwtLifeInSeconds * 1000,
+    index: { expires: `${jwtLifeInSeconds}s` },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

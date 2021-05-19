@@ -10,6 +10,7 @@ const InvestmentType = require('./investmentType');
 const Wallet = require('./wallet');
 const Category = require('./category');
 const Token = require('./token');
+const { jwtSecret } = require('../../config');
 const { aggregateDistinctYearsStages } = require('../utils/mongoUtils');
 const { transactionParentCategories, transactionChildCategories } = require('../constants/transactionsCategories');
 
@@ -108,7 +109,7 @@ userSchema.pre('save', userSchemaPreSaveHandler);
 
 async function generateAuthToken() {
   const user = this;
-  const jwtoken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+  const jwtoken = jwt.sign({ _id: user._id }, jwtSecret);
   const token = new Token({
     token: jwtoken,
     owner: user._id,
