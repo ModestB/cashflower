@@ -34,21 +34,24 @@ const useStyles = makeStyles((theme) => ({
 
   header: {
     position: 'relative',
-    backgroundColor: theme.palette.primary.dark,
     padding: theme.spacing(2),
+    margin: `${theme.spacing(2)}px 0`,
   },
 
   header__text: {
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.primary.dark,
+    fontSize: '32px',
+    fontWeight: '700',
   },
 
   header__close: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: '50%',
+    right: '10px',
+    transform: 'translateY(-50%)',
 
     '& svg': {
-      fill: theme.palette.primary.contrastText,
+      fill: theme.palette.primary.dark,
       fontSize: '25px',
     },
   },
@@ -96,14 +99,14 @@ function FormModal({
   }, [error]);
 
   const handleAlertClose = () => {
-    setShowAlert(false);
-    dispatch(resetGeneralAlerts());
+    // setShowAlert(false);
+    // dispatch(resetGeneralAlerts());
   };
 
   const handleClose = () => {
     openModalHandler(false);
     cancelHandler();
-    handleAlertClose();
+    // handleAlertClose();
   };
 
   return (
@@ -201,7 +204,7 @@ function FormModal({
                     cancelButton && (
                       <StyledButton
                         className={classes.button}
-                        variant="contained"
+                        variant="outlined"
                         color="danger"
                         onClick={handleClose}
                       >

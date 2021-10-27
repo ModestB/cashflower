@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { startOfYear, endOfYear } = require('date-fns');
 const Transaction = require('../models/transaction');
 const { errorFormatter } = require('../utils/utils');
@@ -23,6 +24,14 @@ const TransactionController = {
   readAll: async (req, res) => {
     const match = {};
     const sort = {};
+
+    if (!req.query.wallet) {
+      return res.status(400).send(errorFormatter({}, 'Wallet must be provided'));
+    }
+
+    match.wallet = {
+      $eq: mongoose.Types.ObjectId(req.query.wallet),
+    };
 
     if (req.query.startYear) {
       const startYear = startOfYear(new Date(req.query.startYear, 0, 1));

@@ -205,13 +205,13 @@ function DataTable({
   if (hasData) {
     tableHeader = (
       <>
-        <CustomSelect
+        {/* <CustomSelect
           value={activeTableDataYear}
           label="Year"
           onChangeHandler={handleCurrentDataYearChange}
           items={tableDataYears}
-        />
-        <Material.Box display="flex" justifyContent="flex-end" p={1}>
+        /> */}
+        {/* <Material.Box display="flex" justifyContent="flex-end" p={1}>
           <Material.Button
             variant="contained"
             color="primary"
@@ -219,7 +219,7 @@ function DataTable({
           >
             {submitBtnLabel}
           </Material.Button>
-        </Material.Box>
+        </Material.Box> */}
       </>
     );
   } else if (showInfoAlert) {
@@ -236,7 +236,7 @@ function DataTable({
             {infoAlertMsg.text}
           </Material.Alert>
         </Material.Box>
-        <Material.Box display="flex" justifyContent="flex-end" p={1}>
+        {/* <Material.Box display="flex" justifyContent="flex-end" p={1}>
           <Material.Button
             variant="contained"
             color="primary"
@@ -244,7 +244,7 @@ function DataTable({
           >
             {submitBtnLabel}
           </Material.Button>
-        </Material.Box>
+        </Material.Box> */}
       </>
     );
   }

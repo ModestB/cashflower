@@ -11,6 +11,7 @@ import {
   watchAuth,
   watchRegistration,
   watchWallets,
+  watchTransactions,
 } from './sagas/index';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -33,5 +34,6 @@ sagaMiddleware.run(watchInvestment);
 sagaMiddleware.run(watchInvestmentGoals);
 sagaMiddleware.run(watchStatistics);
 sagaMiddleware.run(watchWallets);
+sagaMiddleware.run(watchTransactions);
 
 export default store;

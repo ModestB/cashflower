@@ -7,6 +7,7 @@ import investmentGoals from './investmentGoals/investmentGoals';
 import overview from './overview/overview';
 import user from './user/user';
 import info from './info/info';
+import transactions from './transactions/transactions';
 
 export default combineReducers({
   user,
@@ -16,4 +17,5 @@ export default combineReducers({
   investment,
   investmentGoals,
   overview,
+  transactions,
 });

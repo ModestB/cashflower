@@ -264,10 +264,22 @@ async function getUserWallets(user) {
 userSchema.statics.getUserWallets = getUserWallets;
 
 async function getUserCategories(user) {
+  const formatedExpense = {};
+  const formatedIncome = {};
   const id = user.id || user._id;
-  const categories = await Category.find({ owner: id });
+  const expense = await Category.find({ owner: id, type: 'expense' });
+  const income = await Category.find({ owner: id, type: 'income' });
 
-  return categories;
+  expense.forEach((cat) => {
+    formatedExpense[cat.id] = cat;
+  });
+  income.forEach((cat) => {
+    formatedIncome[cat.id] = cat;
+  });
+  return {
+    expense: formatedExpense,
+    income: formatedIncome,
+  };
 }
 
 userSchema.statics.getUserCategories = getUserCategories;

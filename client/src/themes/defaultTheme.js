@@ -76,24 +76,27 @@ const themeOverrides = {
   },
   MuiOutlinedInput: {
     root: {
-      color: palette.primary.main,
+      color: palette.primary.dark,
       '&:hover $notchedOutline': {
-        borderColor: palette.primary.main,
+        borderColor: palette.primary.dark,
+      },
+      '&.Mui-focused $notchedOutline': {
+        borderColor: palette.primary.dark,
       },
     },
     input: {
       padding: '11px 14px',
     },
     notchedOutline: {
-      borderColor: palette.primary.main,
+      borderColor: palette.primary.dark,
     },
   },
   MuiInputLabel: {
     outlined: {
       transform: 'translate(11px, 14px) scale(1)',
-      color: palette.primary.main,
+      color: palette.primary.dark,
       '&.Mui-focused': {
-        color: palette.primary.main,
+        color: palette.primary.dark,
       },
     },
   },
@@ -126,7 +129,7 @@ const theme = createMuiTheme({
   spacing: defaultSpacing,
   mixins: themeMixins,
   overrides: themeOverrides,
-  drawerWidth: 100,
+  drawerWidth: 120,
   toolbarHeight: {
     desktop: toolbarHeightDesktop,
   },

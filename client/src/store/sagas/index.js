@@ -36,6 +36,9 @@ import {
   editWalletSaga,
   deleteWalletSaga,
 } from './user/userSaga';
+import {
+  setTransactionsSaga
+} from './transactions/transactionsSaga';
 
 export function* watchIncome() {
   yield takeLatest(actionTypes.INCOME_GET_REQUESTED, setIncomeDataSaga);
@@ -81,4 +84,13 @@ export function* watchWallets() {
   yield takeLatest(actionTypes.ADD_WALLET_REQUESTED, addWalletSaga);
   yield takeLatest(actionTypes.EDIT_WALLET_REQUESTED, editWalletSaga);
   yield takeLatest(actionTypes.DELETE_WALLET_REQUESTED, deleteWalletSaga);
+}
+
+export function* watchTransactions() {
+  yield takeLatest(actionTypes.TRANSACTIONS_GET_REQUESTED, setTransactionsSaga);
+  // yield takeLatest(actionTypes.INCOME_ADD_REQUESTED, addIncomeDataSaga);
+  // yield takeLatest(actionTypes.INCOME_DELETE_REQUESTED, deleteIncomeDataSaga);
+  // yield takeLatest(actionTypes.INCOME_EDIT_REQUESTED, editIncomeDataSaga);
+  // yield takeLatest(actionTypes.INCOME_TYPE_ADD_REQUESTED, addIncomeTypeSaga);
+  // yield takeLatest(actionTypes.INCOME_TYPE_DELETE_REQUESTED, deleteIncomeTypeSaga);
 }

@@ -33,6 +33,7 @@ function Modal({
   labelledby,
   describedby,
 }) {
+  console.log(openModal, openModalHandler)
   const classes = useStyles();
   const handleClose = () => {
     openModalHandler(false);

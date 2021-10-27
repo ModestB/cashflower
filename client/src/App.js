@@ -10,6 +10,7 @@ import Header from './components/header/Header';
 import Sidebar from './components/sidebar/Sidebar';
 import WalletSidebar from './components/walletSidebar/WalletSidebar';
 import Income from './domain/income/Income';
+import Transactions from './domain/transactions/Transactions';
 import Investments from './domain/investments/Investments';
 import InvestmentGoals from './domain/investmentGoals/InvestmentGoals';
 import Overview from './domain/overview/Overview';
@@ -64,7 +65,8 @@ function App() {
                   <Material.Box display="flex">
                     <WalletSidebar />
                     <Switch>
-                      <Route exact path="/income" component={Income} />
+                      <Route exact path="/" component={Transactions} />
+                      <Route path="/income" component={Income} />
                       <Route path="/investments" component={Investments} />
                       <Route path="/investmentGoals" component={InvestmentGoals} />
                       <Route path="/overview" component={Overview} />

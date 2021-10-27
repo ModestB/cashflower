@@ -10,6 +10,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { authLogout } from '../../../../store/actions/actions';
 import Material from '../../../../shared/material';
 import StyledButton from '../../../buttons/StyledButton';
+import Modal from '../../../modal/Modal';
+import HeaderAddButton from '../../headerAddButton/HeaderAddButton';
+import HeaderAddModal from '../../headerAddModal/HeaderAddModal';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -85,30 +88,15 @@ const IconButtonWithStyles = withStyles(theme => ({
 
 export default function LoggedIn() {
   const dispatch = useDispatch();
-  const location = useLocation();
   const username = useSelector(state => state.user.email);
   const token = useSelector(state => state.user.token);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const [addButton, setAddButton] = useState(null);
+  const [openAddModal, setOpenAddModal] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const menuId = 'primary-search-account-menu';
-
-  useEffect(() => {
-    if (location.pathname === '/') {
-      setAddButton(
-        <Material.Box py={2} pr={2}>
-          <StyledButton variant="contained" color="success" className={classes.buttonAdd}>
-            Add Income
-          </StyledButton>
-        </Material.Box>,
-      );
-    } else {
-      setAddButton(null);
-    }
-  }, [location]);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -204,7 +192,8 @@ export default function LoggedIn() {
   return (
     <div className={classes.grow}>
       <div className={classes.sectionDesktop}>
-        {addButton}
+        <HeaderAddButton clickHandler={setOpenAddModal} />
+        <HeaderAddModal openModalHandler={setOpenAddModal} openModal={openAddModal} />
         <IconButtonWithStyles
           edge="end"
           disableRipple
