@@ -3,6 +3,7 @@ import {
   AUTH_SUCCEEDED,
   TRANSACTIONS_GET_REQUESTED,
   TRANSACTIONS_GET_SUCCEEDED,
+  TRANSACTION_ADD_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
 import { formatDateToYear } from '../../../shared/utilities';
 
@@ -52,6 +53,14 @@ const getTransactionsSuccessHandler = (state, payload) => {
   return nextState;
 };
 
+const addTransactionSuccessHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.data[payload.key] = payload.transaction;
+  });
+
+  return nextState;
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case AUTH_SUCCEEDED: {
@@ -64,6 +73,10 @@ export default (state = initialState, action) => {
 
     case TRANSACTIONS_GET_SUCCEEDED: {
       return getTransactionsSuccessHandler(state, action.payload);
+    }
+
+    case TRANSACTION_ADD_SUCCEEDED: {
+      return addTransactionSuccessHandler(state, action.payload);
     }
 
     default:

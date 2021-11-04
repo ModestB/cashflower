@@ -37,7 +37,7 @@ export const incomeAddRequest = (income, currentDataYear) => ({
   },
 });
 
-export const incomeAddSucceess = (income, key) => ({
+export const incomeAddSuccess = (income, key) => ({
   type: INCOME_ADD_SUCCEEDED,
   payload: {
     income,
@@ -60,7 +60,7 @@ export const deleteIncomeRequest = (key, userId) => ({
   },
 });
 
-export const deleteIncomeSucceess = (key) => ({
+export const deleteIncomeSuccess = (key) => ({
   type: INCOME_DELETE_SUCCEEDED,
   payload: {
     key,
@@ -76,7 +76,7 @@ export const incomeEditRequest = (key, income, userId) => ({
   },
 });
 
-export const incomeEditSucceess = (key, income) => ({
+export const incomeEditSuccess = (key, income) => ({
   type: INCOME_EDIT_SUCCEEDED,
   payload: {
     key,
@@ -115,7 +115,7 @@ export const incomeTypeDeleteRequest = (key, userId) => ({
   },
 });
 
-export const incomeTypeDeleteSucceess = (key) => ({
+export const incomeTypeDeleteSuccess = (key) => ({
   type: INCOME_TYPE_DELETE_SUCCEEDED,
   payload: {
     key,

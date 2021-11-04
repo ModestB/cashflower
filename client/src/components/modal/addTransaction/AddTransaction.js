@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -7,12 +8,14 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { setActiveWallet } from '../../../store/actions/actions';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from '../../../axios';
+import { addTransactionSuccess, getTransactions } from '../../../store/actions/actions';
+import { errorMessageHandler } from '../../../shared/utilities';
 import Material from '../../../shared/material';
 import FormModal from '../formModal/FormModal';
 import Modal from '../Modal';
-
+import { LoadingContext } from '../../../context/LoadingContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -99,8 +102,14 @@ function AddTransaction({
   const dispatch = useDispatch();
   const wallets = useSelector(state => state.user.wallets);
   const activeWallet = useSelector(state => state.user.activeWallet);
+  const currentDataYear = useSelector(state => state.transactions.currentDataYear);
+  const { loading, setLoading } = useContext(LoadingContext);
+  // NOTE: transactionCategorys only for testing
+  const transactionCategory = useSelector(state => Object.values(state.transactions.categories.expense)[0])
+  const [errorAlert, setErrorAlert] = useState('');
   const [activeSelectWallet, setActiveSelectWallet] = useState(activeWallet);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(transactionCategory.id);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
@@ -113,15 +122,53 @@ function AddTransaction({
   const handleWalletChange = (event) => {
     setActiveSelectWallet(event.target.value);
   };
+
+  const resetFormData = () => {
+    setActiveSelectWallet(activeWallet);
+    setSelectedCategory(transactionCategory.id);
+    setSelectedDate(new Date());
+    setAmount(0);
+    setNote('');
+  };
+
+  const submitDataHandler = () => {
+    setLoading(true);
+    axios.post('/transaction', {
+      wallet: activeSelectWallet,
+      category: selectedCategory,
+      amount,
+      date: selectedDate,
+      comment: note,
+    })
+      .then((response) => {
+        if (response.data.wallet === activeWallet) {
+          return dispatch(addTransactionSuccess(response.data, response.data.id));
+        }
+        return dispatch(getTransactions(currentDataYear, response.data.wallet));
+      })
+      .then(() => {
+        setLoading(false);
+        openModalHandler(false);
+        resetFormData();
+      })
+      .catch((error) => {
+        setLoading(false);
+        setErrorAlert(errorMessageHandler(error));
+      });
+  };
+
   return (
     <FormModal
       openModalHandler={openModalHandler}
       openModal={openModal}
       submitButton
       submitButtonLabel="Add Transaction"
+      submitDataHandler={submitDataHandler}
       cancelButton
       cancelButtonLabel="Cancel"
       formModalTitle="Add Transaction"
+      errorAlert={errorAlert}
+      setErrorAlert={setErrorAlert}
     >
       <Material.Grid container spacing={3}>
         <Material.Grid item xs={4}>
@@ -146,7 +193,7 @@ function AddTransaction({
             id="input-with-icon-textfield"
             label="Category"
             variant="outlined"
-            value="Tets"
+            value={selectedCategory}
             onClick={(e) => setOpenCategoryModal(true)}
             disabled
             className={classes.input}
@@ -176,7 +223,7 @@ function AddTransaction({
             openModalHandler={setOpenCategoryModal}
             openModal={openCategoryModal}
           >
-            <span>Test</span>
+            <span>{transactionCategory.label}</span>
           </Modal>
         </Material.Grid>
         <Material.Grid item xs={4}>

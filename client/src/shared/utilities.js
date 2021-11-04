@@ -19,3 +19,5 @@ export const formatDateToYear = date => parseInt(format(date, 'yyyy'), 10);
 export const formatCurrency = (amount, currency, locale) => (
   new Intl.NumberFormat(locale, { style: 'currency', currency }).format(amount)
 );
+
+export const errorMessageHandler = error => (error.response ? error.response.data.message : 'Something went wrong!');

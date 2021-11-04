@@ -33,7 +33,7 @@ export const investmentGoalAddRequest = (investmentGoal, currentDataYear) => ({
   },
 });
 
-export const investmentGoalAddSucceess = (investmentGoal, key) => ({
+export const investmentGoalAddSuccess = (investmentGoal, key) => ({
   type: INVESTMENT_GOAL_ADD_SUCCEEDED,
   payload: {
     investmentGoal,
@@ -56,7 +56,7 @@ export const deleteInvestmentGoalRequest = (key, userId) => ({
   },
 });
 
-export const deleteInvestmentGoalSucceess = (key) => ({
+export const deleteInvestmentGoalSuccess = (key) => ({
   type: INVESTMENT_GOAL_DELETE_SUCCEEDED,
   payload: {
     key,
@@ -73,7 +73,7 @@ export const investmentGoalEditRequest = (key, investmentGoal, userId, currentDa
   },
 });
 
-export const investmentGoalEditSucceess = (key, investmentGoal) => ({
+export const investmentGoalEditSuccess = (key, investmentGoal) => ({
   type: INVESTMENT_GOAL_EDIT_SUCCEEDED,
   payload: {
     key,

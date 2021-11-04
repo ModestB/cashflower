@@ -13,6 +13,7 @@ import StyledButton from '../../../buttons/StyledButton';
 import Modal from '../../../modal/Modal';
 import HeaderAddButton from '../../headerAddButton/HeaderAddButton';
 import HeaderAddModal from '../../headerAddModal/HeaderAddModal';
+import { LoadingContextProvider } from '../../../../context/LoadingContext';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -193,7 +194,9 @@ export default function LoggedIn() {
     <div className={classes.grow}>
       <div className={classes.sectionDesktop}>
         <HeaderAddButton clickHandler={setOpenAddModal} />
-        <HeaderAddModal openModalHandler={setOpenAddModal} openModal={openAddModal} />
+        <LoadingContextProvider>
+          <HeaderAddModal openModalHandler={setOpenAddModal} openModal={openAddModal} />
+        </LoadingContextProvider>
         <IconButtonWithStyles
           edge="end"
           disableRipple

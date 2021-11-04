@@ -9,6 +9,7 @@ import {
   ADD_WALLET_SUCCEEDED,
   EDIT_WALLET_SUCCEEDED,
   DELETE_WALLET_SUCCEEDED,
+  TRANSACTIONS_GET_REQUESTED,
 } from '../../actionTypes/actionTypes';
 
 const initialState = {
@@ -116,6 +117,10 @@ export default (state = initialState, action) => {
 
     case SET_ACTIVE_WALLET: {
       return setActiveWalletandler(state, action.payload.id);
+    }
+
+    case TRANSACTIONS_GET_REQUESTED: {
+      return setActiveWalletandler(state, action.payload.wallet);
     }
 
     case ADD_WALLET_SUCCEEDED: {

@@ -30,7 +30,7 @@ export function* addIncomeDataSaga(action) {
     const results = yield promise;
     const resultDataYear = formatDateToYear(new Date(results.data.date));
 
-    yield put(actions.incomeAddSucceess(results.data, results.data.id));
+    yield put(actions.incomeAddSuccess(results.data, results.data.id));
 
     if (currentDataYear !== resultDataYear && currentDataYear !== 'All') {
       yield put(actions.getIncomeData(resultDataYear));
@@ -53,7 +53,7 @@ export function* editIncomeDataSaga(action) {
     });
 
     const result = yield promise;
-    yield put(actions.incomeEditSucceess(action.payload.key, result));
+    yield put(actions.incomeEditSuccess(action.payload.key, result));
   } catch (error) {
     yield put(actions.incomeEditFailed(error.response.data.message));
   }
@@ -69,7 +69,7 @@ export function* deleteIncomeDataSaga(action) {
 
   const result = yield promise;
 
-  yield put(actions.deleteIncomeSucceess(action.payload.key, result));
+  yield put(actions.deleteIncomeSuccess(action.payload.key, result));
 }
 
 export function* addIncomeTypeSaga(action) {
@@ -102,5 +102,5 @@ export function* deleteIncomeTypeSaga(action) {
 
   yield promise;
 
-  yield put(actions.incomeTypeDeleteSucceess(action.payload.key));
+  yield put(actions.incomeTypeDeleteSuccess(action.payload.key));
 }

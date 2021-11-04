@@ -82,31 +82,39 @@ function FormModal({
   formModalTitle,
   labelledby,
   describedby,
+  errorAlert,
+  setErrorAlert,
 }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const error = useSelector(state => state.general.alerts.error);
+  // const loading = useSelector(state => state.general.addModalLoading);
   const { loading, setLoading } = useContext(LoadingContext);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
 
   useEffect(() => {
     if (error && error.text && error.place === 'modal') {
-      setShowAlert(true);
+      setShowErrorAlert(true);
       setLoading(false);
     } else {
-      setShowAlert(false);
+      setShowErrorAlert(false);
     }
   }, [error]);
 
+  useEffect(() => {
+    setShowErrorAlert(!!errorAlert.length);
+  }, [errorAlert]);
+
   const handleAlertClose = () => {
-    // setShowAlert(false);
+    setErrorAlert('');
+    // setShowErrorAlert(false);
     // dispatch(resetGeneralAlerts());
   };
 
   const handleClose = () => {
     openModalHandler(false);
     cancelHandler();
-    // handleAlertClose();
+    handleAlertClose();
   };
 
   return (
@@ -140,7 +148,7 @@ function FormModal({
               </Material.IconButton>
             </Material.Grid>
             {
-              showAlert && (
+              showErrorAlert && (
                 <Material.Grid container className={classes.alert__container}>
                   <Material.Alert
                     severity="error"
@@ -150,7 +158,7 @@ function FormModal({
                     <Material.AlertTitle>
                       Error
                     </Material.AlertTitle>
-                    {error && error.text}
+                    {errorAlert}
                   </Material.Alert>
                 </Material.Grid>
               )
@@ -231,6 +239,8 @@ FormModal.defaultProps = {
   formModalTitle: '',
   labelledby: '',
   describedby: '',
+  errorAlert: '',
+  setErrorAlert: () => {},
 };
 
 FormModal.propTypes = {
@@ -249,6 +259,8 @@ FormModal.propTypes = {
   formModalTitle: PropTypes.string,
   labelledby: PropTypes.string,
   describedby: PropTypes.string,
+  errorAlert: PropTypes.string,
+  setErrorAlert: PropTypes.func,
 };
 
 export default FormModal;

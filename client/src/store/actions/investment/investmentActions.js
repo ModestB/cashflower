@@ -37,7 +37,7 @@ export const investmentAddRequest = (investment, currentDataYear) => ({
   },
 });
 
-export const investmentAddSucceess = (investment, key) => ({
+export const investmentAddSuccess = (investment, key) => ({
   type: INVESTMENT_ADD_SUCCEEDED,
   payload: {
     investment,
@@ -60,7 +60,7 @@ export const deleteInvestmentRequest = (key, userId) => ({
   },
 });
 
-export const deleteInvestmentSucceess = (key) => ({
+export const deleteInvestmentSuccess = (key) => ({
   type: INVESTMENT_DELETE_SUCCEEDED,
   payload: {
     key,
@@ -76,7 +76,7 @@ export const investmentEditRequest = (key, investment, userId) => ({
   },
 });
 
-export const investmentEditSucceess = (key, investment) => ({
+export const investmentEditSuccess = (key, investment) => ({
   type: INVESTMENT_EDIT_SUCCEEDED,
   payload: {
     key,
@@ -115,7 +115,7 @@ export const investmentTypeDeleteRequest = (key, userId) => ({
   },
 });
 
-export const investmentTypeDeleteSucceess = (key) => ({
+export const investmentTypeDeleteSuccess = (key) => ({
   type: INVESTMENT_TYPE_DELETE_SUCCEEDED,
   payload: {
     key,

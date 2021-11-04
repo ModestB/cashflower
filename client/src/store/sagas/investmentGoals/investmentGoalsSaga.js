@@ -31,7 +31,7 @@ export function* addInvestmentGoalDataSaga(action) {
     const results = yield promise;
     const resultDataYear = results.data.year;
 
-    yield put(actions.investmentGoalAddSucceess(results.data, results.data.id));
+    yield put(actions.investmentGoalAddSuccess(results.data, results.data.id));
 
     if (currentDataYear !== resultDataYear) {
       yield put(actions.getInvestmentGoalsData(resultDataYear));
@@ -58,7 +58,7 @@ export function* editInvestmentGoalDataSaga(action) {
     });
 
     const result = yield promise;
-    yield put(actions.investmentGoalEditSucceess(action.payload.key, result));
+    yield put(actions.investmentGoalEditSuccess(action.payload.key, result));
 
     if (currentDataYear !== result.year) {
       yield put(actions.getInvestmentGoalsData(result.year));
@@ -78,5 +78,5 @@ export function* deleteInvestmentGoalDataSaga(action) {
 
   const result = yield promise;
 
-  yield put(actions.deleteInvestmentGoalSucceess(action.payload.key, result));
+  yield put(actions.deleteInvestmentGoalSuccess(action.payload.key, result));
 }
