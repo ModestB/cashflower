@@ -13,3 +13,16 @@ export function* setTransactionsSaga(action) {
 
   yield put(actions.setTransactions(res.data.transactions));
 }
+
+export function* deleteTransactionsSaga(action) {
+  const promise = new Promise((resolve) => {
+    axios.delete(`/transaction/${action.payload.key}`)
+      .then((response) => {
+        resolve(response);
+      });
+  });
+
+  const result = yield promise;
+
+  yield put(actions.deleteTransactionSuccess(action.payload.key, result));
+}

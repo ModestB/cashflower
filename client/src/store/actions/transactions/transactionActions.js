@@ -3,6 +3,8 @@ import {
   TRANSACTIONS_GET_REQUESTED,
   TRANSACTIONS_GET_SUCCEEDED,
   TRANSACTION_ADD_SUCCEEDED,
+  TRANSACTION_DELETE_REQUESTED,
+  TRANSACTION_DELETE_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
 
 export const setTransactionCategories = (expense, income) => ({
@@ -32,6 +34,21 @@ export const addTransactionSuccess = (transaction, key) => ({
   type: TRANSACTION_ADD_SUCCEEDED,
   payload: {
     transaction,
+    key,
+  },
+});
+
+export const deleteTransactionRequest = (key, userId) => ({
+  type: TRANSACTION_DELETE_REQUESTED,
+  payload: {
+    key,
+    userId,
+  },
+});
+
+export const deleteTransactionSuccess = (key) => ({
+  type: TRANSACTION_DELETE_SUCCEEDED,
+  payload: {
     key,
   },
 });

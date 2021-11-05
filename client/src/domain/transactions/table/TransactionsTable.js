@@ -47,7 +47,7 @@ function TransactionsTable({
         <EditIncome {...props} />
       )}
       editDataHandler={(id, data, uid) => dispatch(actions.incomeEditRequest(id, data, uid))}
-      deleteDataHandler={(id, uid) => dispatch(actions.deleteIncomeRequest(id, uid))}
+      deleteDataHandler={(id, uid) => dispatch(actions.deleteTransactionRequest(id, uid))}
       currentDataYearHandler={(year) => dispatch(actions.getIncomeData(year))}
     />
   );
