@@ -15,6 +15,7 @@ import LoadingTableRow from './loadingTableRow/LoadingTableRow';
 import CustomSelect from './customSelect/CustomSelect';
 import LinearProgress from '../progress/linearProgress/LinearProgress';
 import { TableSettingsContext } from '../../context/TableSettingsContext';
+import EditData from './editData/EditData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -181,15 +182,13 @@ function DataTable({
               deleteHandler={deleteDataRowHandler}
               addDataEmptyCellSpan={2}
             >
-              {
-                editDataComponent && editDataComponent({
-                  columnsSettings: tableSettings,
-                  row,
-                  editHandler: tableDataEditHandler,
-                  submitButtonLabel: editBtnLabel,
-                })
-              }
-
+              <EditData
+                columnsSettings={tableSettings}
+                row={row}
+                editHandler={tableDataEditHandler}
+                submitButtonLabel={editBtnLabel}
+                types
+              />
             </DataTableRow>
           ))}
       </Material.TableBody>

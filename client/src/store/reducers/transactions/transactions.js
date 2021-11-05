@@ -5,6 +5,7 @@ import {
   TRANSACTIONS_GET_SUCCEEDED,
   TRANSACTION_ADD_SUCCEEDED,
   TRANSACTION_DELETE_SUCCEEDED,
+  TRANSACTION_EDIT_SUCCEEDED,
 } from '../../actionTypes/actionTypes';
 import { formatDateToYear } from '../../../shared/utilities';
 
@@ -69,6 +70,13 @@ const deleteTransactionsSuccessHandler = (state, payload) => {
   return nextState;
 };
 
+const editTransactionHandler = (state, payload) => {
+  const nextState = produce(state, draftState => {
+    draftState.data[payload.key] = { ...state.data[payload.key], ...payload.transaction };
+  });
+  return nextState;
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case AUTH_SUCCEEDED: {
@@ -89,6 +97,10 @@ export default (state = initialState, action) => {
 
     case TRANSACTION_DELETE_SUCCEEDED: {
       return deleteTransactionsSuccessHandler(state, action.payload);
+    }
+
+    case TRANSACTION_EDIT_SUCCEEDED: {
+      return editTransactionHandler(state, action.payload);
     }
 
     default:

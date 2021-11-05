@@ -5,6 +5,9 @@ import {
   TRANSACTION_ADD_SUCCEEDED,
   TRANSACTION_DELETE_REQUESTED,
   TRANSACTION_DELETE_SUCCEEDED,
+  TRANSACTION_EDIT_REQUESTED,
+  TRANSACTION_EDIT_SUCCEEDED,
+  TRANSACTION_EDIT_FAILED,
 } from '../../actionTypes/actionTypes';
 
 export const setTransactionCategories = (expense, income) => ({
@@ -50,5 +53,29 @@ export const deleteTransactionSuccess = (key) => ({
   type: TRANSACTION_DELETE_SUCCEEDED,
   payload: {
     key,
+  },
+});
+
+export const transactionEditRequest = (key, transaction, userId) => ({
+  type: TRANSACTION_EDIT_REQUESTED,
+  payload: {
+    key,
+    transaction,
+    userId,
+  },
+});
+
+export const transactionEditSuccess = (key, transaction) => ({
+  type: TRANSACTION_EDIT_SUCCEEDED,
+  payload: {
+    key,
+    transaction,
+  },
+});
+
+export const transactionEditFailed = (error) => ({
+  type: TRANSACTION_EDIT_FAILED,
+  payload: {
+    error,
   },
 });

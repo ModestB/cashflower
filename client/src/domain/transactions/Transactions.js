@@ -50,7 +50,7 @@ const Income = () => {
     <TableChartGrid hasData={hasIncomeData}>
       <TableSettingsProvider>
         <TransactionsTable
-          editBtnLabel="Save Income"
+          editBtnLabel="Save Transaction"
         />
       </TableSettingsProvider>
       <>

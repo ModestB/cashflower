@@ -14,7 +14,7 @@ export function* setTransactionsSaga(action) {
   yield put(actions.setTransactions(res.data.transactions));
 }
 
-export function* deleteTransactionsSaga(action) {
+export function* deleteTransactionSaga(action) {
   const promise = new Promise((resolve) => {
     axios.delete(`/transaction/${action.payload.key}`)
       .then((response) => {
@@ -25,4 +25,23 @@ export function* deleteTransactionsSaga(action) {
   const result = yield promise;
 
   yield put(actions.deleteTransactionSuccess(action.payload.key, result));
+}
+
+export function* editTransactionSaga(action) {
+  try {
+    const promise = new Promise((resolve, reject) => {
+      axios.patch(`/transaction/${action.payload.key}`, action.payload.transaction)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+
+    const result = yield promise;
+    yield put(actions.transactionEditSuccess(action.payload.key, result));
+  } catch (error) {
+    yield put(actions.transactionEditFailed(error.response.data.message));
+  }
 }

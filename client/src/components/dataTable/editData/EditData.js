@@ -15,6 +15,7 @@ import NumberInput from '../inputs/numberInput/NumberInput';
 import SelectInput from '../inputs/selectInput/SelectInput';
 import TextInput from '../inputs/textInput/TextInput';
 import useOnClickOutside from '../../../shared/hooks/useOnClickOutside';
+import useChangeTableData from '../../../shared/hooks/useChangeTableData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,17 +48,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function EditData({
-  cancelHandler,
-  editDataHandler,
-  dataValues,
-  dataChangeHandlers,
-  selectOptions,
   addTypeHandler,
   deleteTypeHandler,
   selectAddLoading,
   selectDeleteLoading,
   submitButtonLabel,
+  row,
+  types,
+  editHandler,
+  cancelHandler,
 }) {
+  const {
+    values,
+    valuesChangeHandlers,
+    saveDataHandler,
+    selectItems,
+  } = useChangeTableData({
+    row,
+    submitHandler: editHandler,
+    types,
+  });
   const { tableSettings } = useContext(TableSettingsContext);
   const [loading, setLoading] = useState(false);
   const [disableClickOutside, setDisableClickOutside] = useState(false);
@@ -74,11 +84,11 @@ function EditData({
     }
   };
 
-  useEffect(dataValueChangeHandler, [dataValues]);
+  useEffect(dataValueChangeHandler, [values]);
 
   const submitHandler = () => {
     setLoading(true);
-    editDataHandler();
+    saveDataHandler();
   };
 
   return (
@@ -97,8 +107,8 @@ function EditData({
                       input = (
                         <DateInput
                           label={column.label}
-                          selectedDate={dataValues[column.id]}
-                          onChangeHandler={dataChangeHandlers[column.id]}
+                          selectedDate={values[column.id]}
+                          onChangeHandler={valuesChangeHandlers[column.id]}
                           onOpenHandler={() => setDisableClickOutside(true)}
                           onCloseHandler={() => setDisableClickOutside(false)}
                           dateFormat={column.dateFormat}
@@ -109,8 +119,8 @@ function EditData({
                       input = (
                         <NumberInput
                           label={column.label}
-                          value={dataValues[column.id]}
-                          onChangeHandler={dataChangeHandlers[column.id]}
+                          value={values[column.id]}
+                          onChangeHandler={valuesChangeHandlers[column.id]}
                           disabled={!column.editable}
                         />
                       );
@@ -121,10 +131,10 @@ function EditData({
                           onOpenHandler={() => setDisableClickOutside(true)}
                           onCloseHandler={() => setDisableClickOutside(false)}
                           label={column.label}
-                          value={dataValues[column.id]}
+                          value={values[column.id]}
                           selectType={column.selectType}
-                          onChangeHandler={dataChangeHandlers[column.id]}
-                          options={selectOptions[column.id]}
+                          onChangeHandler={valuesChangeHandlers[column.id]}
+                          options={selectItems[column.id]}
                           addHandler={addTypeHandler}
                           deleteHandler={deleteTypeHandler}
                           selectAddLoading={selectAddLoading}
@@ -136,8 +146,8 @@ function EditData({
                       input = (
                         <TextInput
                           label={column.label}
-                          value={dataValues[column.id]}
-                          onChangeHandler={dataChangeHandlers[column.id]}
+                          value={values[column.id]}
+                          onChangeHandler={valuesChangeHandlers[column.id]}
                         />
                       );
                       break;
@@ -208,15 +218,13 @@ function EditData({
 
 EditData.propTypes = {
   cancelHandler: PropTypes.func.isRequired,
-  editDataHandler: PropTypes.func.isRequired,
-  dataValues: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  dataChangeHandlers: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  selectOptions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  row: PropTypes.oneOfType([PropTypes.object]).isRequired,
   addTypeHandler: PropTypes.func.isRequired,
   deleteTypeHandler: PropTypes.func.isRequired,
   selectAddLoading: PropTypes.bool.isRequired,
   selectDeleteLoading: PropTypes.bool.isRequired,
   submitButtonLabel: PropTypes.string.isRequired,
+  editHandler: PropTypes.func.isRequired,
 };
 
 export default EditData;
