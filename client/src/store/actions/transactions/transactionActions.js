@@ -10,11 +10,10 @@ import {
   TRANSACTION_EDIT_FAILED,
 } from '../../actionTypes/actionTypes';
 
-export const setTransactionCategories = (expense, income) => ({
+export const setTransactionCategories = (categories) => ({
   type: SET_TRANSACTION_CATEGORIES,
   payload: {
-    expense,
-    income,
+    categories,
   },
 });
 

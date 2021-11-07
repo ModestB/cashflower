@@ -22,6 +22,10 @@ const useChangeTableData = ({
     }
   }, [row]);
 
+  useEffect(() => {
+    console.log('type0', type)
+  }, [type])
+
   const saveDataHandler = () => {
     const formatedData = {
       date: date.toISOString().split('T')[0],
@@ -52,9 +56,7 @@ const useChangeTableData = ({
       type: setType,
       comment: setComment,
     },
-    selectItems: {
-      type: types,
-    },
+    selectItems: types,
     saveDataHandler,
   };
 };

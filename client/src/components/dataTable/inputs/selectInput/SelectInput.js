@@ -102,7 +102,7 @@ function SelectInput({
         {
           Object.keys(options)
             .map((key) => (
-              <Material.MenuItem key={key} value={key}>
+              <Material.MenuItem key={key} value={options[key].id}>
                 {options[key].label}
                 {
                   open &&
@@ -153,7 +153,7 @@ SelectInput.defaultProps = {
 SelectInput.propTypes = {
   onOpenHandler: PropTypes.func,
   onCloseHandler: PropTypes.func,
-  options: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  options: PropTypes.oneOfType([PropTypes.array]).isRequired,
   onChangeHandler: PropTypes.func.isRequired,
   selectAddLoading: PropTypes.bool.isRequired,
   selectDeleteLoading: PropTypes.bool.isRequired,

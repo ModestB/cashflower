@@ -15,7 +15,7 @@ import NumberInput from '../inputs/numberInput/NumberInput';
 import SelectInput from '../inputs/selectInput/SelectInput';
 import TextInput from '../inputs/textInput/TextInput';
 import useOnClickOutside from '../../../shared/hooks/useOnClickOutside';
-import useChangeTableData from '../../../shared/hooks/useChangeTableData';
+import StyledButton from '../../buttons/StyledButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,21 +53,12 @@ function EditData({
   selectAddLoading,
   selectDeleteLoading,
   submitButtonLabel,
-  row,
-  types,
-  editHandler,
   cancelHandler,
+  editDataHandler,
+  values,
+  valuesChangeHandlers,
+  selectOptions,
 }) {
-  const {
-    values,
-    valuesChangeHandlers,
-    saveDataHandler,
-    selectItems,
-  } = useChangeTableData({
-    row,
-    submitHandler: editHandler,
-    types,
-  });
   const { tableSettings } = useContext(TableSettingsContext);
   const [loading, setLoading] = useState(false);
   const [disableClickOutside, setDisableClickOutside] = useState(false);
@@ -88,7 +79,7 @@ function EditData({
 
   const submitHandler = () => {
     setLoading(true);
-    saveDataHandler();
+    editDataHandler();
   };
 
   return (
@@ -131,10 +122,14 @@ function EditData({
                           onOpenHandler={() => setDisableClickOutside(true)}
                           onCloseHandler={() => setDisableClickOutside(false)}
                           label={column.label}
-                          value={values[column.id]}
+                          value={values[column.id].id}
                           selectType={column.selectType}
                           onChangeHandler={valuesChangeHandlers[column.id]}
-                          options={selectItems[column.id]}
+                          options={
+                            typeof selectOptions[column.id] === 'object' && selectOptions[column.id] !== null ?
+                              Object.values(selectOptions[column.id])
+                              : selectOptions[column.id]
+                          }
                           addHandler={addTypeHandler}
                           deleteHandler={deleteTypeHandler}
                           selectAddLoading={selectAddLoading}
@@ -192,11 +187,11 @@ function EditData({
           >
             Cancel
           </Material.Button>
-          <Material.Button
-            className={classes.button}
-            color="primary"
-            size="small"
+          <StyledButton
             variant="contained"
+            color="success"
+            className={classes.button}
+            size="small"
             onClick={submitHandler}
           >
             {
@@ -209,7 +204,7 @@ function EditData({
                   </>
                 )
             }
-          </Material.Button>
+          </StyledButton>
         </Material.Grid>
       </Material.Grid>
     </MuiPickersUtilsProvider>
@@ -218,13 +213,15 @@ function EditData({
 
 EditData.propTypes = {
   cancelHandler: PropTypes.func.isRequired,
-  row: PropTypes.oneOfType([PropTypes.object]).isRequired,
   addTypeHandler: PropTypes.func.isRequired,
   deleteTypeHandler: PropTypes.func.isRequired,
   selectAddLoading: PropTypes.bool.isRequired,
   selectDeleteLoading: PropTypes.bool.isRequired,
   submitButtonLabel: PropTypes.string.isRequired,
-  editHandler: PropTypes.func.isRequired,
+  editDataHandler: PropTypes.func.isRequired,
+  values: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  valuesChangeHandlers: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  selectOptions: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default EditData;

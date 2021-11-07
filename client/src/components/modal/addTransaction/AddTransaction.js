@@ -105,7 +105,7 @@ function AddTransaction({
   const currentDataYear = useSelector(state => state.transactions.currentDataYear);
   const { loading, setLoading } = useContext(LoadingContext);
   // NOTE: transactionCategorys only for testing
-  const transactionCategory = useSelector(state => Object.values(state.transactions.categories.expense)[0])
+  const transactionCategory = useSelector(state => Object.values(state.transactions.categories)[0])
   const [errorAlert, setErrorAlert] = useState('');
   const [activeSelectWallet, setActiveSelectWallet] = useState(activeWallet);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);

@@ -74,10 +74,8 @@ export default function DataTableRow(props) {
             : value;
 
         if (column.inputType === 'select') {
-          if (column.items[value]) {
-            tableCellData = column.items[value].label;
-          } else {
-            tableCellData = '';
+          if (column.selectType === 'transactionCategory') {
+            tableCellData = value.label;
           }
         }
 

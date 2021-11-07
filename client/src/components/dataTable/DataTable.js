@@ -79,6 +79,7 @@ function DataTable({
   editDataHandler,
   deleteDataHandler,
   currentDataYearHandler,
+  types
 }) {
   const dispatch = useDispatch();
   const { tableSettings } = useContext(TableSettingsContext);
@@ -182,13 +183,14 @@ function DataTable({
               deleteHandler={deleteDataRowHandler}
               addDataEmptyCellSpan={2}
             >
-              <EditData
-                columnsSettings={tableSettings}
-                row={row}
-                editHandler={tableDataEditHandler}
-                submitButtonLabel={editBtnLabel}
-                types
-              />
+              {
+                editDataComponent && editDataComponent({
+                  columnsSettings: tableSettings,
+                  row,
+                  editHandler: tableDataEditHandler,
+                  submitButtonLabel: editBtnLabel,
+                })
+              }
             </DataTableRow>
           ))}
       </Material.TableBody>

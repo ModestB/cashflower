@@ -10,10 +10,7 @@ import {
 import { formatDateToYear } from '../../../shared/utilities';
 
 const initialState = {
-  categories: {
-    expense: {},
-    income: {},
-  },
+  categories: {},
   data: [],
   currentDataYear: formatDateToYear(new Date()),
 };
@@ -21,10 +18,7 @@ const initialState = {
 const setTransactionCategories = (state, categories) => {
   const newState = {
     ...state,
-    categories: {
-      expense: categories.expense,
-      income: categories.income,
-    },
+    categories,
   };
 
   return newState;
@@ -49,7 +43,9 @@ const getTransactionsSuccessHandler = (state, payload) => {
 
     Object.keys(payload.transactions)
       .forEach(key => {
-        draftState.data[payload.transactions[key].id] = payload.transactions[key];
+        const transaction = payload.transactions[key];
+        draftState.data[transaction.id] = transaction;
+        draftState.data[transaction.id].category = state.categories[transaction.category];
       });
   });
   return nextState;
@@ -58,6 +54,7 @@ const getTransactionsSuccessHandler = (state, payload) => {
 const addTransactionSuccessHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
     draftState.data[payload.key] = payload.transaction;
+    draftState.data[payload.key].category = state.categories[payload.transaction.category];
   });
 
   return nextState;
@@ -72,7 +69,12 @@ const deleteTransactionsSuccessHandler = (state, payload) => {
 
 const editTransactionHandler = (state, payload) => {
   const nextState = produce(state, draftState => {
-    draftState.data[payload.key] = { ...state.data[payload.key], ...payload.transaction };
+    const transacton = {
+      ...payload.transaction,
+      category: state.categories[payload.transaction.category],
+    };
+    draftState.data[payload.key].category = state.categories[payload.transaction.category];
+    draftState.data[payload.key] = { ...state.data[payload.key], ...transacton };
   });
   return nextState;
 };
