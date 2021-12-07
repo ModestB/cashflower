@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import ReceiptIcon from '@material-ui/icons/Receipt';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 import Material from '../../shared/material';
 import { ReactComponent as MainLogo } from '../../shared/logos/logo.svg';
 import mainTheme from '../../themes/defaultTheme';

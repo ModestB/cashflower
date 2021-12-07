@@ -4,7 +4,7 @@ import isEmpty from 'validator/lib/isEmpty';
 import isInt from 'validator/lib/isInt';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@mui/icons-material/Add';
 import Material from '../../../shared/material';
 import { addWalletRequested, editWalletRequested, deletetWalletRequested } from '../../../store/actions/actions';
 import FormModal from '../../modal/formModal/FormModal';

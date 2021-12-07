@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import AddTransaction from '../../modal/addTransaction/AddTransaction';
+import AddEditTransaction from '../../../domain/transactions/addEditTransaction/AddEditTransaction';
 
 function HeaderAddModal({
   openModalHandler,
@@ -11,7 +11,7 @@ function HeaderAddModal({
   switch (location.pathname) {
     case '/':
       modal = (
-        <AddTransaction openModalHandler={openModalHandler} openModal={openModal} />
+        <AddEditTransaction openModalHandler={openModalHandler} openModal={openModal} />
       );
       break;
 

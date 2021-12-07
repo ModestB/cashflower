@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import format from 'date-fns/format';
 import { makeStyles } from '@material-ui/core/styles';
+import Box from '@mui/material/Box';
 import Material from '../../../shared/material';
 import TableRowMenu from '../tableRowMenu/TableRowMenu';
 import LoadingTableRow from '../loadingTableRow/LoadingTableRow';
 import { TableSettingsContext } from '../../../context/TableSettingsContext';
+import { categoriesIconsHandler } from '../../../shared/icons';
+import defaultTheme from '../../../themes/defaultTheme';
 
 const useStyles = makeStyles((theme) => ({
   tableCellActions: {
@@ -22,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
   tableCell: {
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     height: '50px',
+  },
+  tableCellExpense: {
+    color: defaultTheme.palette.danger.light,
+  },
+  tableCellIncome: {
+    color: defaultTheme.palette.success.light,
   },
   tableCellEdit: {
     padding: 0,
@@ -68,14 +77,26 @@ export default function DataTableRow(props) {
     rowContent =
       columns.map((column) => {
         const value = props.row[column.id];
+        let transactionType = null;
         let tableCellData =
           column.format && typeof value === 'number' ?
             column.format(value)
             : value;
 
+        if (props.row.category) {
+          transactionType = props.row.category.type;
+        }
+
         if (column.inputType === 'select') {
           if (column.selectType === 'transactionCategory') {
-            tableCellData = value.label;
+            tableCellData = (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {categoriesIconsHandler(value.icon)}
+                <Box component="span" sx={{ pl: 1 }}>
+                  {value.label}
+                </Box>
+              </Box>
+            );
           }
         }
 
@@ -85,7 +106,7 @@ export default function DataTableRow(props) {
               <TableRowMenu
                 id={props.row.id}
                 deleteHandler={deleteHandler}
-                showEditHandler={showEditDataHandler}
+                showEditHandler={props.editButtonClickHandler}
               />
             </div>
           );
@@ -93,6 +114,19 @@ export default function DataTableRow(props) {
 
         if (column.inputType === 'date') {
           tableCellData = format(new Date(`${value}`), column.dateFormat);
+        }
+
+        if (column.id === 'amount') {
+          tableCellData = (
+            <span className={`${
+              transactionType === 'income' ?
+                classes.tableCellIncome
+                : classes.tableCellExpense
+            }`}
+            >
+              {tableCellData}
+            </span>
+          );
         }
 
         if (column.countableTotal) {

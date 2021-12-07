@@ -26,22 +26,3 @@ export function* deleteTransactionSaga(action) {
 
   yield put(actions.deleteTransactionSuccess(action.payload.key, result));
 }
-
-export function* editTransactionSaga(action) {
-  try {
-    const promise = new Promise((resolve, reject) => {
-      axios.patch(`/transaction/${action.payload.key}`, action.payload.transaction)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-
-    const result = yield promise;
-    yield put(actions.transactionEditSuccess(action.payload.key, result));
-  } catch (error) {
-    yield put(actions.transactionEditFailed(error.response.data.message));
-  }
-}

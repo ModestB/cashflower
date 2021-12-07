@@ -77,6 +77,7 @@ function DataTable({
   addDataHandler,
   editDataComponent,
   editDataHandler,
+  editButtonClickHandler,
   deleteDataHandler,
   currentDataYearHandler,
   types
@@ -181,16 +182,17 @@ function DataTable({
               key={row.id}
               row={row}
               deleteHandler={deleteDataRowHandler}
+              editButtonClickHandler={() => editButtonClickHandler(row)}
               addDataEmptyCellSpan={2}
             >
-              {
+              {/* {
                 editDataComponent && editDataComponent({
                   columnsSettings: tableSettings,
                   row,
                   editHandler: tableDataEditHandler,
                   submitButtonLabel: editBtnLabel,
                 })
-              }
+              } */}
             </DataTableRow>
           ))}
       </Material.TableBody>

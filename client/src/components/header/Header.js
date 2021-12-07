@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import Material from '../../shared/material';
 import HeaderAuth from './headerAuth/HeaderAuth';
 import { ReactComponent as MainLogo } from '../../shared/logos/logo.svg';

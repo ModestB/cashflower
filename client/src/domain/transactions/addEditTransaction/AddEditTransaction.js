@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -10,11 +9,12 @@ import {
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from '../../../axios';
-import { addTransactionSuccess, getTransactions } from '../../../store/actions/actions';
+import { addTransactionSuccess, getTransactions, transactionEditSuccess } from '../../../store/actions/actions';
 import { errorMessageHandler } from '../../../shared/utilities';
+import { categoriesIconsHandler } from '../../../shared/icons';
 import Material from '../../../shared/material';
-import FormModal from '../formModal/FormModal';
-import Modal from '../Modal';
+import FormModal from '../../../components/modal/formModal/FormModal';
+import Modal from '../../../components/modal/Modal';
 import { LoadingContext } from '../../../context/LoadingContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -98,21 +98,42 @@ const useStyles = makeStyles((theme) => ({
 function AddTransaction({
   openModalHandler,
   openModal,
+  row,
 }) {
   const dispatch = useDispatch();
   const wallets = useSelector(state => state.user.wallets);
   const activeWallet = useSelector(state => state.user.activeWallet);
   const currentDataYear = useSelector(state => state.transactions.currentDataYear);
-  const { loading, setLoading } = useContext(LoadingContext);
+  const categories = useSelector(state => state.transactions.categories);
+  const { setLoading } = useContext(LoadingContext);
   // NOTE: transactionCategorys only for testing
-  const transactionCategory = useSelector(state => Object.values(state.transactions.categories)[0])
+  const transactionCategory = useSelector(state => Object.values(state.transactions.categories)[0]);
   const [errorAlert, setErrorAlert] = useState('');
   const [activeSelectWallet, setActiveSelectWallet] = useState(activeWallet);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(transactionCategory.id);
+  const [selectedCategoryLabel, setSelectedCategoryLabel] = useState('');
+  const [selectedCategoryIcon, setSelectedCategoryIcon] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
+  const [isEditModal, setIsEditModal] = useState(false);
+
+  useEffect(() => {
+    setSelectedCategoryLabel(categories[selectedCategory].label);
+    setSelectedCategoryIcon(categories[selectedCategory].icon);
+  }, [selectedCategory, categories]);
+
+  useEffect(() => {
+    if (Object.keys(row).length) {
+      setActiveSelectWallet(row.wallet);
+      setSelectedCategory(row.category.id);
+      setSelectedDate(row.date);
+      setAmount(row.amount);
+      setNote(row.comment);
+      setIsEditModal(true);
+    }
+  }, [row, openModal]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -131,30 +152,49 @@ function AddTransaction({
     setNote('');
   };
 
-  const submitDataHandler = () => {
+  const submitDataHandler = async () => {
     setLoading(true);
-    axios.post('/transaction', {
-      wallet: activeSelectWallet,
-      category: selectedCategory,
-      amount,
-      date: selectedDate,
-      comment: note,
-    })
-      .then((response) => {
-        if (response.data.wallet === activeWallet) {
-          return dispatch(addTransactionSuccess(response.data, response.data.id));
-        }
-        return dispatch(getTransactions(currentDataYear, response.data.wallet));
-      })
-      .then(() => {
+    if (isEditModal) {
+      const formatedData = {
+        wallet: activeSelectWallet,
+        category: selectedCategory,
+        amount,
+        date: selectedDate,
+        comment: note,
+      };
+
+      try {
+        const results = await axios.patch(`/transaction/${row.id}`, formatedData);
+        dispatch(transactionEditSuccess(row.id, results.data));
         setLoading(false);
         openModalHandler(false);
         resetFormData();
-      })
-      .catch((error) => {
+      } catch (error) {
         setLoading(false);
         setErrorAlert(errorMessageHandler(error));
-      });
+      }
+    } else {
+      try {
+        const results = await axios.post('/transaction', {
+          wallet: activeSelectWallet,
+          category: selectedCategory,
+          amount,
+          date: selectedDate,
+          comment: note,
+        });
+        if (results.data.wallet === activeWallet) {
+          dispatch(addTransactionSuccess(results.data, results.data.id));
+        } else {
+          dispatch(getTransactions(currentDataYear, results.data.wallet));
+        }
+        setLoading(false);
+        openModalHandler(false);
+        resetFormData();
+      } catch (error) {
+        setLoading(false);
+        setErrorAlert(errorMessageHandler(error));
+      }
+    }
   };
 
   return (
@@ -162,11 +202,11 @@ function AddTransaction({
       openModalHandler={openModalHandler}
       openModal={openModal}
       submitButton
-      submitButtonLabel="Add Transaction"
+      submitButtonLabel={`${isEditModal ? 'Save Transaction' : 'Add Transaction"'}`}
       submitDataHandler={submitDataHandler}
       cancelButton
       cancelButtonLabel="Cancel"
-      formModalTitle="Add Transaction"
+      formModalTitle={`${isEditModal ? 'Edit Transaction' : 'Add Transaction"'}`}
       errorAlert={errorAlert}
       setErrorAlert={setErrorAlert}
     >
@@ -193,8 +233,8 @@ function AddTransaction({
             id="input-with-icon-textfield"
             label="Category"
             variant="outlined"
-            value={selectedCategory}
-            onClick={(e) => setOpenCategoryModal(true)}
+            value={selectedCategoryLabel}
+            onClick={() => setOpenCategoryModal(true)}
             disabled
             className={classes.input}
             InputLabelProps={{
@@ -210,7 +250,7 @@ function AddTransaction({
                     root: classes.categoryInputAdornmentRoot,
                   }}
                 >
-                  <AccountCircle />
+                  {categoriesIconsHandler(selectedCategoryIcon)}
                 </Material.InputAdornment>
               ),
               classes: {
@@ -281,12 +321,13 @@ function AddTransaction({
 }
 
 AddTransaction.defaultProps = {
-
+  row: {},
 };
 
 AddTransaction.propTypes = {
   openModalHandler: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
+  row: PropTypes.shape(),
 };
 
 export default AddTransaction;
