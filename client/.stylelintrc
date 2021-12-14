@@ -25,6 +25,10 @@
         ]
       }
     ],
-    "rule-empty-line-before": "always"
+    "rule-empty-line-before": "always",
+    "custom-property-pattern": ".*",
+    "string-quotes": "single",
+    "order/properties-alphabetical-order": null,
+    "order/properties-order": null
   }
 }

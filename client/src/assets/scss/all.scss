@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+* {
+  font-family: Lato, sans-serif;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #12263a;
+  --main-box-shadow: 0 2px 5px rgb(18 38 58 / 10%);
+  --main-padding: 8px;
+}
