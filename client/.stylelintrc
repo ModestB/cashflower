@@ -25,10 +25,18 @@
         ]
       }
     ],
-    "rule-empty-line-before": "always",
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": [
+          "first-nested"
+        ]
+      }
+    ],
     "custom-property-pattern": ".*",
     "string-quotes": "single",
     "order/properties-alphabetical-order": null,
-    "order/properties-order": null
+    "order/properties-order": null,
+    "selector-class-pattern": "^(?:(?:o|c|u|t|s|is|has|_|js|qa)-)?[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:__[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:--[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:\\[.+\\])?$"
   }
 }
