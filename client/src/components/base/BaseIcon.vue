@@ -35,6 +35,10 @@ export default {
 
 <style lang="scss">
 .base-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &:hover:not(.base-icon--no-hover) {
     svg {
       fill: red;
