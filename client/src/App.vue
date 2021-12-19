@@ -1,7 +1,9 @@
 <template>
   <main>
     <Header />
-    <router-view />
+    <section>
+      <router-view />
+    </section>
   </main>
 </template>
 
@@ -14,4 +16,14 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+main {
+  height: 100vh;
+}
+
+section {
+  margin-top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  background-color: var(--main-bg-color);
+}
+</style>

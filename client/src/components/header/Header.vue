@@ -41,10 +41,14 @@ export default {
 
 <style lang="scss" scoped>
 .header {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 75px;
+  height: var(--header-height);
   font-size: 26px;
   padding: var(--main-padding-2);
   box-shadow: var(--main-box-shadow);
