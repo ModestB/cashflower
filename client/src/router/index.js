@@ -1,11 +1,29 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../views/Welcome.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import Welcome from '@/views/Welcome.vue';
+import Authentication from '@/views/authentication/Authentication.vue';
+import Regsitration from '@/views/authentication/Registration.vue';
+import Login from '@/views/authentication/Login.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Welcome',
+    component: Welcome,
+  },
+  {
+    path: '/auth',
+    name: 'Authentication',
+    component: Authentication,
+    children: [
+      {
+        path: 'registration',
+        component: Regsitration,
+      },
+      {
+        path: 'login',
+        component: Login,
+      }
+    ]
   },
   {
     path: '/about',
@@ -18,7 +36,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
