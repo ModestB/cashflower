@@ -11,8 +11,8 @@
       </template>
       <template v-slot:body>
         <div class="header__menu__body">
-          <base-button>Logout</base-button>
-          <base-button>Settings</base-button>
+          <base-button type="link" @click="logoutHandler">Logout</base-button>
+          <base-button type="link">Settings</base-button>
         </div>
       </template>
     </base-popper>
@@ -31,6 +31,9 @@ export default {
     },
     hideMenu() {
       this.showMenu = false;
+    },
+    logoutHandler() {
+      console.log('Logout');
     },
   },
 };
@@ -61,6 +64,7 @@ export default {
 
   &__menu__body {
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
   }
 }
