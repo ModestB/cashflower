@@ -1,12 +1,10 @@
 <template>
   <div class="base-icon" :class="classes">
-    <font-awesome-icon :icon="currentIcon" :size="size"></font-awesome-icon>
+    <font-awesome-icon v-bind="propsToPassToFa()"></font-awesome-icon>
   </div>
 </template>
 
 <script>
-// Available icon sizes
-// '2xs', 'xs', 'sm', 'lg', 'xl', '2xl', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faUserSecret,
@@ -30,10 +28,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    rotation: {
+      type: String,
+      default: '0',
+    },
     size: {
       validator(value) {
         const potentialValues = [
-          '2xs',
           'xs',
           'sm',
           'lg',
@@ -72,6 +73,20 @@ export default {
       };
     },
   },
+  methods: {
+    propsToPassToFa() {
+      const results = {
+        size: this.size,
+        icon: this.currentIcon,
+      };
+
+      if (this.rotation !== '0') {
+        results.rotation = this.rotation;
+      }
+
+      return results;
+    },
+  },
 };
 </script>
 
@@ -92,7 +107,7 @@ export default {
   svg,
   svg path {
     fill: var(--icon-color-primary);
-    transition: fill 0.3s ease-in;
+    transition: fill 0.3s ease-in, transform 0.2s ease;
   }
 }
 </style>

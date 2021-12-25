@@ -41,6 +41,7 @@ export default {
     background-color: transparent;
     border: none;
     color: var(--text-color);
+    user-select: none;
 
     &:hover {
       color: var(--highlight);

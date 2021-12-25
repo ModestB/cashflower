@@ -5,8 +5,13 @@
     <base-popper :show="showMenu" :hidePopper="hideMenu">
       <template v-slot:default>
         <div class="header__menu__toggle" @click="toggleMenu">
-          <base-icon iconName="user" size="2xs" noHover></base-icon>
-          <base-icon iconName="chevron-down" size="xs" noHover></base-icon>
+          <base-icon iconName="user" size="1x" noHover></base-icon>
+          <base-icon
+            iconName="chevron-down"
+            size="xs"
+            :rotation="arrowRotation"
+            noHover
+          ></base-icon>
         </div>
       </template>
       <template v-slot:body>
@@ -36,6 +41,11 @@ export default {
       console.log('Logout');
     },
   },
+  computed: {
+    arrowRotation() {
+      return this.showMenu ? '180' : '0';
+    },
+  },
 };
 </script>
 
@@ -52,6 +62,7 @@ export default {
   height: var(--header-height);
   font-size: 26px;
   padding: var(--main-padding-2);
+  background-color: var(--primary--light);
   box-shadow: var(--main-box-shadow);
 
   &__title {
