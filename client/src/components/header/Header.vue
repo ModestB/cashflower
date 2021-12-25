@@ -5,8 +5,8 @@
     <base-popper :show="showMenu" :hidePopper="hideMenu">
       <template v-slot:default>
         <div class="header__menu__toggle" @click="toggleMenu">
-          <base-icon iconName="PersonIcon" noHover></base-icon>
-          <base-icon iconName="ArrowIcon" noHover></base-icon>
+          <base-icon iconName="user" size="2xs" noHover></base-icon>
+          <base-icon iconName="chevron-down" size="xs" noHover></base-icon>
         </div>
       </template>
       <template v-slot:body>
@@ -43,6 +43,7 @@ export default {
 .header {
   position: fixed;
   width: 100vw;
+  max-width: 100%;
   top: 0;
   z-index: 1000;
   display: flex;

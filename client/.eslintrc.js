@@ -15,6 +15,11 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    "import/no-extraneous-dependencies": [
+      "error", {
+         "devDependencies": true
+      }
+  ]
   },
   settings: { 
     'import/resolver': { 
@@ -22,5 +27,5 @@ module.exports = {
         config: require.resolve('@vue/cli-service/webpack.config.js') 
       } 
     }, 
-  }
+  },
 };

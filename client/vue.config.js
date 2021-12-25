@@ -1,4 +1,3 @@
-// vue.config.js
 const path = require('path');
 
 module.exports = {
@@ -6,7 +5,8 @@ module.exports = {
     resolve: {
       alias: {
         '@': path.resolve('src'),
-      }
+      },
+      extensions: ['*', '.js', '.vue', '.json']
     },
   }
 }
