@@ -10,6 +10,7 @@ import clickOutsideDirective from '@/utilities/clickOutsideDirective'
 import BaseIcon from '@/components/base/BaseIcon.vue';
 import BasePopper from '@/components/base/BasePopper.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
+import BaseCard from '@/components/base/BaseCard.vue';
 
 const app = createApp(App);
 
@@ -19,6 +20,7 @@ app.use(router);
 app.component('base-icon', BaseIcon)
 app.component('base-popper', BasePopper)
 app.component('base-button', BaseButton)
+app.component('base-card', BaseCard)
 
 app.directive('click-outside', clickOutsideDirective)
 

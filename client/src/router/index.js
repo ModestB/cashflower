@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Welcome from '@/views/Welcome.vue';
 import Authentication from '@/views/authentication/Authentication.vue';
 import Regsitration from '@/views/authentication/Registration.vue';
 import Login from '@/views/authentication/Login.vue';
@@ -8,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'Welcome',
-    component: Welcome,
+    redirect: '/auth/registration',
   },
   {
     path: '/auth',
@@ -17,10 +16,12 @@ const routes = [
     children: [
       {
         path: 'registration',
+        name: 'registration',
         component: Regsitration,
       },
       {
         path: 'login',
+        name: 'login',
         component: Login,
       }
     ]

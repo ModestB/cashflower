@@ -5,7 +5,7 @@
     <base-popper :show="showMenu" :hidePopper="hideMenu">
       <template v-slot:default>
         <div class="header__menu__toggle" @click="toggleMenu">
-          <base-icon iconName="user" size="1x" noHover></base-icon>
+          <base-icon iconName="user" size="xs" noHover></base-icon>
           <base-icon
             iconName="chevron-down"
             size="xs"
@@ -74,7 +74,7 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-    border-left: 1px solid var(--primary);
+    border-left: 2px solid var(--primary);
     padding: var(--main-padding) 0 var(--main-padding) var(--main-padding-2);
   }
 
