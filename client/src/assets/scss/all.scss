@@ -11,6 +11,9 @@ a {
 
 :root {
   --primary: #12263a;
+  --danger: #fc947a;
+  --success: #65de8b;
+  --success--darker: #42d771;
   --icon-color-primary: #12263a;
   --highlight: #2a5989;
   --primary--light: #fafbfc;
@@ -18,14 +21,19 @@ a {
   --main-box-shadow-2: 0 2px 5px rgb(18 38 58 / 20%);
   --main-box-shadow-3: 0 2px 5px rgb(18 38 58 / 30%);
   --main-box-shadow-4: 0 2px 5px rgb(18 38 58 / 40%);
+  --box-shadow--danger: 0 0 0 0.25rem rgb(252 148 122 / 25%);
   --main-padding: 4px;
   --main-padding-2: 8px;
   --main-padding-3: 16px;
+  --main-padding-4: 24px;
   --text-color: #12263a;
   --text-color--light: #fff;
   --main-bg-color: #f2f2f2;
   --header-height: 75px;
   --border-radius: 8px;
   --border-color--muted: rgb(18 38 58 / 20%);
+  --border-color--muted-3: rgb(18 38 58 / 30%);
+  --border-color--muted-4: rgb(18 38 58 / 40%);
   --border-color--light: #fafbfc;
+  --font-size--xs: 14px;
 }

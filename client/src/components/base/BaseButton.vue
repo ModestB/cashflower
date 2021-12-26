@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :class="buttonClasses">
+  <button class="btn" :class="buttonClasses">
     <slot></slot>
   </button>
 </template>
@@ -11,13 +11,21 @@ export default {
       type: String,
       default: 'button',
     },
+    mode: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonClasses() {
       const classes = [];
 
       if (this.type === 'link') {
-        classes.push('button--link');
+        classes.push('btn--link');
+      }
+
+      if (this.mode.length) {
+        classes.push(`btn--${this.mode}`);
       }
 
       return classes.join(' ');
@@ -27,7 +35,7 @@ export default {
 </script>
 
 <style lang="scss">
-.button {
+.btn {
   transition: color 0.3s ease-in-out;
 
   &:hover {
@@ -45,6 +53,29 @@ export default {
 
     &:hover {
       color: var(--highlight);
+    }
+  }
+
+  &:not(.btn--link) {
+    font-size: 18px;
+    font-weight: 400;
+    height: 40px;
+    padding: 0 var(--main-padding-4);
+    border-radius: var(--border-radius);
+    border-width: 1px;
+    border-style: solid;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  &.btn--success {
+    border-color: var(--success);
+    background-color: var(--success);
+    color: var(--text-color--light);
+
+    &:hover,
+    &:focus {
+      border-color: var(--success--darker);
+      background-color: var(--success--darker);
     }
   }
 }
