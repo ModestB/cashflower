@@ -16,18 +16,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  computed: {
-    currentPath() {
-      console.log(this.$route);
-
-      return this.$route.name;
-    },
-  },
-};
-</script>
-
 <style lang="scss" scoped>
 .auth {
   display: flex;

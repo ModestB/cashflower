@@ -10,10 +10,10 @@ const UserController = {
 
     try {
       await user.save();
-      const token = await user.generateAuthToken();
+      const accessToken = await user.generateAuthToken();
       await user.generateDefaultIncomeTypes();
       await user.generateDefaultCategories();
-      res.status(201).send({ user, token });
+      res.status(201).send({ user, accessToken });
     } catch (error) {
       let msg = '';
       let err = error;
@@ -91,22 +91,15 @@ const UserController = {
     try {
       const { email, password } = req.body;
       const user = await User.findByCredentials(email, password);
-      const token = await user.generateAuthToken();
-      const dataYears = await User.getDataDistinctYears(user);
-      const wallets = await User.getUserWallets(user);
-      const categories = await User.getUserCategories(user);
+      const accessToken = await user.generateAuthToken();
+      // const dataYears = await User.getDataDistinctYears(user);
+      // const wallets = await User.getUserWallets(user);
+      // const categories = await User.getUserCategories(user);
       await User.populateDataTypes(user);
 
       res.send({
         user,
-        token,
-        wallets,
-        categories,
-        dataYears,
-        dataTypes: {
-          income: user.incomeTypes,
-          investment: user.investmentTypes,
-        },
+        accessToken,
       });
     } catch (error) {
       const msg = 'Login Failed! Check authentication credentials';

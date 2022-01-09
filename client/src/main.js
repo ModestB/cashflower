@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-// import ClickOutside from 'vue-click-outside';
 import 'normalize.css';
 import './assets/scss/all.scss';
 

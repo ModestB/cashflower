@@ -1,7 +1,13 @@
 <template>
   <div class="form-control" :class="{ invalid: invalid }">
     <label v-if="showLabel" :for="id">{{ label }}</label>
-    <input :type="type" :id="id" :placeholder="placeholder" />
+    <input
+      :type="type"
+      :id="id"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
     <div v-if="showInvalidFeedback" class="feedback feedback--invalid">
       {{ invalidFeedback }}
     </div>
@@ -11,6 +17,9 @@
 <script>
 export default {
   props: {
+    modelValue: {
+      type: [String, Number],
+    },
     label: {
       type: String,
       default: '',

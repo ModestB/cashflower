@@ -1,11 +1,11 @@
 <template>
-  <header class="header" :class="{ 'header--notAuth': !isAuth }">
+  <header class="header" :class="{ 'header--notAuth': !loggedIn }">
     <transition name="logo" mode="out-in">
       <component v-bind:is="currentLogo"></component>
     </transition>
 
     <transition name="menu">
-      <base-popper v-if="isAuth" :show="showMenu" :hidePopper="hideMenu">
+      <base-popper v-if="loggedIn" :show="showMenu" :hidePopper="hideMenu">
         <template v-slot:default>
           <div class="header__menu__toggle" @click="toggleMenu">
             <base-icon iconName="user" size="xs" noHover></base-icon>
@@ -28,6 +28,7 @@
   </header>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Logo from '@/components/icons/Logo.vue';
 import LogoLoggedIn from '@/components/header/LogoLoggedIn.vue';
 import LogoLoggedOut from '@/components/header/LogoLoggedOut.vue';
@@ -41,7 +42,6 @@ export default {
   data() {
     return {
       showMenu: false,
-      isAuth: false, // temporaly
       view: 'logo',
     };
   },
@@ -53,15 +53,16 @@ export default {
       this.showMenu = false;
     },
     logoutHandler() {
-      console.log('Logout');
+      this.$store.dispatch('auth/logout');
     },
   },
   computed: {
+    ...mapGetters({ loggedIn: 'auth/loggedIn' }),
     arrowRotation() {
       return this.showMenu ? '180' : '0';
     },
     currentLogo() {
-      return this.isAuth ? 'logged-in-logo' : 'logged-out-logo';
+      return this.loggedIn ? 'logged-in-logo' : 'logged-out-logo';
     },
   },
 };

@@ -8,5 +8,8 @@ module.exports = {
       },
       extensions: ['*', '.js', '.vue', '.json']
     },
+  },
+  devServer: {
+    proxy: 'http://localhost:8080'
   }
 }

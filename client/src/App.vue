@@ -8,11 +8,30 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Header from '@/components/header/Header.vue';
+
+import { LOCAL_STORAGE_USER_KEY } from '@/constants';
 
 export default {
   components: {
     Header,
+  },
+  created() {
+    const userString = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
+    if (userString) {
+      const userData = JSON.parse(userString);
+      this.$store.commit('auth/SET_USER_DATA', userData);
+    }
+    axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          this.$store.dispatch('auth/storageLogout');
+        }
+        return Promise.reject(error);
+      }
+    );
   },
 };
 </script>
