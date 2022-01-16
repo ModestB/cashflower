@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="handleLogin">
     <transition name="fade-up">
-      <base-alert v-if="error" type="error">
-        {{ error }}
+      <base-alert v-if="showErrorAlert" type="error">
+        {{ errorMessage }}
       </base-alert>
     </transition>
     <base-input
@@ -11,6 +11,9 @@
       label="Email"
       placeholder="Your email"
       v-model="email"
+      :blur="v$.email.$touch"
+      :invalid="v$.email.$error"
+      :invalid-feedback="v$.email.$errors[0]?.$message"
     ></base-input>
     <base-input
       id="loginPassword"
@@ -18,13 +21,22 @@
       label="Password"
       placeholder="Your password"
       v-model="password"
+      :blur="v$.password.$touch"
+      :invalid="v$.password.$error"
+      :invalid-feedback="v$.password.$errors[0]?.$message"
     ></base-input>
-    <base-button mode="success">Login</base-button>
+    <base-button mode="success" :disabled="this.v$.$error">Login</base-button>
   </form>
 </template>
 
 <script>
+import useVuelidate from '@vuelidate/core';
+import { required, email, helpers } from '@vuelidate/validators';
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       email: '',
@@ -32,8 +44,23 @@ export default {
       error: null,
     };
   },
+  validations() {
+    return {
+      email: {
+        required: helpers.withMessage('Email is required', required),
+        email: helpers.withMessage('Email must be valid', email),
+      },
+      password: {
+        required: helpers.withMessage('Password is required', required),
+      },
+    };
+  },
   methods: {
     handleLogin() {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      }
       this.$store
         .dispatch('auth/login', {
           email: this.email,
@@ -46,6 +73,16 @@ export default {
           this.error = error.response.data.message;
           console.log(error);
         });
+    },
+  },
+  computed: {
+    errorMessage() {
+      return this.v$.$error
+        ? 'Please fill out the required fields'
+        : this.error;
+    },
+    showErrorAlert() {
+      return this.v$.$error || this.error;
     },
   },
 };

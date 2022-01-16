@@ -6,7 +6,9 @@
       :id="id"
       :placeholder="placeholder"
       :value="modelValue"
+      :autocomplete="autocomplete"
       @input="$emit('update:modelValue', $event.target.value)"
+      @blur="blur"
     />
     <div v-if="showInvalidFeedback" class="feedback feedback--invalid">
       {{ invalidFeedback }}
@@ -43,6 +45,14 @@ export default {
     invalidFeedback: {
       type: String,
       default: '',
+    },
+    autocomplete: {
+      type: String,
+      default: 'off',
+    },
+    blur: {
+      type: Function,
+      default: () => {},
     },
   },
   computed: {

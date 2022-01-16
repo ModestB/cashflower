@@ -78,5 +78,10 @@ export default {
       background-color: var(--success--darker);
     }
   }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 </style>

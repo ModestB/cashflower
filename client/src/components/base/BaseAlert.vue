@@ -34,11 +34,11 @@ export default {
   }
 
   p {
-    margin: 0 0 var(--main-spacing-2) 0;
+    margin: 0;
   }
 
   ul {
-    margin: 0;
+    margin: var(--main-spacing-2) 0 0 0;
 
     li {
       margin: 0 0 var(--main-spacing) 0;
