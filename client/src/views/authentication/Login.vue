@@ -1,6 +1,10 @@
 <template>
   <form @submit.prevent="handleLogin">
-    <p v-if="error">{{ error }}</p>
+    <transition name="fade-up">
+      <base-alert v-if="error" type="error">
+        {{ error }}
+      </base-alert>
+    </transition>
     <base-input
       id="loginEmail"
       type="email"
@@ -36,10 +40,11 @@ export default {
           password: this.password,
         })
         .then(() => {
-          this.$router.push('/dashboard');
+          this.$router.push({ name: 'dashboard' });
         })
         .catch((error) => {
           this.error = error.response.data.message;
+          console.log(error);
         });
     },
   },
@@ -48,10 +53,10 @@ export default {
 
 <style lang="scss" scoped>
 form {
-  padding: var(--main-padding-3) var(--main-padding-2);
+  padding: var(--main-spacing-3) var(--main-spacing-2);
 }
 
 button {
-  margin-top: var(--main-padding-2);
+  margin-top: var(--main-spacing-2);
 }
 </style>

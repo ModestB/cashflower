@@ -80,7 +80,7 @@ export default {
   justify-content: space-between;
   height: var(--header-height);
   font-size: 26px;
-  padding: var(--main-padding-2);
+  padding: var(--main-spacing-2);
   background-color: var(--primary--light);
   box-shadow: var(--main-box-shadow);
 
@@ -95,7 +95,7 @@ export default {
     align-items: center;
 
     svg {
-      margin-right: var(--main-padding-2);
+      margin-right: var(--main-spacing-2);
       width: 35px;
     }
   }
@@ -105,7 +105,7 @@ export default {
     align-items: center;
     cursor: pointer;
     border-left: 2px solid var(--primary);
-    padding: var(--main-padding) 0 var(--main-padding) var(--main-padding-2);
+    padding: var(--main-spacing) 0 var(--main-spacing) var(--main-spacing-2);
   }
 
   &__menu__body {

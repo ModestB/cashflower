@@ -68,7 +68,7 @@ export default {
 .popper__body {
   background-color: var(--primary--light);
   box-shadow: var(--main-box-shadow-3);
-  padding: var(--main-padding-2) var(--main-padding-3);
+  padding: var(--main-spacing-2) var(--main-spacing-3);
   border-radius: 4px;
   overflow: hidden;
 }

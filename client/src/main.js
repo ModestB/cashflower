@@ -11,6 +11,7 @@ import BasePopper from '@/components/base/BasePopper.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 import BaseInput from '@/components/base/BaseInput.vue';
+import BaseAlert from '@/components/base/BaseAlert.vue';
 
 const app = createApp(App);
 
@@ -22,6 +23,7 @@ app.component('base-popper', BasePopper)
 app.component('base-button', BaseButton)
 app.component('base-card', BaseCard)
 app.component('base-input', BaseInput)
+app.component('base-alert', BaseAlert)
 
 app.directive('click-outside', clickOutsideDirective)
 

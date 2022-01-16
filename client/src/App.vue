@@ -21,7 +21,10 @@ export default {
     const userString = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
     if (userString) {
       const userData = JSON.parse(userString);
-      this.$store.commit('auth/SET_USER_DATA', userData);
+      console.log(userData);
+      if (new Date(userData.accessToken.expiresAt) > new Date()) {
+        this.$store.commit('auth/SET_USER_DATA', userData);
+      }
     }
     axios.interceptors.response.use(
       (response) => response,

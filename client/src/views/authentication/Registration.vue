@@ -1,8 +1,13 @@
 <template>
   <form @submit.prevent="handleRegister">
-    <ul>
-      <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-    </ul>
+    <transition name="fade-up">
+      <base-alert v-if="errors" type="error">
+        <p>Check registration credentials!</p>
+        <ul>
+          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+        </ul>
+      </base-alert>
+    </transition>
     <base-input
       id="regUsername"
       type="text"
@@ -68,10 +73,10 @@ export default {
 
 <style lang="scss" scoped>
 form {
-  padding: var(--main-padding-3) var(--main-padding-2);
+  padding: var(--main-spacing-3) var(--main-spacing-2);
 }
 
 button {
-  margin-top: var(--main-padding-2);
+  margin-top: var(--main-spacing-2);
 }
 </style>

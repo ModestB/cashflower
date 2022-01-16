@@ -60,7 +60,7 @@ export default {
     font-size: 18px;
     font-weight: 400;
     height: 40px;
-    padding: 0 var(--main-padding-4);
+    padding: 0 var(--main-spacing-4);
     border-radius: var(--border-radius);
     border-width: 1px;
     border-style: solid;

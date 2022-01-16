@@ -95,7 +95,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--main-padding);
+  padding: 0 var(--main-spacing);
 
   &:hover:not(.base-icon--no-hover) {
     svg,

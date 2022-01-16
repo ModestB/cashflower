@@ -29,7 +29,7 @@
   width: 500px;
 
   .authNav {
-    --auth-nav-margin: calc(var(--main-padding-2) * -1);
+    --auth-nav-margin: calc(var(--main-spacing-2) * -1);
 
     display: grid;
     grid-template-columns: 50% 50%;

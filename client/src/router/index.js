@@ -83,9 +83,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY))
   const token = user?.accessToken.token;
-  const tokenExpired = new Date(user?.accessToken.expireAt);
-  const now = new Date();
-  const loggedIn = token && tokenExpired > now;
+  const loggedIn = token && new Date(user?.accessToken.expireAt) > new Date();
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!loggedIn) {
@@ -103,8 +101,10 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else if (to.matched.some(record => record.meta.guest && loggedIn)) {
+    console.log('DASH')
     next({ name: 'dashboard' })
   } else {
+    console.log('Else')
     next()
   }
 })

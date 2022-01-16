@@ -60,7 +60,7 @@ export default {
 .form-control {
   display: flex;
   flex-direction: column;
-  padding: var(--main-padding-2) 0;
+  padding: var(--main-spacing-2) 0;
 
   &.invalid {
     input,
@@ -83,7 +83,7 @@ export default {
     height: 35px;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color--muted);
-    padding: 0 var(--main-padding-2);
+    padding: 0 var(--main-spacing-2);
     outline: none;
     transition: border-color 0.3s ease-in, box-shadow 0.3s ease;
 
@@ -96,12 +96,12 @@ export default {
   label {
     font-size: 16px;
     color: var(--text-color);
-    margin: 0 var(--main-padding) var(--main-padding-2) var(--main-padding);
+    margin: 0 0 var(--main-spacing-2) 0;
   }
 
   .feedback {
     font-size: var(--font-size--xs);
-    margin: 2px var(--main-padding) 0 var(--main-padding);
+    margin: 2px var(--main-spacing) 0 var(--main-spacing);
     text-align: right;
 
     &--invalid {

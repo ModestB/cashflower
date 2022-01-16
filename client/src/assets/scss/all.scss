@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
+@import './transitions';
+
 * {
   font-family: Lato, sans-serif;
   box-sizing: border-box;
@@ -12,6 +14,8 @@ a {
 :root {
   --primary: #12263a;
   --danger: #fc947a;
+  --danger-text: hsl(12deg 95% 60%);
+  --danger-bg: hsl(12deg 95% 73% / 20%);
   --success: #65de8b;
   --success--darker: #42d771;
   --icon-color-primary: #12263a;
@@ -22,10 +26,10 @@ a {
   --main-box-shadow-3: 0 2px 5px rgb(18 38 58 / 30%);
   --main-box-shadow-4: 0 2px 5px rgb(18 38 58 / 40%);
   --box-shadow--danger: 0 0 0 0.25rem rgb(252 148 122 / 25%);
-  --main-padding: 4px;
-  --main-padding-2: 8px;
-  --main-padding-3: 16px;
-  --main-padding-4: 24px;
+  --main-spacing: 4px;
+  --main-spacing-2: 8px;
+  --main-spacing-3: 16px;
+  --main-spacing-4: 24px;
   --text-color: #12263a;
   --text-color--light: #fff;
   --main-bg-color: #f2f2f2;
