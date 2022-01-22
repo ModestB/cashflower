@@ -1,12 +1,29 @@
 <template>
-  <div>Dashboard</div>
+  <base-view-layout>
+    <template #header>
+      <ViewTitle :title="title" :icon="titleIcon" />
+    </template>
+  </base-view-layout>
 </template>
 <script>
+import BaseViewLayout from '@/components/base/BaseViewLayout.vue';
+import ViewTitle from '@/components/view/ViewTitle.vue';
+
+import { VIEWS } from '@/constants';
+
 export default {
   name: 'Dashboard',
+  components: { BaseViewLayout, ViewTitle },
   data() {
     return {
       content: '',
+    };
+  },
+  setup() {
+    const view = VIEWS.dashboard;
+    return {
+      title: view.label,
+      titleIcon: view.icon,
     };
   },
 };

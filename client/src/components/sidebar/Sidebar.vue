@@ -17,7 +17,7 @@
 <script>
 import Logo from '@/components/icons/Logo.vue';
 import SidebarListItem from '@/components/sidebar/SidebarListItem.vue';
-import { SIDEBAR_ITEMS } from '@/constants';
+import { VIEWS } from '@/constants';
 
 export default {
   components: {
@@ -26,7 +26,7 @@ export default {
   },
   setup() {
     return {
-      items: SIDEBAR_ITEMS,
+      items: Object.values(VIEWS),
     };
   },
 };

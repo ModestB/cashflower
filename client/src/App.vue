@@ -62,7 +62,7 @@ export default {
       'c c c' calc(100vh - var(--header-height)) / 100vw;
   }
 
-  section {
+  > section {
     background-color: var(--main-bg-color);
     grid-area: c;
   }
