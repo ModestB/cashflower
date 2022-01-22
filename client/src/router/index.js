@@ -5,6 +5,7 @@ import Login from '@/views/authentication/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import Admin from '@/views/Admin.vue';
 import Profile from '@/views/Profile.vue';
+import Transactions from '@/views/Transactions.vue';
 
 import { LOCAL_STORAGE_USER_KEY } from '@/constants';
 
@@ -41,6 +42,14 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/transactions',
+    name: 'transactions',
+    component: Transactions,
     meta: {
       requiresAuth: true
     }
@@ -101,10 +110,8 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else if (to.matched.some(record => record.meta.guest && loggedIn)) {
-    console.log('DASH')
     next({ name: 'dashboard' })
   } else {
-    console.log('Else')
     next()
   }
 })

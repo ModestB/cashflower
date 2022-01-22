@@ -10,10 +10,12 @@ import {
   faUserSecret,
   faChevronDown,
   faUser,
+  faThLarge,
+  faWallet,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faUserSecret, faChevronDown, faUser);
+library.add(faUserSecret, faChevronDown, faUser, faThLarge, faWallet);
 
 export default {
   components: {
@@ -107,7 +109,7 @@ export default {
   svg,
   svg path {
     fill: var(--icon-color-primary);
-    transition: fill 0.3s ease-in, transform 0.2s ease;
+    transition: fill 0.2s ease-in-out, transform 0.2s ease;
   }
 }
 </style>

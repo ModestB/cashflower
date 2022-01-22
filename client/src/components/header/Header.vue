@@ -70,15 +70,9 @@ export default {
 
 <style lang="scss">
 .header {
-  position: fixed;
-  width: 100vw;
-  max-width: 100%;
-  top: 0;
-  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--header-height);
   font-size: 26px;
   padding: var(--main-spacing-2);
   background-color: var(--primary--light);
