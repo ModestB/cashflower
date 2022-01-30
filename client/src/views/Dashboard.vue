@@ -1,19 +1,19 @@
 <template>
-  <base-view-layout>
+  <ViewLayout>
     <template #header>
       <ViewTitle :title="title" :icon="titleIcon" />
     </template>
-  </base-view-layout>
+  </ViewLayout>
 </template>
 <script>
-import BaseViewLayout from '@/components/base/BaseViewLayout.vue';
+import ViewLayout from '@/components/layouts/ViewLayout.vue';
 import ViewTitle from '@/components/view/ViewTitle.vue';
 
 import { VIEWS } from '@/constants';
 
 export default {
   name: 'Dashboard',
-  components: { BaseViewLayout, ViewTitle },
+  components: { ViewLayout, ViewTitle },
   data() {
     return {
       content: '',

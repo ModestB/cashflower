@@ -4,9 +4,7 @@
       <Sidebar v-if="loggedIn" />
     </transition>
     <Header />
-    <section>
-      <router-view />
-    </section>
+    <router-view />
   </main>
 </template>
 
@@ -29,6 +27,7 @@ export default {
       const userData = JSON.parse(userString);
       if (new Date(userData.accessToken.expireAt) > new Date()) {
         this.$store.commit('auth/SET_USER_DATA', userData);
+        this.$store.dispatch('wallets/getWallets');
       }
     }
     axios.interceptors.response.use(

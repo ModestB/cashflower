@@ -12,10 +12,20 @@ import {
   faUser,
   faThLarge,
   faWallet,
+  faPlus,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faUserSecret, faChevronDown, faUser, faThLarge, faWallet);
+library.add(
+  faUserSecret,
+  faChevronDown,
+  faUser,
+  faThLarge,
+  faWallet,
+  faPlus,
+  faTimes // Close X
+);
 
 export default {
   components: {

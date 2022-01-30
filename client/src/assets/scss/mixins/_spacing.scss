@@ -1,0 +1,28 @@
+@use 'sass:map';
+
+$sizing-directions: t, r, b, l;
+$sizing-sides-map: (
+  't': top,
+  'r': right,
+  'b': bottom,
+  'l': left,
+);
+$sizing-options: 1, 2, 3, 4, 5;
+
+@mixin sizing() {
+  @each $name, $side in $sizing-sides-map {
+    // PADDING
+    @each $sizing in $sizing-options {
+      .p#{$name}-#{$sizing} {
+        padding-#{$side}: var(--main-spacing-#{$sizing}) !important;
+      }
+    }
+
+    // MARGIN
+    @each $sizing in $sizing-options {
+      .m#{$name}-#{$sizing} {
+        margin-#{$side}: var(--main-spacing-#{$sizing}) !important;
+      }
+    }
+  }
+}

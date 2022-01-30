@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
+@import './mixins';
+
 @import './transitions';
 
 * {
@@ -13,25 +15,36 @@ a {
 
 :root {
   --primary: #12263a;
+  --secondary: #3e92cc;
   --danger: #fc947a;
   --danger-text: hsl(12deg 95% 60%);
   --danger-bg: hsl(12deg 95% 73% / 20%);
   --success: #65de8b;
+  --success-bg: hsl(139deg 65% 63% / 20%);
+  --success-text: hsl(139deg 65% 53%);
   --success--darker: #42d771;
   --icon-color-primary: #12263a;
   --highlight: #2a5989;
   --primary--light: #fafbfc;
+  --light-gray: #c9c7c7;
   --main-box-shadow: 0 2px 5px rgb(18 38 58 / 10%);
   --main-box-shadow-2: 0 2px 5px rgb(18 38 58 / 20%);
   --main-box-shadow-3: 0 2px 5px rgb(18 38 58 / 30%);
   --main-box-shadow-4: 0 2px 5px rgb(18 38 58 / 40%);
   --box-shadow--danger: 0 0 0 0.25rem rgb(252 148 122 / 25%);
   --main-spacing: 4px;
+  --main-spacing-1: 4px;
   --main-spacing-2: 8px;
   --main-spacing-3: 16px;
   --main-spacing-4: 24px;
   --main-spacing-5: 32px;
   --main-spacing-6: 40px;
+  --main-spacing-negative: -4px;
+  --main-spacing-2-negative: -8px;
+  --main-spacing-3-negative: -16px;
+  --main-spacing-4-negative: -24px;
+  --main-spacing-5-negative: -32px;
+  --main-spacing-6-negative: -40px;
   --text-color: #12263a;
   --text-color--light: #fff;
   --text-color--darker: #707070;
@@ -45,4 +58,31 @@ a {
   --border-color--light: #fafbfc;
   --font-size--xs: 14px;
   --sidebar-width: 100px;
+  --wallets-sidebar-width: 220px;
+  --modal-z-index: 100;
+  --backdrop-z-index: 99;
+  --backdrop-bg-color: rgb(0 0 0 / 30%);
+  --input-height: 35px;
+  --scrollbar-track-bg-color: var(--main-bg-color);
+  --scrollbar-thumb-bg-color: var(--light-gray);
+}
+
+@include flex-styles;
+@include sizing;
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-bg-color);
+  border-radius: 4px;
+
+  &:hover {
+    --scrollbar-thumb-bg-color: #c1bebe;
+  }
 }

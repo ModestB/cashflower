@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import { dispatch }
 
 import { API_AUTH_URL, LOCAL_STORAGE_USER_KEY } from '@/constants';
 
@@ -6,15 +7,23 @@ export default {
   namespaced: true,
   state: { user: null },
   actions: {
-    register({ commit }, credentials) {
-      return axios.post(API_AUTH_URL, credentials).then(({ data }) => {
-        commit('SET_USER_DATA', data)
-      })
+    register({ commit, dispatch }, credentials) {
+      return axios.post(API_AUTH_URL, credentials)
+        .then(({ data }) => {
+          commit('SET_USER_DATA', data)
+        })
+        .then(() => {
+          dispatch('wallets/getWallets', null, { root: true })
+        })
     },
-    login({ commit }, credentials) {
-      return axios.post(`${API_AUTH_URL}/login`, credentials).then(({ data }) => {
-        commit('SET_USER_DATA', data)
-      })
+    login({ commit, dispatch }, credentials) {
+      return axios.post(`${API_AUTH_URL}/login`, credentials)
+        .then(({ data }) => {
+          commit('SET_USER_DATA', data)
+        })
+        .then(() => {
+          dispatch('wallets/getWallets', null, { root: true })
+        })
     },
     logout({ commit }) {
       return axios.post(`${API_AUTH_URL}/logout`).then(() => {

@@ -1,0 +1,34 @@
+$display-options: flex;
+$align-items-options: center;
+$justify-content-options: center, space-between, flex-end;
+
+$justify-content-options-map: (
+  'center': center,
+  'end': flex-end,
+  'start': flex-start,
+  'between': space-between,
+);
+
+@mixin flex-styles() {
+  @each $option in $display-options {
+    .d-#{$option} {
+      display: $option !important;
+    }
+  }
+
+  @each $options in $align-items-options {
+    .align-items-#{$options} {
+      align-items: $options !important;
+    }
+  }
+
+  @each $name, $option in $justify-content-options-map {
+    .justify-content-#{$name} {
+      justify-content: $option !important;
+    }
+  }
+
+  .flex-direction-column {
+    flex-direction: column !important;
+  }
+}

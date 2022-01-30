@@ -70,6 +70,7 @@ export default {
 
 <style lang="scss">
 .header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;

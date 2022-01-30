@@ -16,3 +16,14 @@ export const VIEWS = {
     routeName: 'transactions'
   }
 }
+
+export const WALLET_TYPES = {
+  regular: {
+    label: 'Regular',
+    value: 'regular'
+  },
+  goal: {
+    label: 'Goal',
+    value: 'goal'
+  }
+}

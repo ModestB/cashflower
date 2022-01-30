@@ -33,6 +33,12 @@ export default {
     color: var(--danger-text);
   }
 
+  &--success {
+    border-color: var(--success);
+    background-color: var(--success-bg);
+    color: var(--success-text);
+  }
+
   p {
     margin: 0;
   }
