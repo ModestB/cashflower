@@ -6,10 +6,10 @@ module.exports = {
       alias: {
         '@': path.resolve('src'),
       },
-      extensions: ['*', '.js', '.vue', '.json']
+      extensions: ['*', '.js', '.vue', '.json'],
     },
   },
   devServer: {
-    proxy: 'http://localhost:8080'
-  }
-}
+    proxy: 'http://localhost:8080',
+  },
+};

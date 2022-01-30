@@ -25,42 +25,42 @@ const routes = [
         name: 'Regitration',
         component: Regsitration,
         meta: {
-          guest: true
-        }
+          guest: true,
+        },
       },
       {
         path: 'login',
         name: 'Login',
         component: Login,
         meta: {
-          guest: true
-        }
-      }
-    ]
+          guest: true,
+        },
+      },
+    ],
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/transactions',
     name: 'transactions',
     component: Transactions,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/profile',
     name: 'Profile',
     component: Profile,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/admin',
@@ -68,8 +68,8 @@ const routes = [
     component: Admin,
     meta: {
       requiresAuth: true,
-      is_admin: true
-    }
+      is_admin: true,
+    },
   },
   {
     path: '/about',
@@ -77,7 +77,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
 ];
 
@@ -86,34 +87,33 @@ const router = createRouter({
   routes,
 });
 
-
 // Meta Handling
 // More info https://www.digitalocean.com/community/tutorials/how-to-set-up-vue-js-authentication-and-route-handling-using-vue-router
 router.beforeEach((to, from, next) => {
-  const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY))
+  const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY));
   const token = user?.accessToken.token;
   const loggedIn = token && new Date(user?.accessToken.expireAt) > new Date();
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!loggedIn) {
       next({
         name: 'Login',
-        params: { nextUrl: to.fullPath }
-      })
-    } else if (to.matched.some(record => record.meta.is_admin)) {
+        params: { nextUrl: to.fullPath },
+      });
+    } else if (to.matched.some((record) => record.meta.is_admin)) {
       if (user.is_admin === 1) {
-        next()
+        next();
       } else {
-        next({ name: 'dashboard' })
+        next({ name: 'dashboard' });
       }
     } else {
-      next()
+      next();
     }
-  } else if (to.matched.some(record => record.meta.guest && loggedIn)) {
-    next({ name: 'dashboard' })
+  } else if (to.matched.some((record) => record.meta.guest && loggedIn)) {
+    next({ name: 'dashboard' });
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
