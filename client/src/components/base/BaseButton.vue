@@ -77,6 +77,7 @@ export default {
   }
 
   // TYPES
+
   &--link {
     font-size: var(--btn-font-size);
     font-weight: 400;
