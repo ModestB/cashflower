@@ -5,9 +5,9 @@
     </template>
     <template #default>
       <transition name="fade-up" mode="out-in">
-        <base-alert v-if="showSuccessAlert" type="success">{{
-          successAlert
-        }}</base-alert>
+        <base-alert v-if="showSuccessAlert" type="success">
+          {{ successAlert }}
+        </base-alert>
         <base-alert v-else-if="showErrorAlert" type="error">
           <p>Wallet not saved!</p>
           <ul v-show="errors">
@@ -22,7 +22,7 @@
           @set-selected="setWalletType"
           class="mr-3"
           label="Type"
-          :disabled="isEditModal"
+          :disabled="true"
         >
         </base-select>
         <base-input

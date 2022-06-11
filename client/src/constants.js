@@ -23,8 +23,8 @@ export const WALLET_TYPES = {
     label: 'Regular',
     value: 'regular',
   },
-  goal: {
-    label: 'Goal',
-    value: 'goal',
-  },
+  // goal: {
+  //   label: 'Goal',
+  //   value: 'goal',
+  // },
 };
