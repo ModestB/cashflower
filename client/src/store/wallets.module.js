@@ -71,6 +71,9 @@ export default {
     wallets(state) {
       return state.wallets;
     },
+    // walletsArray(state) {
+    //   return Object.values(state.wallets);
+    // },
     activeWallet(state) {
       return state.activeWallet;
     },

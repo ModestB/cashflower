@@ -55,14 +55,16 @@
           mode="danger"
           type="outline"
           @click="closeModal"
-          >Cancel</base-button
         >
+          Cancel
+        </base-button>
         <base-button
           mode="success"
           @click="submitHandler"
           :disabled="disableSubmit"
-          >Save</base-button
         >
+          Save
+        </base-button>
       </div>
     </template>
   </base-modal>

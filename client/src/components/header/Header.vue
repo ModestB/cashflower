@@ -5,25 +5,32 @@
     </transition>
 
     <transition name="menu">
-      <base-popper v-if="loggedIn" :show="showMenu" :hidePopper="hideMenu">
-        <template v-slot:default>
-          <div class="header__menu__toggle" @click="toggleMenu">
-            <base-icon iconName="user" size="xs" noHover></base-icon>
-            <base-icon
-              iconName="chevron-down"
-              size="xs"
-              :rotation="arrowRotation"
-              noHover
-            ></base-icon>
-          </div>
-        </template>
-        <template v-slot:body>
-          <div class="header__menu__body">
-            <base-button type="link" @click="logoutHandler">Logout</base-button>
-            <base-button type="link">Settings</base-button>
-          </div>
-        </template>
-      </base-popper>
+      <template v-if="loggedIn">
+        <div class="d-flex align-items-center">
+          <div id="header-button-place" class="mr-3"></div>
+          <base-popper :show="showMenu" :hidePopper="hideMenu">
+            <template v-slot:default>
+              <div class="header__menu__toggle" @click="toggleMenu">
+                <base-icon iconName="user" size="xs" noHover></base-icon>
+                <base-icon
+                  iconName="chevron-down"
+                  size="xs"
+                  :rotation="arrowRotation"
+                  noHover
+                ></base-icon>
+              </div>
+            </template>
+            <template v-slot:body>
+              <div class="header__menu__body">
+                <base-button type="link" @click="logoutHandler"
+                  >Logout</base-button
+                >
+                <base-button type="link">Settings</base-button>
+              </div>
+            </template>
+          </base-popper>
+        </div>
+      </template>
     </transition>
   </header>
 </template>
