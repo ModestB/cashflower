@@ -64,11 +64,14 @@ import {
   sameAs,
   helpers,
 } from '@vuelidate/validators';
+import { useAuthStore } from '@/stores/AuthStore';
 
 export default {
   name: 'Register',
   setup() {
-    return { v$: useVuelidate() };
+    const authStore = useAuthStore();
+
+    return { v$: useVuelidate(), authStore };
   },
   data() {
     return {
@@ -110,8 +113,8 @@ export default {
       if (this.v$.$invalid) {
         return;
       }
-      this.$store
-        .dispatch('auth/register', {
+      this.authStore
+        .register({
           username: this.username,
           email: this.email,
           password: this.password,

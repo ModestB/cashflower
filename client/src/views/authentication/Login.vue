@@ -32,10 +32,13 @@
 <script>
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
+import { useAuthStore } from '@/stores/AuthStore';
 
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    const authStore = useAuthStore();
+
+    return { v$: useVuelidate(), authStore };
   },
   data() {
     return {
@@ -61,8 +64,8 @@ export default {
       if (this.v$.$invalid) {
         return;
       }
-      this.$store
-        .dispatch('auth/login', {
+      this.authStore
+        .login({
           email: this.email,
           password: this.password,
         })

@@ -3,7 +3,7 @@
     <h4>Wallets</h4>
     <ul>
       <WalletsSidebarItem
-        v-for="wallet in wallets"
+        v-for="wallet in walletsStore.wallets"
         :key="wallet.id"
         :balance="wallet.balance"
         :id="wallet.id"
@@ -16,17 +16,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import WalletsSidebarItem from '@/components/walletsSidebar/WalletsSidebarItem.vue';
 import AddWallet from '@/components/walletsSidebar/AddWallet.vue';
+import { useWalletsStore } from '@/stores/WalletsStore';
 
 export default {
   components: {
     WalletsSidebarItem,
     AddWallet,
   },
-  computed: {
-    ...mapGetters({ wallets: 'wallets/wallets' }),
+  setup() {
+    const walletsStore = useWalletsStore();
+
+    return {
+      walletsStore,
+    };
   },
 };
 </script>

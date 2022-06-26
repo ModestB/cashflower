@@ -1,7 +1,7 @@
 <template>
-  <main class="main" :class="{ 'no-sidebar': !loggedIn }">
+  <main class="main" :class="{ 'no-sidebar': !authStore.loggedIn }">
     <transition name="sidebar">
-      <Sidebar v-if="loggedIn" />
+      <Sidebar v-if="authStore.loggedIn" />
     </transition>
     <Header />
     <router-view />
@@ -9,39 +9,46 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import axios from 'axios';
 import Header from '@/components/header/Header.vue';
 import Sidebar from '@/components/sidebar/Sidebar.vue';
 
 import { LOCAL_STORAGE_USER_KEY } from '@/constants';
+import { useWalletsStore } from '@/stores/WalletsStore';
+import { useAuthStore } from '@/stores/AuthStore';
 
 export default {
   components: {
     Header,
     Sidebar,
   },
+  setup() {
+    const wallets = useWalletsStore();
+    const authStore = useAuthStore();
+
+    return {
+      wallets,
+      authStore,
+    };
+  },
   created() {
     const userString = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
     if (userString) {
       const userData = JSON.parse(userString);
       if (new Date(userData.accessToken.expireAt) > new Date()) {
-        this.$store.commit('auth/SET_USER_DATA', userData);
-        this.$store.dispatch('wallets/getWallets');
+        this.authStore.setUserData(userData);
+        this.wallets.getWallets();
       }
     }
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response.status === 401) {
-          this.$store.dispatch('auth/storageLogout');
+          this.authStore.unsetUserData();
         }
         return Promise.reject(error);
       }
     );
-  },
-  computed: {
-    ...mapGetters({ loggedIn: 'auth/loggedIn' }),
   },
 };
 </script>

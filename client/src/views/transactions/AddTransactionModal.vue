@@ -9,7 +9,7 @@
     <template #default>
       <div class="d-flex">
         <base-select
-          :options="wallets"
+          :options="this.walletsStore.walletsArrayForSelect"
           :selected="selectedWallet"
           @set-selected="setSellectedWallet"
           class="mr-3"
@@ -58,8 +58,7 @@
   </base-modal>
 </template>
 <script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useWalletsStore } from '@/stores/WalletsStore';
 
 export default {
   data() {
@@ -71,25 +70,14 @@ export default {
     };
   },
   setup() {
-    const store = useStore();
-
-    const wallets = computed(() => {
-      const walletsArray = store.getters['wallets/wallets']
-        ? Object.values(store.getters['wallets/wallets'])
-        : [];
-
-      return walletsArray.map((wallet) => ({
-        label: wallet.name,
-        value: wallet.id,
-      }));
-    });
+    const walletsStore = useWalletsStore();
 
     return {
-      wallets,
+      walletsStore,
     };
   },
   mounted() {
-    [this.selectedWallet] = this.wallets;
+    [this.selectedWallet] = this.walletsStore.walletsArrayForSelect;
   },
   methods: {
     showModal() {

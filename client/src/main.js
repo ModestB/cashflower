@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import vSelect from 'vue-select';
 import App from './App.vue';
 
@@ -7,7 +8,6 @@ import './assets/scss/all.scss';
 import 'vue-select/dist/vue-select.css';
 
 import router from './router';
-import store from './store';
 import clickOutsideDirective from '@/utilities/clickOutsideDirective';
 import BaseIcon from '@/components/base/BaseIcon.vue';
 import BasePopper from '@/components/base/BasePopper.vue';
@@ -21,8 +21,8 @@ import BaseSelect from '@/components/base/BaseSelect.vue';
 
 const app = createApp(App);
 
-app.use(store);
 app.use(router);
+app.use(createPinia());
 
 app.component('base-icon', BaseIcon);
 app.component('base-popper', BasePopper);

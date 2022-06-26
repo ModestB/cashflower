@@ -2,7 +2,7 @@
   <li
     class="wallet-item"
     :class="{ active: active }"
-    @click="setActiveWallet(id)"
+    @click="walletsStore.setActiveWallet(id)"
   >
     <div class="wallet-item__title">
       <div class="wallet-item__title__name">{{ name }}</div>
@@ -42,10 +42,10 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
 import BaseButton from '@/components/base/BaseButton.vue';
 import AddWalletModal from './AddWalletModal.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
+import { useWalletsStore } from '@/stores/WalletsStore';
 
 export default {
   components: { BaseButton, AddWalletModal, ConfirmModal },
@@ -67,6 +67,13 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const walletsStore = useWalletsStore();
+
+    return {
+      walletsStore,
+    };
+  },
   data() {
     return {
       isModalVisible: false,
@@ -74,14 +81,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ activeWallet: 'wallets/activeWallet' }),
     active() {
-      return this.id === this.activeWallet;
+      return this.id === this.walletsStore.activeWallet;
     },
   },
 
   methods: {
-    ...mapMutations({ setActiveWallet: 'wallets/SET_ACTIVE_WALLET' }),
     showAddModal() {
       this.isModalVisible = true;
     },
@@ -95,7 +100,7 @@ export default {
       this.isConfirmDeleteModalVisible = true;
     },
     deleteHandler() {
-      this.$store.dispatch('wallets/deleteWallet', this.id);
+      this.walletsStore.deleteWallet(this.id);
     },
   },
 };

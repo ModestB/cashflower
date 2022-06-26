@@ -76,11 +76,13 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 import BaseButton from '../base/BaseButton.vue';
 import { WALLET_TYPES } from '@/constants';
+import { useWalletsStore } from '@/stores/WalletsStore';
 
 export default {
   components: { BaseButton },
   emits: ['close-modal'],
   setup(props) {
+    const walletsStore = useWalletsStore();
     const state = reactive({
       walletTypes: Object.values(WALLET_TYPES),
       walletName: props.name,
@@ -97,6 +99,7 @@ export default {
     };
     return {
       state,
+      walletsStore,
       v$: useVuelidate(rules, state),
     };
   },
@@ -173,8 +176,8 @@ export default {
       return this.addWallet();
     },
     addWallet() {
-      this.$store
-        .dispatch('wallets/addWallet', {
+      this.walletsStore
+        .addWallet({
           name: this.state.walletName,
           balance: this.state.walletBalance,
           type: this.state.walletType,
@@ -192,8 +195,8 @@ export default {
         });
     },
     editWallet() {
-      this.$store
-        .dispatch('wallets/editWallet', {
+      this.walletsStore
+        .editWallet({
           id: this.id,
           name: this.state.walletName,
           balance: this.state.walletBalance,

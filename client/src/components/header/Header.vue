@@ -1,11 +1,11 @@
 <template>
-  <header class="header" :class="{ 'header--notAuth': !loggedIn }">
+  <header class="header" :class="{ 'header--notAuth': !authStore.loggedIn }">
     <transition name="logo" mode="out-in">
       <component v-bind:is="currentLogo"></component>
     </transition>
 
     <transition name="menu">
-      <template v-if="loggedIn">
+      <template v-if="authStore.loggedIn">
         <div class="d-flex align-items-center">
           <div id="header-button-place" class="mr-3"></div>
           <base-popper :show="showMenu" :hidePopper="hideMenu">
@@ -22,7 +22,7 @@
             </template>
             <template v-slot:body>
               <div class="header__menu__body">
-                <base-button type="link" @click="logoutHandler"
+                <base-button type="link" @click="authStore.logout()"
                   >Logout</base-button
                 >
                 <base-button type="link">Settings</base-button>
@@ -35,16 +35,24 @@
   </header>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 import Logo from '@/components/icons/Logo.vue';
 import LogoLoggedIn from '@/components/header/LogoLoggedIn.vue';
 import LogoLoggedOut from '@/components/header/LogoLoggedOut.vue';
+
+import { useAuthStore } from '@/stores/AuthStore';
 
 export default {
   components: {
     logo: Logo,
     'logged-in-logo': LogoLoggedIn,
     'logged-out-logo': LogoLoggedOut,
+  },
+  setup() {
+    const authStore = useAuthStore();
+
+    return {
+      authStore,
+    };
   },
   data() {
     return {
@@ -59,17 +67,13 @@ export default {
     hideMenu() {
       this.showMenu = false;
     },
-    logoutHandler() {
-      this.$store.dispatch('auth/logout');
-    },
   },
   computed: {
-    ...mapGetters({ loggedIn: 'auth/loggedIn' }),
     arrowRotation() {
       return this.showMenu ? '180' : '0';
     },
     currentLogo() {
-      return this.loggedIn ? 'logged-in-logo' : 'logged-out-logo';
+      return this.authStore.loggedIn ? 'logged-in-logo' : 'logged-out-logo';
     },
   },
 };
