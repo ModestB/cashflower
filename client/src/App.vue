@@ -23,11 +23,11 @@ export default {
     Sidebar,
   },
   setup() {
-    const wallets = useWalletsStore();
+    const walletsStore = useWalletsStore();
     const authStore = useAuthStore();
 
     return {
-      wallets,
+      walletsStore,
       authStore,
     };
   },
@@ -37,7 +37,7 @@ export default {
       const userData = JSON.parse(userString);
       if (new Date(userData.accessToken.expireAt) > new Date()) {
         this.authStore.setUserData(userData);
-        this.wallets.getWallets();
+        this.walletsStore.getWallets();
       }
     }
     axios.interceptors.response.use(
